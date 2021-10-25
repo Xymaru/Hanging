@@ -3,7 +3,6 @@
   <ItemGroup>
     <ClCompile Include="Source\Window.cpp" />
     <ClCompile Include="Source\Textures.cpp" />
-    <ClCompile Include="Source\Scene.cpp" />
     <ClCompile Include="Source\Render.cpp" />
     <ClCompile Include="Source\Main.cpp" />
     <ClCompile Include="Source\Input.cpp" />
@@ -15,11 +14,13 @@
     <ClCompile Include="Source\External\PugiXml\src\pugixml.cpp">
       <Filter>External\PugiXml</Filter>
     </ClCompile>
+    <ClCompile Include="Source\GameScene.cpp" />
+    <ClCompile Include="Source\PlayerModule.cpp" />
+    <ClCompile Include="Source\LogoScene.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Window.h" />
     <ClInclude Include="Source\Textures.h" />
-    <ClInclude Include="Source\Scene.h" />
     <ClInclude Include="Source\Render.h" />
     <ClInclude Include="Source\Module.h" />
     <ClInclude Include="Source\Input.h" />
@@ -52,6 +53,9 @@
     <ClInclude Include="Source\Queue.h">
       <Filter>Utils</Filter>
     </ClInclude>
+    <ClInclude Include="Source\GameScene.h" />
+    <ClInclude Include="Source\PlayerModule.h" />
+    <ClInclude Include="Source\LogoScene.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="External">

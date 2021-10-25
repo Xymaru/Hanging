@@ -4,22 +4,23 @@
 #include "Audio.h"
 #include "Render.h"
 #include "Window.h"
-#include "Scene.h"
+#include "GameScene.h"
+#include "PlayerModule.h"
 
 #include "Defs.h"
 #include "Log.h"
 
-Scene::Scene() : Module()
+GameScene::GameScene() : Module()
 {
-	name.Create("scene");
+	name.Create("gameScene");
 }
 
 // Destructor
-Scene::~Scene()
+GameScene::~GameScene()
 {}
 
 // Called before render is available
-bool Scene::Awake()
+bool GameScene::Awake()
 {
 	LOG("Loading Scene");
 	bool ret = true;
@@ -28,21 +29,20 @@ bool Scene::Awake()
 }
 
 // Called before the first frame
-bool Scene::Start()
+bool GameScene::Start()
 {
-	img = app->tex->Load("Assets/Textures/test.png");
-	app->audio->PlayMusic("Assets/Audio/Music/music_spy.ogg");
+	//app->audio->PlayMusic("Assets/Audio/Music/music_spy.ogg");
 	return true;
 }
 
 // Called each loop iteration
-bool Scene::PreUpdate()
+bool GameScene::PreUpdate()
 {
 	return true;
 }
 
 // Called each loop iteration
-bool Scene::Update(float dt)
+bool GameScene::Update(float dt)
 {
 	if(app->input->GetKey(SDL_SCANCODE_UP) == KEY_REPEAT)
 		app->render->camera.y -= 1;
@@ -56,13 +56,11 @@ bool Scene::Update(float dt)
 	if(app->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_REPEAT)
 		app->render->camera.x += 1;
 
-	app->render->DrawTexture(img, 380, 100);
-
 	return true;
 }
 
 // Called each loop iteration
-bool Scene::PostUpdate()
+bool GameScene::PostUpdate()
 {
 	bool ret = true;
 
@@ -73,9 +71,16 @@ bool Scene::PostUpdate()
 }
 
 // Called before quitting
-bool Scene::CleanUp()
+bool GameScene::CleanUp()
 {
 	LOG("Freeing scene");
 
 	return true;
+}
+
+void GameScene::Activate()
+{
+	Module::Activate();
+
+	app->playerModule->Activate();
 }

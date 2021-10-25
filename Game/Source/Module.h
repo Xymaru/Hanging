@@ -56,6 +56,16 @@ public:
 		return true;
 	}
 
+	// Called to activate module
+	virtual void Activate() {
+		active = true;
+	}
+
+	// Called to deactivate module
+	virtual void Deactivate() {
+		active = false;
+	}
+
 public:
 
 	SString name;

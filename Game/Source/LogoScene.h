@@ -5,14 +5,14 @@
 
 struct SDL_Texture;
 
-class Scene : public Module
+class LogoScene : public Module
 {
 public:
 
-	Scene();
+	LogoScene();
 
 	// Destructor
-	virtual ~Scene();
+	virtual ~LogoScene();
 
 	// Called before render is available
 	bool Awake();
@@ -33,7 +33,14 @@ public:
 	bool CleanUp();
 
 private:
-	SDL_Texture* img;
+	enum FadeState {
+		FADE_IN, FADE_STAY, FADE_OUT
+	};
+	SDL_Texture* logo;
+	FadeState fadeState;
+
+	float timer;
+	float time;
 };
 
 #endif // __SCENE_H__

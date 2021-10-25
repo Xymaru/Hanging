@@ -4,7 +4,9 @@
 #include "Render.h"
 #include "Textures.h"
 #include "Audio.h"
-#include "Scene.h"
+#include "LogoScene.h"
+#include "GameScene.h"
+#include "PlayerModule.h"
 
 #include "Defs.h"
 #include "Log.h"
@@ -16,24 +18,29 @@
 App::App(int argc, char* args[]) : argc(argc), args(args)
 {
 	frames = 0;
+	dt = 0.017;
 
 	win = new Window();
 	input = new Input();
 	render = new Render();
 	tex = new Textures();
 	audio = new Audio();
-	scene = new Scene();
+	logoScene = new LogoScene();
+	gameScene = new GameScene();
+	playerModule = new PlayerModule();
 
 	// Ordered for awake / Start / Update
 	// Reverse order of CleanUp
-	AddModule(win);
-	AddModule(input);
-	AddModule(tex);
-	AddModule(audio);
-	AddModule(scene);
+	AddModule(win, true);
+	AddModule(input, true);
+	AddModule(tex, true);
+	AddModule(audio, true);
+	AddModule(logoScene, true);
+	AddModule(gameScene, false);
+	AddModule(playerModule, false);
 
 	// Render last to swap buffer
-	AddModule(render);
+	AddModule(render, true);
 }
 
 // Destructor
@@ -51,10 +58,11 @@ App::~App()
 	modules.Clear();
 }
 
-void App::AddModule(Module* module)
+void App::AddModule(Module* module, bool active)
 {
 	module->Init();
 	modules.Add(module);
+	module->active = active;
 }
 
 // Called before render is available
@@ -265,5 +273,3 @@ const char* App::GetOrganization() const
 {
 	return organization.GetString();
 }
-
-

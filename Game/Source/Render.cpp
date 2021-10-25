@@ -110,8 +110,8 @@ bool Render::DrawTexture(SDL_Texture* texture, int x, int y, const SDL_Rect* sec
 	uint scale = app->win->GetScale();
 
 	SDL_Rect rect;
-	rect.x = (int)(camera.x * speed) + x * scale;
-	rect.y = (int)(camera.y * speed) + y * scale;
+	rect.x = (int)(-camera.x * speed) + x * scale;
+	rect.y = (int)(-camera.y * speed) + y * scale;
 
 	if(section != NULL)
 	{

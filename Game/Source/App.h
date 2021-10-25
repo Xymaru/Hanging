@@ -12,7 +12,9 @@ class Input;
 class Render;
 class Textures;
 class Audio;
-class Scene;
+class LogoScene;
+class GameScene;
+class PlayerModule;
 
 class App
 {
@@ -37,7 +39,7 @@ public:
 	bool CleanUp();
 
 	// Add a new module to handle
-	void AddModule(Module* module);
+	void AddModule(Module* module, bool active);
 
 	// Exposing some properties for reading
 	int GetArgc() const;
@@ -73,7 +75,9 @@ public:
 	Render* render;
 	Textures* tex;
 	Audio* audio;
-	Scene* scene;
+	LogoScene* logoScene;
+	GameScene* gameScene;
+	PlayerModule* playerModule;
 
 private:
 
