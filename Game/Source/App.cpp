@@ -7,6 +7,7 @@
 #include "LogoScene.h"
 #include "GameScene.h"
 #include "PlayerModule.h"
+#include "Map.h"
 
 #include "Defs.h"
 #include "Log.h"
@@ -28,6 +29,7 @@ App::App(int argc, char* args[]) : argc(argc), args(args)
 	logoScene = new LogoScene();
 	gameScene = new GameScene();
 	playerModule = new PlayerModule();
+	map = new Map();
 
 	// Ordered for awake / Start / Update
 	// Reverse order of CleanUp
@@ -38,6 +40,7 @@ App::App(int argc, char* args[]) : argc(argc), args(args)
 	AddModule(logoScene, true);
 	AddModule(gameScene, false);
 	AddModule(playerModule, false);
+	AddModule(map, false);
 
 	// Render last to swap buffer
 	AddModule(render, true);

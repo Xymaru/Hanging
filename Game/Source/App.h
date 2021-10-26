@@ -15,6 +15,7 @@ class Audio;
 class LogoScene;
 class GameScene;
 class PlayerModule;
+class Map;
 
 class App
 {
@@ -78,6 +79,7 @@ public:
 	LogoScene* logoScene;
 	GameScene* gameScene;
 	PlayerModule* playerModule;
+	Map* map;
 
 private:
 

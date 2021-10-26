@@ -6,6 +6,7 @@
 #include "Window.h"
 #include "GameScene.h"
 #include "PlayerModule.h"
+#include "Map.h"
 
 #include "Defs.h"
 #include "Log.h"
@@ -32,6 +33,7 @@ bool GameScene::Awake()
 bool GameScene::Start()
 {
 	//app->audio->PlayMusic("Assets/Audio/Music/music_spy.ogg");
+	app->map->Load("hanging.tmx");
 	return true;
 }
 
@@ -83,4 +85,5 @@ void GameScene::Activate()
 	Module::Activate();
 
 	app->playerModule->Activate();
+	app->map->Activate();
 }
