@@ -16,6 +16,7 @@ class LogoScene;
 class GameScene;
 class PlayerModule;
 class Map;
+class ModulePhysics;
 
 class App
 {
@@ -80,6 +81,7 @@ public:
 	GameScene* gameScene;
 	PlayerModule* playerModule;
 	Map* map;
+	ModulePhysics* physics;
 
 private:
 

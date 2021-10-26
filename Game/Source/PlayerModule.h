@@ -35,8 +35,9 @@ public:
 private:
 	SDL_Texture* playerTex;
 	iPoint position;
+	int offsetX;
 
-	int moveSpeed = 5;
+	int moveSpeed;
 
 	int cameraBound = 150;
 };

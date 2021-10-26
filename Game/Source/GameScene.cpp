@@ -7,6 +7,7 @@
 #include "GameScene.h"
 #include "PlayerModule.h"
 #include "Map.h"
+#include "ModulePhysics.h"
 
 #include "Defs.h"
 #include "Log.h"
@@ -86,4 +87,5 @@ void GameScene::Activate()
 
 	app->playerModule->Activate();
 	app->map->Activate();
+	app->physics->Activate();
 }

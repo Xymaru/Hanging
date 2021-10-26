@@ -6,6 +6,7 @@
 #include "PugiXml/src/pugixml.hpp"
 
 class App;
+class PhysBody;
 
 class Module
 {
@@ -64,6 +65,11 @@ public:
 	// Called to deactivate module
 	virtual void Deactivate() {
 		active = false;
+	}
+
+	// Called on two bodies collision
+	virtual void OnCollision(PhysBody* bodyA, PhysBody* bodyB)
+	{
 	}
 
 public:

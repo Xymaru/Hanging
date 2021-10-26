@@ -36,6 +36,8 @@ bool PlayerModule::Start()
 	app->render->camera.x = 0;
 	position.x = cameraBound;
 	position.y = 0;
+	offsetX = 145;
+	moveSpeed = 1;
 	//app->audio->PlayMusic("Assets/Audio/Music/music_spy.ogg");
 	return true;
 }
@@ -65,9 +67,6 @@ bool PlayerModule::Update(float dt)
 		app->render->camera.x += moveSpeed;
 	}
 
-	// Draw character
-	app->render->DrawTexture(playerTex, position.x, position.y);
-
 	return true;
 }
 
@@ -75,6 +74,9 @@ bool PlayerModule::Update(float dt)
 bool PlayerModule::PostUpdate()
 {
 	bool ret = true;
+
+	// Draw character
+	app->render->DrawTexture(playerTex, position.x - offsetX, position.y, NULL, SDL_FLIP_HORIZONTAL);
 
 	if (app->input->GetKey(SDL_SCANCODE_ESCAPE) == KEY_DOWN)
 		ret = false;
@@ -86,6 +88,5 @@ bool PlayerModule::PostUpdate()
 bool PlayerModule::CleanUp()
 {
 	LOG("Freeing playerModule");
-
 	return true;
 }
