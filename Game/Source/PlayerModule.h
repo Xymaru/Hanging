@@ -2,6 +2,7 @@
 #define __PLAYER_H__
 
 #include "Module.h"
+#include "Animation.h"
 
 struct SDL_Texture;
 
@@ -33,13 +34,27 @@ public:
 	bool CleanUp();
 
 private:
+	enum PlayerState {
+		DEAD, HURT, IDLE, JUMP, WALK, LAST
+	};
+
+	float anim_speed;
+	
+	const int SPRITE_OFFSET = 32;
+	int sprite_offset;
+	PlayerState player_state;
+	SDL_RendererFlip player_flip;
+
+	Animation animations[PlayerState::LAST];
+
 	SDL_Texture* playerTex;
 	iPoint position;
-	int offsetX;
 
 	int moveSpeed;
 
 	int cameraBound = 150;
+
+	void InitAnimations();
 };
 
 #endif // __PLAYER_H__
