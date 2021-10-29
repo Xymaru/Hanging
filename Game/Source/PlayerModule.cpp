@@ -60,12 +60,12 @@ bool PlayerModule::Update(float dt)
 	// Camera control
 	int diff = position.x - app->render->camera.x;
 
-	if (diff < cameraBound) {
+	/*if (diff < cameraBound) {
 		app->render->camera.x -= moveSpeed;
 	}
 	else if (diff > app->render->camera.w - cameraBound) {
 		app->render->camera.x += moveSpeed;
-	}
+	}*/
 
 	return true;
 }
@@ -76,7 +76,7 @@ bool PlayerModule::PostUpdate()
 	bool ret = true;
 
 	// Draw character
-	app->render->DrawTexture(playerTex, position.x - offsetX, position.y, NULL, SDL_FLIP_HORIZONTAL);
+	app->render->DrawTexture(playerTex, position.x - offsetX, position.y, NULL, SDL_FLIP_NONE);
 
 	if (app->input->GetKey(SDL_SCANCODE_ESCAPE) == KEY_DOWN)
 		ret = false;
