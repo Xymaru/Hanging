@@ -33,7 +33,7 @@ bool LogoScene::Awake()
 // Called before the first frame
 bool LogoScene::Start()
 {
-	logo = app->tex->Load("Assets/Textures/test.png");
+	logo = app->tex->Load("Assets/Textures/logo.png");
 	SDL_SetTextureAlphaMod(logo, 0.0f);
 
 	time = 1.0f;
