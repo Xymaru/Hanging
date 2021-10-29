@@ -60,6 +60,7 @@
     <ClInclude Include="Source\LogoScene.h" />
     <ClInclude Include="Source\Map.h" />
     <ClInclude Include="Source\ModulePhysics.h" />
+    <ClInclude Include="Source\Animation.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="External">
