@@ -19,6 +19,7 @@
     <ClCompile Include="Source\LogoScene.cpp" />
     <ClCompile Include="Source\Map.cpp" />
     <ClCompile Include="Source\ModulePhysics.cpp" />
+    <ClCompile Include="Source\MainMenu.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Window.h" />
@@ -60,6 +61,10 @@
     <ClInclude Include="Source\LogoScene.h" />
     <ClInclude Include="Source\Map.h" />
     <ClInclude Include="Source\ModulePhysics.h" />
+    <ClInclude Include="Source\MemLeaks.h">
+      <Filter>Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\MainMenu.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="External">

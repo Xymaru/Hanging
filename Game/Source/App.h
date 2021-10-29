@@ -17,6 +17,7 @@ class GameScene;
 class PlayerModule;
 class Map;
 class ModulePhysics;
+class MainMenu;
 
 class App
 {
@@ -82,6 +83,7 @@ public:
 	PlayerModule* playerModule;
 	Map* map;
 	ModulePhysics* physics;
+	MainMenu* menu;
 
 private:
 
