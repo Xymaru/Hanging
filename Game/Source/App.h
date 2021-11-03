@@ -99,7 +99,11 @@ private:
 	pugi::xml_node config;
 	pugi::xml_node configApp;
 
-	uint frames;
+	unsigned int
+		lastTime,
+		currentTime;
+	float msFrame;
+
 	float dt;
 };
 

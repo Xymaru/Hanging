@@ -41,7 +41,7 @@ bool PlayerModule::Start()
 	player_state = PlayerState::IDLE;
 	player_flip = SDL_FLIP_NONE;
 	sprite_offset = 0;
-	anim_speed = 0.4f;
+	anim_speed = 35.0f;
 	//app->audio->PlayMusic("Assets/Audio/Music/music_spy.ogg");
 
 	InitAnimations();
@@ -49,7 +49,7 @@ bool PlayerModule::Start()
 }
 
 // Called each loop iteration
-bool PlayerModule::PreUpdate()
+bool PlayerModule::PreUpdate(float dt)
 {
 	return true;
 }
@@ -72,7 +72,7 @@ bool PlayerModule::Update(float dt)
 		player_state = WALK;
 	}
 	
-	animations[player_state].Update();
+	animations[player_state].Update(dt);
 
 	// Camera control
 	/*int diff = position.x - app->render->camera.x;
@@ -88,7 +88,7 @@ bool PlayerModule::Update(float dt)
 }
 
 // Called each loop iteration
-bool PlayerModule::PostUpdate()
+bool PlayerModule::PostUpdate(float dt)
 {
 	bool ret = true;
 

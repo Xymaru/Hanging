@@ -125,7 +125,7 @@ public:
 	bool Update(float dt);
 
 	// Called before all Updates
-	bool PostUpdate();
+	bool PostUpdate(float dt);
 
     // Called each loop iteration
     void Draw();

@@ -19,9 +19,6 @@
 // Constructor
 App::App(int argc, char* args[]) : argc(argc), args(args)
 {
-	frames = 0;
-	dt = 0.017;
-
 	win = new Window();
 	input = new Input();
 	render = new Render();
@@ -113,6 +110,12 @@ bool App::Start()
 		item = item->next;
 	}
 
+	lastTime = SDL_GetTicks();
+
+	msFrame = 1.0f / FPS;
+	dt = msFrame;
+
+
 	return ret;
 }
 
@@ -170,6 +173,17 @@ void App::PrepareUpdate()
 void App::FinishUpdate()
 {
 	// This is a good place to call Load / Save functions
+
+	// FPS Control
+	currentTime = SDL_GetTicks();
+
+	dt = (currentTime - lastTime) / 1000.0f;
+
+	if (dt < msFrame) {
+		SDL_Delay(msFrame - dt);
+	}
+
+	lastTime = SDL_GetTicks();
 }
 
 // Call modules before each loop iteration
@@ -188,7 +202,7 @@ bool App::PreUpdate()
 			continue;
 		}
 
-		ret = item->data->PreUpdate();
+		ret = item->data->PreUpdate(dt);
 	}
 
 	return ret;
@@ -231,7 +245,7 @@ bool App::PostUpdate()
 			continue;
 		}
 
-		ret = item->data->PostUpdate();
+		ret = item->data->PostUpdate(dt);
 	}
 
 	return ret;

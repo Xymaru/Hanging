@@ -56,9 +56,9 @@ bool ModulePhysics::Start()
 }
 
 // 
-bool ModulePhysics::PreUpdate()
+bool ModulePhysics::PreUpdate(float dt)
 {
-	world->Step(1.0f / 60.0f, 6, 2);
+	world->Step(dt, 6, 2);
 
 	for(b2Contact* c = world->GetContactList(); c; c = c->GetNext())
 	{
@@ -213,7 +213,7 @@ PhysBody* ModulePhysics::CreateChain(int x, int y, int* points, int size, bool d
 }
 
 // 
-bool ModulePhysics::PostUpdate()
+bool ModulePhysics::PostUpdate(float dt)
 {
 	if(app->input->GetKey(SDL_SCANCODE_F1) == KEY_DOWN)
 		debug = !debug;

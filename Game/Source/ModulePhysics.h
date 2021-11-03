@@ -41,8 +41,8 @@ public:
 	~ModulePhysics();
 
 	bool Start();
-	bool PreUpdate();
-	bool PostUpdate();
+	bool PreUpdate(float dt);
+	bool PostUpdate(float dt);
 	bool CleanUp();
 
 	PhysBody* CreateCircle(int x, int y, int radius, bool dynamic);

@@ -52,16 +52,20 @@ bool LogoScene::PreUpdate()
 // Called each loop iteration
 bool LogoScene::Update(float dt)
 {
-	app->render->DrawTexture(logo, 0, 0);
 	timer += dt;
+	Uint8 alpha;
 
 	switch (fadeState) {
 	case FADE_IN:
-		SDL_SetTextureAlphaMod(logo, timer * 255);
+		alpha = timer * 255;
+		
 		if (timer >= time) {
 			timer = 0.0f;
 			fadeState = FADE_STAY;
+			alpha = 255;
 		}
+
+		SDL_SetTextureAlphaMod(logo, alpha);
 		break;
 	case FADE_STAY:
 		if (timer >= time) {
@@ -70,13 +74,16 @@ bool LogoScene::Update(float dt)
 		}
 		break;
 	case FADE_OUT:
-		SDL_SetTextureAlphaMod(logo, time - timer * 255);
+		alpha = time - timer * 255;
+	
 		if (timer >= time) {
 			timer = 0.0f;
 
 			Deactivate();
 			app->gameScene->Activate();
 		}
+
+		SDL_SetTextureAlphaMod(logo, alpha);
 		break;
 	}
 
@@ -84,9 +91,11 @@ bool LogoScene::Update(float dt)
 }
 
 // Called each loop iteration
-bool LogoScene::PostUpdate()
+bool LogoScene::PostUpdate(float dt)
 {
 	bool ret = true;
+
+	app->render->DrawTexture(logo, 0, 0);
 
 	if(app->input->GetKey(SDL_SCANCODE_ESCAPE) == KEY_DOWN)
 		ret = false;
