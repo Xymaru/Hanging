@@ -24,6 +24,12 @@ public:
 	// Changae title
 	void SetTitle(const char* title);
 
+	// Retrive window width
+	uint GetWindowWidth() const;
+
+	// Retrive window height
+	uint getWindowHeight() const;
+
 	// Retrive window size
 	void GetWindowSize(uint& width, uint& height) const;
 

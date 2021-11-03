@@ -40,6 +40,7 @@ public:
 	ModulePhysics();
 	~ModulePhysics();
 
+	bool Awake(pugi::xml_node& config);
 	bool Start();
 	bool PreUpdate(float dt);
 	bool PostUpdate(float dt);

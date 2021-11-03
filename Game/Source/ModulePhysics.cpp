@@ -23,7 +23,9 @@ ModulePhysics::~ModulePhysics()
 {
 }
 
-bool ModulePhysics::Start()
+#include <iostream>
+
+bool ModulePhysics::Awake(pugi::xml_node& config)
 {
 	LOG("Creating Physics 2D environment");
 
@@ -52,6 +54,11 @@ bool ModulePhysics::Start()
 	fixture.shape = &shape;
 	big_ball->CreateFixture(&fixture);*/
 
+	return true;
+}
+
+bool ModulePhysics::Start()
+{
 	return true;
 }
 

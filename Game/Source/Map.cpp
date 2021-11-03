@@ -289,6 +289,9 @@ bool Map::LoadMap(pugi::xml_node mapFile)
 		mapData.tileHeight = map.attribute("tileheight").as_int();
 		mapData.tileWidth = map.attribute("tilewidth").as_int();
 
+		mapData.map_width = mapData.width * mapData.tileWidth;
+		mapData.map_height = mapData.height * mapData.tileHeight;
+
 		// L05: DONE 1: Add formula to go from isometric map to world coordinates
 		mapData.type = MAPTYPE_UNKNOWN;
 		if (strcmp(map.attribute("orientation").as_string(), "isometric") == 0)

@@ -65,6 +65,7 @@
       <Filter>Utils</Filter>
     </ClInclude>
     <ClInclude Include="Source\MainMenu.h" />
+    <ClInclude Include="Source\Animation.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="External">

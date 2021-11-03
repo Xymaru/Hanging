@@ -3,6 +3,7 @@
 
 #include "Module.h"
 #include "Animation.h"
+#include "ModulePhysics.h"
 
 struct SDL_Texture;
 
@@ -39,9 +40,15 @@ private:
 	};
 
 	float anim_speed;
-	
-	const int SPRITE_OFFSET = 32;
-	int sprite_offset;
+
+	int sprite_offset_x;
+
+	int sprite_offset_xleft;
+	int sprite_offset_xright;
+
+	int player_width;
+	int player_height;
+
 	PlayerState player_state;
 	SDL_RendererFlip player_flip;
 
@@ -52,7 +59,9 @@ private:
 
 	int moveSpeed;
 
-	int cameraBound = 150;
+	int cameraBound;
+
+	PhysBody* playerBody;
 
 	void InitAnimations();
 };
