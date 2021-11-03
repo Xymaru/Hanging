@@ -137,8 +137,6 @@ bool PlayerModule::PostUpdate(float dt)
 	SDL_Rect active_anim = animations[player_state].GetCurrentFrame();
 	app->render->DrawTexture(playerTex, position.x - sprite_offset_x, position.y, &active_anim, player_flip);
 
-	std::cout << position.x - sprite_offset_x << std::endl;
-
 	if (app->input->GetKey(SDL_SCANCODE_ESCAPE) == KEY_DOWN)
 		ret = false;
 
