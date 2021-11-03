@@ -95,6 +95,7 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Source\Fonts.cpp" />
     <ClCompile Include="Source\GameScene.cpp" />
     <ClCompile Include="Source\Main.cpp" />
     <ClCompile Include="Source\App.cpp" />
@@ -102,6 +103,7 @@
     <ClCompile Include="Source\Input.cpp" />
     <ClCompile Include="Source\MainMenu.cpp" />
     <ClCompile Include="Source\Map.cpp" />
+    <ClCompile Include="Source\ModuleFadeToBlack.cpp" />
     <ClCompile Include="Source\ModulePhysics.cpp" />
     <ClCompile Include="Source\PlayerModule.cpp" />
     <ClCompile Include="Source\LogoScene.cpp" />
@@ -109,10 +111,12 @@
     <ClCompile Include="Source\Textures.cpp" />
     <ClCompile Include="Source\Window.cpp" />
     <ClInclude Include="Source\Animation.h" />
+    <ClInclude Include="Source\Fonts.h" />
     <ClInclude Include="Source\GameScene.h" />
     <ClInclude Include="Source\MainMenu.h" />
     <ClInclude Include="Source\Map.h" />
     <ClInclude Include="Source\MemLeaks.h" />
+    <ClInclude Include="Source\ModuleFadeToBlack.h" />
     <ClInclude Include="Source\ModulePhysics.h" />
     <ClInclude Include="Source\PlayerModule.h" />
     <ClInclude Include="Source\Queue.h" />

@@ -20,6 +20,8 @@
     <ClCompile Include="Source\Map.cpp" />
     <ClCompile Include="Source\ModulePhysics.cpp" />
     <ClCompile Include="Source\MainMenu.cpp" />
+    <ClCompile Include="Source\Fonts.cpp" />
+    <ClCompile Include="Source\ModuleFadeToBlack.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Window.h" />
@@ -66,6 +68,8 @@
     </ClInclude>
     <ClInclude Include="Source\MainMenu.h" />
     <ClInclude Include="Source\Animation.h" />
+    <ClInclude Include="Source\Fonts.h" />
+    <ClInclude Include="Source\ModuleFadeToBlack.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="External">
