@@ -18,6 +18,8 @@ class PlayerModule;
 class Map;
 class ModulePhysics;
 class MainMenu;
+class Fonts;
+class ModuleFadeToBlack;
 
 class App
 {
@@ -84,6 +86,8 @@ public:
 	Map* map;
 	ModulePhysics* physics;
 	MainMenu* menu;
+	Fonts* fonts;
+	ModuleFadeToBlack* fade;
 
 private:
 

@@ -10,6 +10,8 @@
 #include "Map.h"
 #include "ModulePhysics.h"
 #include "MainMenu.h"
+#include "Fonts.h"
+#include "ModuleFadeToBlack.h"
 
 #include "Defs.h"
 #include "Log.h"
@@ -31,6 +33,8 @@ App::App(int argc, char* args[]) : argc(argc), args(args)
 	map = new Map();
 	physics = new ModulePhysics();
 	menu = new MainMenu();
+	fonts = new Fonts();
+	fade = new ModuleFadeToBlack();
 
 	// Ordered for awake / Start / Update
 	// Reverse order of CleanUp
@@ -44,6 +48,9 @@ App::App(int argc, char* args[]) : argc(argc), args(args)
 	AddModule(playerModule, false);
 	AddModule(physics, false);
 	AddModule(menu, false);
+	AddModule(fonts, true);
+	AddModule(fade, true);
+
 
 	// Render last to swap buffer
 	AddModule(render, true);

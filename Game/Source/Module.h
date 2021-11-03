@@ -77,6 +77,28 @@ public:
 	SString name;
 	bool active;
 
+	void Enable() {
+		if (!isEnabled)
+		{
+			isEnabled = true;
+			Start();
+		}
+	}
+
+	// Switches isEnabled and calls CleanUp() method
+	void Disable() {
+		if (isEnabled)
+		{
+			isEnabled = false;
+			CleanUp();
+		}
+	}
+
+	inline bool IsEnabled() const { return isEnabled; }
+
+private:
+	bool isEnabled = true;
+
 };
 
 #endif // __MODULE_H__
