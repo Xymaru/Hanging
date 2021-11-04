@@ -51,7 +51,8 @@ bool PlayerModule::Start()
 	position.y = 0;
 	moveSpeed = 5;
 
-	playerBody = app->physics->CreateRectangle(0, 0, player_width, player_height, false);
+	playerBody = app->physics->CreateRectangle(position.x + player_width/2, position.y + player_height/2 + (player_sprite_h - player_height) / 2, player_width, player_height, false);
+	playerBody->listener = this;
 
 	cameraBound = app->win->GetWindowWidth() / 2 - player_width / 2;
 
@@ -68,6 +69,10 @@ bool PlayerModule::PreUpdate(float dt)
 // Called each loop iteration
 bool PlayerModule::Update(float dt)
 {
+	b2Vec2 box_pos = playerBody->body->GetPosition();
+	position.x = METERS_TO_PIXELS(box_pos.x) - player_width/2;
+	position.y = METERS_TO_PIXELS(box_pos.y) - (player_height / 2 + (player_sprite_h - player_height) / 2);
+
 	player_state = IDLE;
 	if (app->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT) {
 		player_flip = SDL_FLIP_HORIZONTAL;
@@ -79,6 +84,11 @@ bool PlayerModule::Update(float dt)
 			position.x = sprite_offset_xleft;
 		}
 
+		box_pos.x = PIXEL_TO_METERS(position.x + player_width / 2);
+
+		playerBody->body->SetTransform(box_pos, 0);
+
+		// Camera control
 		int diff = position.x - app->render->camera.x;
 
 		if (diff < cameraBound) {
@@ -101,6 +111,11 @@ bool PlayerModule::Update(float dt)
 			position.x = app->map->mapData.map_width - sprite_offset_xleft - player_width;
 		}
 
+		box_pos.x = PIXEL_TO_METERS(position.x + player_width / 2);
+
+		playerBody->body->SetTransform(box_pos, 0);
+
+		// Camera control
 		int diff = position.x - app->render->camera.x;
 
 		if (diff > cameraBound) {
@@ -113,17 +128,6 @@ bool PlayerModule::Update(float dt)
 	}
 	
 	animations[player_state].Update(dt);
-
-	// Camera control
-	
-	/*int diff = position.x - app->render->camera.x;
-
-	if (diff < cameraBound) {
-		app->render->camera.x -= moveSpeed;
-	}
-	else if (diff > app->render->camera.w - cameraBound) {
-		app->render->camera.x += moveSpeed;
-	}*/
 
 	return true;
 }
@@ -152,9 +156,6 @@ bool PlayerModule::CleanUp()
 
 void PlayerModule::InitAnimations()
 {
-	int player_w = 89;
-	int player_h = 76;
-
 	// SPRITE COUNT PER ANIMATION
 	int spriteCount[]{
 		11,
@@ -167,7 +168,7 @@ void PlayerModule::InitAnimations()
 	// LOAD ALL ANIMATIONS
 	for (int i = 0; i < LAST; i++) {
 		for (int j = 0; j < spriteCount[i]; j++) {
-			animations[i].PushBack({ j * player_w, i * player_h,player_w,player_h });
+			animations[i].PushBack({ j * player_sprite_w, i * player_sprite_h,player_sprite_w,player_sprite_h });
 			animations[i].speed = anim_speed;
 		}
 	}

@@ -49,6 +49,10 @@ private:
 	int player_width;
 	int player_height;
 
+	// Sprite width and height
+	int player_sprite_w = 89;
+	int player_sprite_h = 76;
+
 	PlayerState player_state;
 	SDL_RendererFlip player_flip;
 
