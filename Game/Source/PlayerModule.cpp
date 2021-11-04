@@ -57,6 +57,7 @@ bool PlayerModule::Start()
 
 	playerBody = app->physics->CreateRectangle(position.x + player_width/2, position.y + player_height/2 + (player_sprite_h - player_height) / 2, player_width, player_height, true);
 	playerBody->body->SetFixedRotation(true);
+	playerBody->bodyType = PhysBodyType::PLAYER;
 	playerBody->listener = this;
 
 	cameraBound = app->win->GetWindowWidth() / 2 - player_width / 2;

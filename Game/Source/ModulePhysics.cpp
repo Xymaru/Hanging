@@ -256,17 +256,35 @@ bool ModulePhysics::PostUpdate(float dt)
 					int32 count = polygonShape->GetVertexCount();
 					b2Vec2 prev, v;
 
+					b2Color color;
+					PhysBody* pbody = (PhysBody*)b->GetUserData();
+
+					switch (pbody->bodyType) {
+						case PhysBodyType::PLAYER:
+							color.Set(255, 255, 255);
+							break;
+						case PhysBodyType::GROUND:
+							color.Set(255, 100, 100);
+							break;
+						case PhysBodyType::SPIKES:
+							color.Set(100, 100, 255);
+							break;
+						case PhysBodyType::END:
+							color.Set(255, 255, 100);
+							break;
+					}
+
 					for(int32 i = 0; i < count; ++i)
 					{
 						v = b->GetWorldPoint(polygonShape->GetVertex(i));
 						if(i > 0)
-							app->render->DrawLine(METERS_TO_PIXELS(prev.x), METERS_TO_PIXELS(prev.y), METERS_TO_PIXELS(v.x), METERS_TO_PIXELS(v.y), 255, 100, 100);
+							app->render->DrawLine(METERS_TO_PIXELS(prev.x), METERS_TO_PIXELS(prev.y), METERS_TO_PIXELS(v.x), METERS_TO_PIXELS(v.y), color.r, color.g, color.b);
 
 						prev = v;
 					}
 
 					v = b->GetWorldPoint(polygonShape->GetVertex(0));
-					app->render->DrawLine(METERS_TO_PIXELS(prev.x), METERS_TO_PIXELS(prev.y), METERS_TO_PIXELS(v.x), METERS_TO_PIXELS(v.y), 255, 100, 100);
+					app->render->DrawLine(METERS_TO_PIXELS(prev.x), METERS_TO_PIXELS(prev.y), METERS_TO_PIXELS(v.x), METERS_TO_PIXELS(v.y), color.r, color.g, color.b);
 				}
 				break;
 
