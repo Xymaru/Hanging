@@ -1199,9 +1199,9 @@
    <tile/>
    <tile/>
    <tile/>
-   <tile gid="289"/>
-   <tile gid="289"/>
-   <tile gid="289"/>
+   <tile gid="291"/>
+   <tile gid="291"/>
+   <tile gid="291"/>
    <tile/>
    <tile/>
    <tile/>
@@ -1583,7 +1583,7 @@
    <tile gid="289"/>
    <tile gid="289"/>
    <tile gid="290"/>
-   <tile gid="289"/>
+   <tile gid="291"/>
    <tile gid="290"/>
    <tile gid="289"/>
    <tile gid="289"/>
