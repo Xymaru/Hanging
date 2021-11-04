@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="1.3.4" orientation="orthogonal" renderorder="right-down" width="44" height="12" tilewidth="51" tileheight="51" infinite="0" nextlayerid="5" nextobjectid="1">
+<map version="1.5" tiledversion="1.7.2" orientation="orthogonal" renderorder="right-down" width="44" height="12" tilewidth="51" tileheight="51" infinite="0" nextlayerid="5" nextobjectid="1">
  <tileset firstgid="1" name="hanging_tile" tilewidth="51" tileheight="51" spacing="1" margin="1" tilecount="286" columns="22">
   <image source="hanging_tile.png" width="1194" height="695"/>
  </tileset>
@@ -771,9 +771,9 @@
    <tile gid="29"/>
    <tile gid="7"/>
    <tile/>
+   <tile gid="14"/>
    <tile gid="9"/>
    <tile gid="10"/>
-   <tile/>
    <tile/>
    <tile/>
    <tile/>
@@ -816,8 +816,8 @@
    <tile/>
    <tile/>
    <tile/>
-   <tile/>
-   <tile/>
+   <tile gid="14"/>
+   <tile gid="14"/>
    <tile/>
    <tile/>
    <tile/>
@@ -861,8 +861,8 @@
    <tile/>
    <tile/>
    <tile/>
-   <tile gid="9"/>
-   <tile gid="10"/>
+   <tile gid="14"/>
+   <tile gid="14"/>
    <tile/>
    <tile gid="18"/>
    <tile gid="19"/>
@@ -1306,6 +1306,7 @@
    <tile gid="289"/>
    <tile gid="289"/>
    <tile/>
+   <tile gid="14"/>
    <tile gid="289"/>
    <tile gid="289"/>
    <tile/>
@@ -1336,7 +1337,6 @@
    <tile/>
    <tile/>
    <tile/>
-   <tile/>
    <tile gid="289"/>
    <tile/>
    <tile/>
@@ -1396,8 +1396,8 @@
    <tile/>
    <tile/>
    <tile/>
-   <tile gid="289"/>
-   <tile gid="289"/>
+   <tile gid="14"/>
+   <tile gid="14"/>
    <tile/>
    <tile/>
    <tile/>
