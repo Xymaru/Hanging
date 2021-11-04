@@ -191,7 +191,7 @@ void PlayerModule::OnCollision(PhysBody * bodyA, PhysBody * bodyB)
 
 			std::cout << diffY << std::endl;
 
-			if (diffY >= 1) {
+			if (diffY >= 0.8) {
 				player_state = IDLE;
 				animations[JUMP].Reset();
 			}
