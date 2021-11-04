@@ -94,6 +94,13 @@ struct MapLayer
 	}
 };
 
+enum class ColliderLayerType {
+	SPAWN = 287,
+	END,
+	NORMAL,
+	SPIKE
+};
+
 // L03: DONE 1: Create a struct needed to hold the information to Map node
 struct MapData
 {

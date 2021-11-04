@@ -108,6 +108,7 @@ PhysBody* ModulePhysics::CreateCircle(int x, int y, int radius, bool dynamic = t
 	pbody->body = b;
 	b->SetUserData(pbody);
 	pbody->width = pbody->height = radius;
+	pbody->bodyType = PhysBodyType::NEUTRAL;
 
 	return pbody;
 }
@@ -140,6 +141,7 @@ PhysBody* ModulePhysics::CreateRectangle(int x, int y, int width, int height, bo
 	b->SetUserData(pbody);
 	pbody->width = width * 0.5f;
 	pbody->height = height * 0.5f;
+	pbody->bodyType = PhysBodyType::NEUTRAL;
 
 	return pbody;
 }
@@ -174,6 +176,7 @@ PhysBody* ModulePhysics::CreateRectangleSensor(int x, int y, int width, int heig
 	b->SetUserData(pbody);
 	pbody->width = width;
 	pbody->height = height;
+	pbody->bodyType = PhysBodyType::NEUTRAL;
 
 	return pbody;
 }
@@ -215,6 +218,7 @@ PhysBody* ModulePhysics::CreateChain(int x, int y, int* points, int size, bool d
 	pbody->body = b;
 	b->SetUserData(pbody);
 	pbody->width = pbody->height = 0;
+	pbody->bodyType = PhysBodyType::NEUTRAL;
 
 	return pbody;
 }

@@ -34,6 +34,11 @@ public:
 	// Called before quitting
 	bool CleanUp();
 
+	// Set position of the player
+	void SetPosition(int x, int y);
+
+	// Called when player collides with an object
+	void OnCollision(PhysBody* bodyA, PhysBody* bodyB);
 private:
 	enum PlayerState {
 		DEAD, HURT, IDLE, JUMP, WALK, LAST
@@ -50,8 +55,10 @@ private:
 	int player_height;
 
 	// Sprite width and height
-	int player_sprite_w = 89;
-	int player_sprite_h = 76;
+	int player_sprite_w;
+	int player_sprite_h;
+
+	float player_jumpForce;
 
 	PlayerState player_state;
 	SDL_RendererFlip player_flip;

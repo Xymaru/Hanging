@@ -35,11 +35,12 @@ bool GameScene::Start()
 {
 	//app->audio->PlayMusic("Assets/Audio/Music/music_spy.ogg");
 	app->map->Load("hanging.tmx");
+
 	return true;
 }
 
 // Called each loop iteration
-bool GameScene::PreUpdate()
+bool GameScene::PreUpdate(float dt)
 {
 	return true;
 }
@@ -51,7 +52,7 @@ bool GameScene::Update(float dt)
 }
 
 // Called each loop iteration
-bool GameScene::PostUpdate()
+bool GameScene::PostUpdate(float dt)
 {
 	bool ret = true;
 
@@ -76,4 +77,50 @@ void GameScene::Activate()
 	app->playerModule->Activate();
 	app->map->Activate();
 	app->physics->Activate();
+
+	InitMapLevel();
+}
+
+#include <iostream>
+
+void GameScene::InitMapLevel()
+{
+	// Physworld box
+	MapData* mapData = &app->map->mapData;
+	uint size = mapData->layers.Count();
+
+	MapLayer* collisionLayer = NULL;
+
+	for (uint i = 0; i < size; i++) {
+		if (mapData->layers[i]->name == "Collisions") {
+			collisionLayer = mapData->layers[i];
+			break;
+		}
+	}
+
+	int tileWidth = app->map->mapData.tileWidth;
+	int tileHeight = app->map->mapData.tileHeight;
+
+	PhysBody* pbody;
+
+	for (int y = 0; y < collisionLayer->height; y++) {
+		for (int x = 0; x < collisionLayer->width; x++) {
+			ColliderLayerType colType = (ColliderLayerType)collisionLayer->Get(x, y);
+			
+			switch (colType) {
+				case ColliderLayerType::SPAWN:
+					app->playerModule->SetPosition(x * tileWidth, y * tileHeight  - tileHeight / 2);
+					break;
+				case ColliderLayerType::END:
+					
+					break;
+				case ColliderLayerType::NORMAL:
+					pbody = app->physics->CreateRectangle(x * tileWidth + tileWidth / 2, y * tileHeight + tileHeight / 2, tileWidth, tileHeight, false);
+					pbody->bodyType = PhysBodyType::GROUND;
+					break;
+				case ColliderLayerType::SPIKE:
+					break;
+			}
+		}
+	}
 }

@@ -42,6 +42,10 @@ bool PlayerModule::Start()
 	sprite_offset_x = sprite_offset_xleft;
 	anim_speed = 35.0f;
 	//app->audio->PlayMusic("Assets/Audio/Music/music_spy.ogg");
+	player_sprite_w = 89;
+	player_sprite_h = 76;
+
+	player_jumpForce = 400.0f;
 
 	player_width = 38;
 	player_height = 62;
@@ -51,7 +55,8 @@ bool PlayerModule::Start()
 	position.y = 0;
 	moveSpeed = 5;
 
-	playerBody = app->physics->CreateRectangle(position.x + player_width/2, position.y + player_height/2 + (player_sprite_h - player_height) / 2, player_width, player_height, false);
+	playerBody = app->physics->CreateRectangle(position.x + player_width/2, position.y + player_height/2 + (player_sprite_h - player_height) / 2, player_width, player_height, true);
+	playerBody->body->SetFixedRotation(true);
 	playerBody->listener = this;
 
 	cameraBound = app->win->GetWindowWidth() / 2 - player_width / 2;
@@ -73,12 +78,17 @@ bool PlayerModule::Update(float dt)
 	position.x = METERS_TO_PIXELS(box_pos.x) - player_width/2;
 	position.y = METERS_TO_PIXELS(box_pos.y) - (player_height / 2 + (player_sprite_h - player_height) / 2);
 
-	player_state = IDLE;
+	if (player_state == WALK) {
+		player_state = IDLE;
+	}
+
 	if (app->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT) {
 		player_flip = SDL_FLIP_HORIZONTAL;
 		sprite_offset_x = sprite_offset_xright;
 		position.x -= moveSpeed;
-		player_state = WALK;
+		if (player_state == IDLE) {
+			player_state = WALK;
+		}
 
 		if (position.x < sprite_offset_xleft) {
 			position.x = sprite_offset_xleft;
@@ -105,7 +115,9 @@ bool PlayerModule::Update(float dt)
 		sprite_offset_x = sprite_offset_xleft;
 		position.x += moveSpeed;
 
-		player_state = WALK;
+		if (player_state == IDLE) {
+			player_state = WALK;
+		}
 
 		if (position.x > app->map->mapData.map_width - sprite_offset_xleft - player_width) {
 			position.x = app->map->mapData.map_width - sprite_offset_xleft - player_width;
@@ -124,6 +136,13 @@ bool PlayerModule::Update(float dt)
 			if (app->render->camera.x > app->map->mapData.map_width - app->win->GetWindowWidth()) {
 				app->render->camera.x = app->map->mapData.map_width - app->win->GetWindowWidth();
 			}
+		}
+	}
+
+	if (app->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN) {
+		if (player_state != JUMP) {
+			player_state = JUMP;
+			playerBody->body->ApplyForceToCenter(b2Vec2(0, -player_jumpForce), true);
 		}
 	}
 	
@@ -152,6 +171,23 @@ bool PlayerModule::CleanUp()
 {
 	LOG("Freeing playerModule");
 	return true;
+}
+
+void PlayerModule::SetPosition(int x, int y)
+{
+	position.x = x;
+	position.y = y;
+
+	playerBody->body->SetTransform(b2Vec2(PIXEL_TO_METERS(position.x + player_width / 2), PIXEL_TO_METERS(position.y + player_height / 2 + (player_sprite_h - player_height) / 2)), 0);
+}
+
+void PlayerModule::OnCollision(PhysBody * bodyA, PhysBody * bodyB)
+{
+	if (bodyB->bodyType == PhysBodyType::GROUND) {
+		if (player_state == JUMP) {
+			player_state = IDLE;
+		}
+	}
 }
 
 void PlayerModule::InitAnimations()
