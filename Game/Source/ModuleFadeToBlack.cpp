@@ -25,7 +25,7 @@ bool ModuleFadeToBlack::Start()
 	return true;
 }
 
-bool ModuleFadeToBlack::Update()
+bool ModuleFadeToBlack::Update(float dt)
 {
 	bool ret = true;
 	// Exit this function if we are not performing a fade
@@ -33,19 +33,19 @@ bool ModuleFadeToBlack::Update()
 
 	if (currentStep == Fade_Step::TO_BLACK)
 	{
-		++frameCount;
-		if (frameCount >= maxFadeFrames)
+		timer += dt;
+		if (timer >= time)
 		{
 			moduleToDisable->Disable();
 			moduleToEnable->Enable();
-
+			moduleToEnable->Activate();
 			currentStep = Fade_Step::FROM_BLACK;
 		}
 	}
 	else
 	{
-		--frameCount;
-		if (frameCount <= 0)
+		timer -= dt;
+		if (timer <= 0.0f)
 		{
 			currentStep = Fade_Step::NONE;
 		}
@@ -54,13 +54,13 @@ bool ModuleFadeToBlack::Update()
 	return ret;
 }
 
-bool ModuleFadeToBlack::PostUpdate()
+bool ModuleFadeToBlack::PostUpdate(float dt)
 {
 	bool ret = true;
 	// Exit this function if we are not performing a fade
 	if (currentStep == Fade_Step::NONE) return ret;
 
-	float fadeRatio = (float)frameCount / (float)maxFadeFrames;
+	float fadeRatio = timer / time;
 
 	// Render the black square with alpha on the screen
 	SDL_SetRenderDrawColor(app->render->renderer, 0, 0, 0, (Uint8)(fadeRatio * 255.0f));
@@ -69,19 +69,29 @@ bool ModuleFadeToBlack::PostUpdate()
 	return ret;
 }
 
-bool ModuleFadeToBlack::FadeToBlack(Module* moduleToDisable, Module* moduleToEnable, float frames)
+bool ModuleFadeToBlack::FadeToBlack(Module* moduleToDisable, Module* moduleToEnable, float fadeTime, bool instant_out)
 {
 	bool ret = false;
+
+	moduleToDisable->Deactivate();
 
 	// If we are already in a fade process, ignore this call
 	if(currentStep == Fade_Step::NONE)
 	{
 		currentStep = Fade_Step::TO_BLACK;
-		frameCount = 0;
-		maxFadeFrames = frames;
+		timer = 0;
+		time = fadeTime;
 
 		this->moduleToDisable = moduleToDisable;
 		this->moduleToEnable = moduleToEnable;
+
+		if (instant_out) {
+			timer = fadeTime;
+			moduleToEnable->Enable();
+			moduleToEnable->Activate();
+			moduleToDisable->Disable();
+			currentStep = Fade_Step::FROM_BLACK;
+		}
 
 		ret = true;
 	}

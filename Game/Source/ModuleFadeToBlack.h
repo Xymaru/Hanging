@@ -20,16 +20,16 @@ public:
 
 	// Called at the middle of the application loop
 	// Updates the fade logic
-	bool Update();
+	bool Update(float dt);
 
 	// Called at the end of the application loop
 	// Performs the render call of a black rectangle with transparency
-	bool PostUpdate();
+	bool PostUpdate(float dt);
 
 	// Called from another module
 	// Starts the fade process which has two steps, fade_out and fade_in
 	// After the first step, the modules should be switched
-	bool FadeToBlack(Module* toDisable, Module* toEnable, float frames = 60);
+	bool FadeToBlack(Module* toDisable, Module* toEnable, float fadeTime = 1.0f, bool instant_out = false);
 
 private:
 
@@ -41,8 +41,8 @@ private:
 	} currentStep = Fade_Step::NONE;
 
 	// A frame count system to handle the fade time and ratio
-	Uint32 frameCount = 0;
-	Uint32 maxFadeFrames = 0;
+	float timer;
+	float time;
 
 	// The rectangle of the screen, used to render the black rectangle
 	SDL_Rect screenRect;

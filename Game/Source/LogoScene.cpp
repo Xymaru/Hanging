@@ -81,9 +81,7 @@ bool LogoScene::Update(float dt)
 		if (timer >= time) {
 			timer = 0.0f;
 
-			Deactivate();
-			app->fade->FadeToBlack(this, (Module*)app->menu, 90);
-			//app->gamescene->Activate();
+			app->fade->FadeToBlack(this, app->gameScene, 1.0f, true);
 		}
 
 		SDL_SetTextureAlphaMod(logo, alpha);
