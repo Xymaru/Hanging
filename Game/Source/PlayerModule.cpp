@@ -51,9 +51,9 @@ bool PlayerModule::Start()
 	player_height = 62;
 
 	app->render->camera.x = 0;
-	position.x = sprite_offset_xleft;
+	position.x = 0;
 	position.y = 0;
-	moveSpeed = 5;
+	moveSpeed = 3;
 
 	playerBody = app->physics->CreateRectangle(position.x + player_width/2, position.y + player_height/2 + (player_sprite_h - player_height) / 2, player_width, player_height, true);
 	playerBody->body->SetFixedRotation(true);
@@ -91,8 +91,8 @@ bool PlayerModule::Update(float dt)
 			player_state = WALK;
 		}
 
-		if (position.x < sprite_offset_xleft) {
-			position.x = sprite_offset_xleft;
+		if (position.x < 0) {
+			position.x = 0;
 		}
 
 		box_pos.x = PIXEL_TO_METERS(position.x + player_width / 2);
@@ -120,8 +120,8 @@ bool PlayerModule::Update(float dt)
 			player_state = WALK;
 		}
 
-		if (position.x > app->map->mapData.map_width - sprite_offset_xleft - player_width) {
-			position.x = app->map->mapData.map_width - sprite_offset_xleft - player_width;
+		if (position.x > app->map->mapData.map_width - player_width) {
+			position.x = app->map->mapData.map_width - player_width;
 		}
 
 		box_pos.x = PIXEL_TO_METERS(position.x + player_width / 2);
