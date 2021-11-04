@@ -57,6 +57,7 @@ bool PlayerModule::Start()
 
 	playerBody = app->physics->CreateRectangle(position.x + player_width/2, position.y + player_height/2 + (player_sprite_h - player_height) / 2, player_width, player_height, true);
 	playerBody->body->SetFixedRotation(true);
+	playerBody->bodyType = PhysBodyType::PLAYER;
 	playerBody->listener = this;
 
 	cameraBound = app->win->GetWindowWidth() / 2 - player_width / 2;
@@ -185,7 +186,15 @@ void PlayerModule::OnCollision(PhysBody * bodyA, PhysBody * bodyB)
 {
 	if (bodyB->bodyType == PhysBodyType::GROUND) {
 		if (player_state == JUMP) {
-			player_state = IDLE;
+			// Check if it collided from above
+			float32 diffY = bodyB->body->GetPosition().y - bodyA->body->GetPosition().y;
+
+			std::cout << diffY << std::endl;
+
+			if (diffY >= 1) {
+				player_state = IDLE;
+				animations[JUMP].Reset();
+			}
 		}
 	}
 }
@@ -208,4 +217,6 @@ void PlayerModule::InitAnimations()
 			animations[i].speed = anim_speed;
 		}
 	}
+
+	animations[JUMP].loop = false;
 }

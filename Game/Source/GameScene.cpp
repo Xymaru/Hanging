@@ -112,13 +112,16 @@ void GameScene::InitMapLevel()
 					app->playerModule->SetPosition(x * tileWidth, y * tileHeight  - tileHeight / 2);
 					break;
 				case ColliderLayerType::END:
-					
+					pbody = app->physics->CreateRectangle(x * tileWidth + tileWidth / 2, y * tileHeight + tileHeight / 2, tileWidth, tileHeight, false);
+					pbody->bodyType = PhysBodyType::END;
 					break;
 				case ColliderLayerType::NORMAL:
 					pbody = app->physics->CreateRectangle(x * tileWidth + tileWidth / 2, y * tileHeight + tileHeight / 2, tileWidth, tileHeight, false);
 					pbody->bodyType = PhysBodyType::GROUND;
 					break;
 				case ColliderLayerType::SPIKE:
+					pbody = app->physics->CreateRectangle(x * tileWidth + tileWidth / 2, y * tileHeight + tileHeight / 2, tileWidth, tileHeight, false);
+					pbody->bodyType = PhysBodyType::SPIKES;
 					break;
 			}
 		}
