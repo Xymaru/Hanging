@@ -6,6 +6,7 @@
 #include "Window.h"
 #include "PlayerModule.h"
 #include "Map.h"
+#include "ModuleFadeToBlack.h"
 
 #include "Defs.h"
 #include "Log.h"
@@ -46,6 +47,7 @@ bool PlayerModule::Start()
 	player_sprite_h = 76;
 
 	player_jumpForce = 400.0f;
+	player_deadForce = 150.0f;
 
 	player_width = 38;
 	player_height = 62;
@@ -57,6 +59,7 @@ bool PlayerModule::Start()
 
 	playerBody = app->physics->CreateRectangle(position.x + player_width/2, position.y + player_height/2 + (player_sprite_h - player_height) / 2, player_width, player_height, true);
 	playerBody->body->SetFixedRotation(true);
+	playerBody->body->SetSleepingAllowed(false);
 	playerBody->bodyType = PhysBodyType::PLAYER;
 	playerBody->listener = this;
 
@@ -76,8 +79,118 @@ bool PlayerModule::PreUpdate(float dt)
 bool PlayerModule::Update(float dt)
 {
 	b2Vec2 box_pos = playerBody->body->GetPosition();
-	position.x = METERS_TO_PIXELS(box_pos.x) - player_width/2;
+	position.x = METERS_TO_PIXELS(box_pos.x) - player_width / 2;
 	position.y = METERS_TO_PIXELS(box_pos.y) - (player_height / 2 + (player_sprite_h - player_height) / 2);
+
+	if (player_state != HURT) {
+		PlayerControl();
+	}
+	else {
+		if (position.y >= app->win->getWindowHeight()) {
+			// Change screen to endScreen
+		}
+	}
+	
+	animations[player_state].Update(dt);
+
+	return true;
+}
+
+// Called each loop iteration
+bool PlayerModule::PostUpdate(float dt)
+{
+	bool ret = true;
+
+	// Draw character
+	SDL_Rect active_anim = animations[player_state].GetCurrentFrame();
+	app->render->DrawTexture(playerTex, position.x - sprite_offset_x, position.y, &active_anim, player_flip);
+
+	if (app->input->GetKey(SDL_SCANCODE_ESCAPE) == KEY_DOWN)
+		ret = false;
+
+	return ret;
+}
+
+// Called before quitting
+bool PlayerModule::CleanUp()
+{
+	LOG("Freeing playerModule");
+	return true;
+}
+
+void PlayerModule::SetPosition(int x, int y)
+{
+	position.x = x;
+	position.y = y;
+
+	playerBody->body->SetTransform(b2Vec2(PIXEL_TO_METERS(position.x + player_width / 2), PIXEL_TO_METERS(position.y + player_height / 2 + (player_sprite_h - player_height) / 2)), 0);
+}
+
+void PlayerModule::OnCollision(PhysBody * bodyA, PhysBody * bodyB)
+{
+	if (player_state == HURT) {
+		return;
+	}
+
+	if (bodyB->bodyType == PhysBodyType::GROUND || bodyB->bodyType == PhysBodyType::PLATFORM) {
+		if (player_state == JUMP) {
+			// Check if it collided from above
+			float32 diffY = bodyB->body->GetPosition().y - bodyA->body->GetPosition().y;
+
+			if (diffY >= 0.8) {
+				player_state = IDLE;
+				animations[JUMP].Reset();
+			}
+		}
+	}
+
+	if (bodyB->bodyType == PhysBodyType::END) {
+		// Set endScene win to true
+		// Change scene to endScene
+	}
+
+	if (bodyB->bodyType == PhysBodyType::SPIKES) {
+		player_state = HURT;
+
+		playerBody->body->SetLinearVelocity(b2Vec2_zero);
+
+		if (player_flip == SDL_FLIP_NONE) {
+			playerBody->body->ApplyForceToCenter(b2Vec2(-player_deadForce, -player_deadForce), true);
+		}
+		else {
+			playerBody->body->ApplyForceToCenter(b2Vec2(player_deadForce, -player_deadForce), true);
+		}
+
+		playerBody->body->GetFixtureList()->SetSensor(true);
+	}
+}
+
+void PlayerModule::InitAnimations()
+{
+	// SPRITE COUNT PER ANIMATION
+	int spriteCount[]{
+		11,
+		8,
+		10,
+		12,
+		8
+	};
+
+	// LOAD ALL ANIMATIONS
+	for (int i = 0; i < LAST; i++) {
+		for (int j = 0; j < spriteCount[i]; j++) {
+			animations[i].PushBack({ j * player_sprite_w, i * player_sprite_h,player_sprite_w,player_sprite_h });
+			animations[i].speed = anim_speed;
+		}
+	}
+
+	animations[JUMP].loop = false;
+	animations[HURT].loop = false;
+}
+
+void PlayerModule::PlayerControl()
+{
+	b2Vec2 box_pos = playerBody->body->GetPosition();
 
 	if (player_state == WALK) {
 		player_state = IDLE;
@@ -133,7 +246,7 @@ bool PlayerModule::Update(float dt)
 
 		if (diff > cameraBound) {
 			app->render->camera.x += moveSpeed;
-			
+
 			if (app->render->camera.x > app->map->mapData.map_width - app->win->GetWindowWidth()) {
 				app->render->camera.x = app->map->mapData.map_width - app->win->GetWindowWidth();
 			}
@@ -141,80 +254,9 @@ bool PlayerModule::Update(float dt)
 	}
 
 	if (app->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN) {
-		if (player_state != JUMP) {
+		if (player_state != JUMP && player_state != DEAD) {
 			player_state = JUMP;
 			playerBody->body->ApplyForceToCenter(b2Vec2(0, -player_jumpForce), true);
 		}
 	}
-	
-	animations[player_state].Update(dt);
-
-	return true;
-}
-
-// Called each loop iteration
-bool PlayerModule::PostUpdate(float dt)
-{
-	bool ret = true;
-
-	// Draw character
-	SDL_Rect active_anim = animations[player_state].GetCurrentFrame();
-	app->render->DrawTexture(playerTex, position.x - sprite_offset_x, position.y, &active_anim, player_flip);
-
-	if (app->input->GetKey(SDL_SCANCODE_ESCAPE) == KEY_DOWN)
-		ret = false;
-
-	return ret;
-}
-
-// Called before quitting
-bool PlayerModule::CleanUp()
-{
-	LOG("Freeing playerModule");
-	return true;
-}
-
-void PlayerModule::SetPosition(int x, int y)
-{
-	position.x = x;
-	position.y = y;
-
-	playerBody->body->SetTransform(b2Vec2(PIXEL_TO_METERS(position.x + player_width / 2), PIXEL_TO_METERS(position.y + player_height / 2 + (player_sprite_h - player_height) / 2)), 0);
-}
-
-void PlayerModule::OnCollision(PhysBody * bodyA, PhysBody * bodyB)
-{
-	if (bodyB->bodyType == PhysBodyType::GROUND || bodyB->bodyType == PhysBodyType::PLATFORM) {
-		if (player_state == JUMP) {
-			// Check if it collided from above
-			float32 diffY = bodyB->body->GetPosition().y - bodyA->body->GetPosition().y;
-
-			if (diffY >= 0.8) {
-				player_state = IDLE;
-				animations[JUMP].Reset();
-			}
-		}
-	}
-}
-
-void PlayerModule::InitAnimations()
-{
-	// SPRITE COUNT PER ANIMATION
-	int spriteCount[]{
-		11,
-		8,
-		10,
-		12,
-		8
-	};
-
-	// LOAD ALL ANIMATIONS
-	for (int i = 0; i < LAST; i++) {
-		for (int j = 0; j < spriteCount[i]; j++) {
-			animations[i].PushBack({ j * player_sprite_w, i * player_sprite_h,player_sprite_w,player_sprite_h });
-			animations[i].speed = anim_speed;
-		}
-	}
-
-	animations[JUMP].loop = false;
 }

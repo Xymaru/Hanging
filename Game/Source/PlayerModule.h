@@ -74,7 +74,10 @@ private:
 
 	PhysBody* playerBody;
 
+	float player_deadForce;
+
 	void InitAnimations();
+	void PlayerControl();
 };
 
 #endif // __PLAYER_H__
