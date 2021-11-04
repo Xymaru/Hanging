@@ -185,7 +185,15 @@ void PlayerModule::OnCollision(PhysBody * bodyA, PhysBody * bodyB)
 {
 	if (bodyB->bodyType == PhysBodyType::GROUND) {
 		if (player_state == JUMP) {
-			player_state = IDLE;
+			// Check if it collided from above
+			float32 diffY = bodyB->body->GetPosition().y - bodyA->body->GetPosition().y;
+
+			std::cout << diffY << std::endl;
+
+			if (diffY >= 1) {
+				player_state = IDLE;
+				animations[JUMP].Reset();
+			}
 		}
 	}
 }
@@ -208,4 +216,6 @@ void PlayerModule::InitAnimations()
 			animations[i].speed = anim_speed;
 		}
 	}
+
+	animations[JUMP].loop = false;
 }
