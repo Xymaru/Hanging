@@ -189,8 +189,6 @@ void PlayerModule::OnCollision(PhysBody * bodyA, PhysBody * bodyB)
 			// Check if it collided from above
 			float32 diffY = bodyB->body->GetPosition().y - bodyA->body->GetPosition().y;
 
-			std::cout << diffY << std::endl;
-
 			if (diffY >= 0.8) {
 				player_state = IDLE;
 				animations[JUMP].Reset();

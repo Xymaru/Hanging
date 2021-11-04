@@ -60,7 +60,7 @@ bool MainMenu::Start()
 	return ret;
 }
 
-bool MainMenu::PreUpdate()
+bool MainMenu::PreUpdate(float dt)
 {
 	return true;
 }
@@ -111,7 +111,7 @@ bool MainMenu::Update(float dt)
 
 
 // Update: draw background
-bool MainMenu::PostUpdate()
+bool MainMenu::PostUpdate(float dt)
 {
 	bool ret = true;
 	// Draw everything --------------------------------------
