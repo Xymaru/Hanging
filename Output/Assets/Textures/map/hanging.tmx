@@ -3,8 +3,8 @@
  <tileset firstgid="1" name="hanging_tile" tilewidth="51" tileheight="51" spacing="1" margin="1" tilecount="286" columns="22">
   <image source="hanging_tile.png" width="1194" height="695"/>
  </tileset>
- <tileset firstgid="287" name="colliders" tilewidth="51" tileheight="51" tilecount="4" columns="4">
-  <image source="colliders.png" width="204" height="51"/>
+ <tileset firstgid="287" name="colliders" tilewidth="51" tileheight="51" tilecount="5" columns="5">
+  <image source="colliders.png" width="255" height="51"/>
  </tileset>
  <layer id="1" name="Background" width="44" height="12">
   <properties>
@@ -727,8 +727,8 @@
    <tile gid="25"/>
    <tile gid="26"/>
    <tile/>
-   <tile/>
-   <tile/>
+   <tile gid="9"/>
+   <tile gid="10"/>
    <tile/>
    <tile/>
    <tile/>
@@ -772,8 +772,8 @@
    <tile gid="7"/>
    <tile/>
    <tile gid="14"/>
-   <tile gid="9"/>
-   <tile gid="10"/>
+   <tile gid="16"/>
+   <tile gid="16"/>
    <tile/>
    <tile/>
    <tile/>
@@ -818,8 +818,8 @@
    <tile/>
    <tile gid="14"/>
    <tile gid="14"/>
-   <tile/>
-   <tile/>
+   <tile gid="9"/>
+   <tile gid="10"/>
    <tile/>
    <tile/>
    <tile/>
@@ -1262,6 +1262,8 @@
    <tile gid="289"/>
    <tile gid="289"/>
    <tile/>
+   <tile gid="291"/>
+   <tile gid="291"/>
    <tile/>
    <tile/>
    <tile/>
@@ -1284,19 +1286,17 @@
    <tile/>
    <tile/>
    <tile/>
+   <tile gid="291"/>
+   <tile gid="291"/>
    <tile/>
    <tile/>
-   <tile gid="289"/>
-   <tile gid="289"/>
-   <tile/>
-   <tile/>
-   <tile gid="289"/>
+   <tile gid="291"/>
    <tile/>
    <tile/>
    <tile/>
    <tile/>
-   <tile gid="289"/>
-   <tile gid="289"/>
+   <tile gid="291"/>
+   <tile gid="291"/>
    <tile gid="289"/>
    <tile gid="289"/>
    <tile gid="289"/>
@@ -1307,8 +1307,8 @@
    <tile gid="289"/>
    <tile/>
    <tile gid="14"/>
-   <tile gid="289"/>
-   <tile gid="289"/>
+   <tile gid="16"/>
+   <tile gid="16"/>
    <tile/>
    <tile/>
    <tile/>
@@ -1337,7 +1337,7 @@
    <tile/>
    <tile/>
    <tile/>
-   <tile gid="289"/>
+   <tile gid="291"/>
    <tile/>
    <tile/>
    <tile/>
@@ -1353,6 +1353,8 @@
    <tile/>
    <tile/>
    <tile/>
+   <tile gid="291"/>
+   <tile gid="291"/>
    <tile/>
    <tile/>
    <tile/>
@@ -1371,15 +1373,13 @@
    <tile/>
    <tile/>
    <tile/>
+   <tile gid="291"/>
+   <tile gid="291"/>
    <tile/>
    <tile/>
-   <tile gid="289"/>
-   <tile gid="289"/>
    <tile/>
-   <tile/>
-   <tile/>
-   <tile gid="289"/>
-   <tile gid="289"/>
+   <tile gid="291"/>
+   <tile gid="291"/>
    <tile/>
    <tile/>
    <tile/>
@@ -1495,7 +1495,7 @@
    <tile/>
    <tile/>
    <tile/>
-   <tile gid="289"/>
+   <tile gid="291"/>
    <tile/>
    <tile gid="289"/>
    <tile gid="289"/>
