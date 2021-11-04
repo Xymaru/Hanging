@@ -43,9 +43,9 @@ public:
 	// The surface contained by the window
 	SDL_Surface* screenSurface;
 
+private:
 	uint width;
 	uint height;
-private:
 	SString title;
 	uint scale;
 };

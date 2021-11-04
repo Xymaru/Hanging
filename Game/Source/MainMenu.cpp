@@ -5,8 +5,8 @@
 #include "Render.h"
 #include "Audio.h"
 #include "Input.h"
-//#include "ModuleFadeToBlack.h"
-//#include "ModuleFonts.h"
+#include "ModuleFadeToBlack.h"
+#include "Fonts.h"
 #include "PlayerModule.h"
 #include "Defs.h"
 #include "Defs.h"
@@ -46,9 +46,9 @@ bool MainMenu::Start()
 	//p_pos.y = p_y;
 
 	char lookupTable[] = { "! @,_./0123456789$;< ?abcdefghijklmnopqrstuvwxyz" };
-	//menuFont = app->fonts->Load("Assets/Fonts/rtype_font3.png", lookupTable, 2);
+	menuFont = app->fonts->Load("Assets/Fonts/rtype_font3.png", lookupTable, 2);
 
-
+	menu = app->tex->Load("Assets/Textures/MainMenu.png");
 	// music and fx
 	titleMenuMusic = app->audio->PlayMusic("Assets/Music/Title Screen.ogg", 1.0f);
 	selectFx = app->audio->LoadFx("Assets/FX/choose.wav");
@@ -89,7 +89,7 @@ bool MainMenu::Update(float dt)
 		if (M_Index == B_Play)
 		{
 			app->audio->PlayFx(nextFx);
-			//app->fade->FadeToBlack(this, (Module*)app->stageSelect, 90);
+			app->fade->FadeToBlack(this, (Module*)app->gameScene, 90);
 		}
 		if (M_Index == B_Exit)
 		{
@@ -113,14 +113,10 @@ bool MainMenu::PostUpdate()
 {
 	bool ret = true;
 	// Draw everything --------------------------------------
-	/*app->render->blit(scroller, 0, scrollerY, NULL);
-	app->render->Blit(scroller2, 0, scroller2Y, NULL);
-	app->render->Blit(menu_box, SCREEN_WIDTH / 2 - 50, SCREEN_HEIGHT / 2 + 25, NULL);
+	app->render->DrawTexture(menu, 0, 0);
+	//app->render->Blit(Pointer, p_x, p_y, NULL);
 
-	app->render->Blit(bgTexture, SCREEN_WIDTH / 2 - 115, SCREEN_HEIGHT / 2 - 120, NULL);
-	app->render->Blit(Pointer, p_x, p_y, NULL);
-
-	app->fonts->BlitText(SCREEN_WIDTH / 2 - 30, SCREEN_HEIGHT / 2 + 33, menuFont, "play game");
+	/*app->fonts->BlitText(SCREEN_WIDTH / 2 - 30, SCREEN_HEIGHT / 2 + 33, menuFont, "play game");
 	app->fonts->BlitText(SCREEN_WIDTH / 2 - 30, SCREEN_HEIGHT / 2 + 46, menuFont, "coop mode");
 	app->fonts->BlitText(SCREEN_WIDTH / 2 - 30, SCREEN_HEIGHT / 2 + 59, menuFont, "exit game");*/
 
@@ -132,4 +128,11 @@ bool MainMenu::CleanUp()
 	LOG("Freeing menu");
 
 	return true;
+}
+
+void MainMenu::Activate()
+{
+	Module::Activate();
+
+	
 }

@@ -6,6 +6,8 @@
 #include "Window.h"
 #include "LogoScene.h"
 #include "GameScene.h"
+#include "MainMenu.h"
+#include "ModuleFadeToBlack.h"
 
 #include <iostream>
 
@@ -80,7 +82,8 @@ bool LogoScene::Update(float dt)
 			timer = 0.0f;
 
 			Deactivate();
-			app->gameScene->Activate();
+			app->fade->FadeToBlack(this, (Module*)app->menu, 90);
+			//app->gamescene->Activate();
 		}
 
 		SDL_SetTextureAlphaMod(logo, alpha);

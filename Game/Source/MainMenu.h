@@ -31,6 +31,8 @@ public:
 	// Called before quitting
 	bool CleanUp();
 
+	void Activate();
+
 public:
 	int p_x = 0;
 	int p_y = 0;
@@ -47,6 +49,7 @@ public:
 
 	int M_Index = 2;
 
+	SDL_Texture* menu;
 	// Music and FX
 	uint titleMenuMusic = 0;
 	uint selectFx = 0;

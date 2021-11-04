@@ -2,6 +2,7 @@
 #define __FONTS_H__
 
 #include "Module.h"
+#include "Log.h"
 #include "SDL\include\SDL_pixels.h"
 
 #define MAX_FONTS 60
