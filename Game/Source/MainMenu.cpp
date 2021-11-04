@@ -8,6 +8,7 @@
 #include "ModuleFadeToBlack.h"
 #include "Fonts.h"
 #include "PlayerModule.h"
+#include "GameScene.h"
 #include "Defs.h"
 #include "Defs.h"
 #include "Log.h"
@@ -48,7 +49,8 @@ bool MainMenu::Start()
 	char lookupTable[] = { "! @,_./0123456789$;< ?abcdefghijklmnopqrstuvwxyz" };
 	menuFont = app->fonts->Load("Assets/Fonts/rtype_font3.png", lookupTable, 2);
 
-	menu = app->tex->Load("Assets/Textures/MainMenu.png");
+	gamemenu = app->tex->Load("Assets/Textures/MainMenu.png");
+	
 	// music and fx
 	titleMenuMusic = app->audio->PlayMusic("Assets/Music/Title Screen.ogg", 1.0f);
 	selectFx = app->audio->LoadFx("Assets/FX/choose.wav");
@@ -89,7 +91,7 @@ bool MainMenu::Update(float dt)
 		if (M_Index == B_Play)
 		{
 			app->audio->PlayFx(nextFx);
-			app->fade->FadeToBlack(this, (Module*)app->gameScene, 90);
+			app->fade->FadeToBlack(this, app->gameScene, 1.0f, false);
 		}
 		if (M_Index == B_Exit)
 		{
@@ -113,7 +115,8 @@ bool MainMenu::PostUpdate()
 {
 	bool ret = true;
 	// Draw everything --------------------------------------
-	app->render->DrawTexture(menu, 0, 0);
+	app->render->DrawTexture(gamemenu, 0, 0);
+	
 	//app->render->Blit(Pointer, p_x, p_y, NULL);
 
 	/*app->fonts->BlitText(SCREEN_WIDTH / 2 - 30, SCREEN_HEIGHT / 2 + 33, menuFont, "play game");
@@ -128,11 +131,4 @@ bool MainMenu::CleanUp()
 	LOG("Freeing menu");
 
 	return true;
-}
-
-void MainMenu::Activate()
-{
-	Module::Activate();
-
-	
 }
