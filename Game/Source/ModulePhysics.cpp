@@ -261,7 +261,7 @@ bool ModulePhysics::PostUpdate(float dt)
 
 					switch (pbody->bodyType) {
 						case PhysBodyType::PLAYER:
-							color.Set(255, 255, 255);
+							color.Set(100, 255, 255);
 							break;
 						case PhysBodyType::GROUND:
 							color.Set(255, 100, 100);
@@ -271,6 +271,9 @@ bool ModulePhysics::PostUpdate(float dt)
 							break;
 						case PhysBodyType::END:
 							color.Set(255, 255, 100);
+							break;
+						case PhysBodyType::PLATFORM:
+							color.Set(255, 255, 255);
 							break;
 					}
 

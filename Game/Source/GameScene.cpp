@@ -123,6 +123,10 @@ void GameScene::InitMapLevel()
 					pbody = app->physics->CreateRectangle(x * tileWidth + tileWidth / 2, y * tileHeight + tileHeight / 2, tileWidth, tileHeight, false);
 					pbody->bodyType = PhysBodyType::SPIKES;
 					break;
+				case ColliderLayerType::PLATFORM:
+					pbody = app->physics->CreateRectangle(x * tileWidth + tileWidth / 2, y * tileHeight + tileHeight / 4, tileWidth, tileHeight / 2, false);
+					pbody->bodyType = PhysBodyType::PLATFORM;
+					break;
 			}
 		}
 	}

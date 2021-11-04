@@ -20,6 +20,7 @@ enum class PhysBodyType {
 	GROUND,
 	SPIKES,
 	END,
+	PLATFORM,
 	NEUTRAL
 };
 // Small class to return to other modules to track position and rotation of physics bodies

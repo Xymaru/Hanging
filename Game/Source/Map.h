@@ -98,7 +98,8 @@ enum class ColliderLayerType {
 	SPAWN = 287,
 	END,
 	NORMAL,
-	SPIKE
+	SPIKE,
+	PLATFORM
 };
 
 // L03: DONE 1: Create a struct needed to hold the information to Map node
