@@ -184,7 +184,7 @@ void PlayerModule::SetPosition(int x, int y)
 
 void PlayerModule::OnCollision(PhysBody * bodyA, PhysBody * bodyB)
 {
-	if (bodyB->bodyType == PhysBodyType::GROUND) {
+	if (bodyB->bodyType == PhysBodyType::GROUND || bodyB->bodyType == PhysBodyType::PLATFORM) {
 		if (player_state == JUMP) {
 			// Check if it collided from above
 			float32 diffY = bodyB->body->GetPosition().y - bodyA->body->GetPosition().y;
