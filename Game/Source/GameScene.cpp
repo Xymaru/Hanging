@@ -94,13 +94,15 @@ void GameScene::Deactivate()
 
 void GameScene::InitMapLevel()
 {
+	app->map->mapData.Clear();
+
 	switch (gameLevel) {
-	case GameLevel::Level1:
-		app->map->Load("level_1.tmx");
-		break;
-	case GameLevel::Level2:
-		app->map->Load("level_2.tmx");
-		break;
+		case GameLevel::Level1:
+			app->map->Load("level_1.tmx");
+			break;
+		case GameLevel::Level2:
+			app->map->Load("level_2.tmx");
+			break;
 	}
 
 	// Physworld box

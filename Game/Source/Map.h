@@ -119,6 +119,30 @@ struct MapData
 
 	// L04: DONE 2: Add a list/array of layers to the map
 	List<MapLayer*> layers;
+
+	inline void Clear() {
+		// Clear tilesets
+		ListItem<TileSet*>* item;
+		item = tilesets.start;
+
+		while (item != NULL)
+		{
+			RELEASE(item->data);
+			item = item->next;
+		}
+		tilesets.Clear();
+
+		// Clear layers
+		ListItem<MapLayer*>* item2;
+		item2 = layers.start;
+
+		while (item2 != NULL)
+		{
+			RELEASE(item2->data);
+			item2 = item2->next;
+		}
+		layers.Clear();
+	}
 };
 
 class Map : public Module
