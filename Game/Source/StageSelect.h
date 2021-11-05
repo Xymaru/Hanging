@@ -1,18 +1,18 @@
-#ifndef __MAIN_MENU_H__  // ADRIAN: .H DE TITLESCREEN
-#define __MAIN_MENU_H__
+#ifndef __STAGE_SELECT_H__  // ADRIAN: .H DE TITLESCREEN
+#define __STAGE_SELECT_H__
 
 #include "Module.h"
 //#include "Animation.h"
 
 struct SDL_Texture;
 
-class MainMenu : public Module
+class StageSelect : public Module
 {
 public:
 
-	MainMenu();
+	StageSelect();
 
-	virtual ~MainMenu();
+	virtual ~StageSelect();
 
 	bool Awake(pugi::xml_node& config);
 
@@ -35,8 +35,6 @@ public:
 public:
 	int p_x = 640 / 2 - 100;
 	int p_y = 612 / 2 + 110;
-
-	bool display = false;
 
 	// Font index
 	int menuFont = -1;

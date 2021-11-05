@@ -18,6 +18,7 @@ class PlayerModule;
 class Map;
 class ModulePhysics;
 class MainMenu;
+class StageSelect;
 class Fonts;
 class ModuleFadeToBlack;
 class EndScene;
@@ -90,6 +91,7 @@ public:
 	Fonts* fonts;
 	ModuleFadeToBlack* fade;
 	EndScene* endScene;
+	StageSelect* stage;
 
 private:
 

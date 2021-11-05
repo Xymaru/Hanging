@@ -90,10 +90,10 @@ bool EndScene::PostUpdate(float dt)
 	app->render->DrawTexture(gamemenu, 0, 0);
 
 	if (win) {
-		app->fonts->BlitText(640 / 2 - 79, 612 / 2 + 110, menuFont, "You won!");
+		app->fonts->BlitText(640 / 2 - 79, 612 / 2 + 110, menuFont, "you won!");
 	}
 	else {
-		app->fonts->BlitText(640 / 2 - 79, 612 / 2 + 110, menuFont, "You lost!");
+		app->fonts->BlitText(640 / 2 - 79, 612 / 2 + 110, menuFont, "you lost!");
 	}
 
 	if (app->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN) {

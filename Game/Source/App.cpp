@@ -10,6 +10,7 @@
 #include "Map.h"
 #include "ModulePhysics.h"
 #include "MainMenu.h"
+#include "StageSelect.h"
 #include "Fonts.h"
 #include "EndScene.h"
 #include "ModuleFadeToBlack.h"
@@ -34,6 +35,7 @@ App::App(int argc, char* args[]) : argc(argc), args(args)
 	map = new Map();
 	physics = new ModulePhysics();
 	menu = new MainMenu();
+	stage = new StageSelect();
 	fonts = new Fonts();
 	fade = new ModuleFadeToBlack();
 	endScene = new EndScene();
@@ -50,6 +52,7 @@ App::App(int argc, char* args[]) : argc(argc), args(args)
 	AddModule(playerModule, false);
 	AddModule(physics, false);
 	AddModule(menu, false);
+	AddModule(stage, false);
 	AddModule(fonts, true);
 	AddModule(endScene, false);
 	AddModule(fade, true);

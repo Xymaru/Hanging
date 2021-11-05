@@ -5,36 +5,37 @@
 #include "Render.h"
 #include "Audio.h"
 #include "Input.h"
-#include "StageSelect.h"
 #include "ModuleFadeToBlack.h"
 #include "Fonts.h"
 #include "PlayerModule.h"
+#include "StageSelect.h"
 #include "GameScene.h"
 #include "Defs.h"
 #include "Defs.h"
 #include "Log.h"
 #include <iostream>
 
-MainMenu::MainMenu() : Module()
+
+StageSelect::StageSelect() : Module()
 {
 
 }
 
-MainMenu::~MainMenu()
+StageSelect::~StageSelect()
 {
 
 }
 
-bool MainMenu::Awake(pugi::xml_node& config)
+bool StageSelect::Awake(pugi::xml_node& config)
 {
-	LOG("Loading Menu");
+	LOG("Loading StageSelector");
 	bool ret = true;
 
 	return ret;
 }
 
 // Load assets
-bool MainMenu::Start()
+bool StageSelect::Start()
 {
 	LOG("Loading background assets");
 
@@ -44,6 +45,8 @@ bool MainMenu::Start()
 	app->render->camera.x = 0;
 	app->render->camera.y = 0;
 
+	//p_pos.x = p_x;
+	//p_pos.y = p_y;
 
 	char lookupTable[] = { "! @,_./0123456789$;< ?abcdefghijklmnopqrstuvwxyz" };
 	menuFont = app->fonts->Load("Assets/Fonts/rtype_font3.png", lookupTable, 2);
@@ -51,22 +54,22 @@ bool MainMenu::Start()
 	gamemenu = app->tex->Load("Assets/Textures/MainMenu.png");
 	gamecontrol = app->tex->Load("Assets/Textures/gamecontrol.png");
 	Pointer = app->tex->Load("Assets/Textures/main_menu_selector.png");
-	
+
 	// music and fx
 	titleMenuMusic = app->audio->PlayMusic("Assets/Music/Title Screen.ogg", 1.0f);
 	selectFx = app->audio->LoadFx("Assets/FX/choose.wav");
-	nextFx =app->audio->LoadFx("Assets/FX/press.wav");
+	nextFx = app->audio->LoadFx("Assets/FX/press.wav");
 	backFx = app->audio->LoadFx("Assets/FX/menu3_back.wav");
 
 	return ret;
 }
 
-bool MainMenu::PreUpdate(float dt)
+bool StageSelect::PreUpdate(float dt)
 {
 	return true;
 }
 
-bool MainMenu::Update(float dt)
+bool StageSelect::Update(float dt)
 {
 	bool ret = true;
 
@@ -91,28 +94,22 @@ bool MainMenu::Update(float dt)
 	{
 		if (M_Index == B_Play)
 		{
+			app->gameScene->gameLevel = app->gameScene->Level1;
 			app->audio->PlayFx(nextFx);
-			app->fade->FadeToBlack(this, app->stage);
+			app->fade->FadeToBlack(this, app->gameScene);
 		}
 		if (M_Index == B_Coop) {
-			display = true;
+			app->gameScene->gameLevel = app->gameScene->Level2;
+			app->audio->PlayFx(nextFx);
+			app->fade->FadeToBlack(this, app->gameScene);
 		}
 		if (M_Index == B_Exit)
 		{
-			ret = false;
+			app->fade->FadeToBlack(this, app->menu);
+			app->audio->PlayFx(backFx);
 		}
 		else {
 			app->audio->PlayFx(backFx);
-		}
-	}
-	if (display == false) {
-		if (app->input->GetKey(SDL_SCANCODE_ESCAPE) == KEY_DOWN) {		// ESC to close the game
-			ret = false;
-		}
-	}
-	if (display == true) {
-		if (app->input->GetKey(SDL_SCANCODE_ESCAPE) == KEY_DOWN) {		// ESC to close the game
-			display = false;
 		}
 	}
 
@@ -122,32 +119,21 @@ bool MainMenu::Update(float dt)
 
 
 // Update: draw background
-bool MainMenu::PostUpdate(float dt)
+bool StageSelect::PostUpdate(float dt)
 {
 	bool ret = true;
-	if (display == false) {
-		app->render->DrawTexture(gamemenu, 0, 0);
-		app->render->DrawTexture(Pointer, p_x, p_y);
-		app->fonts->BlitText(640 / 2 - 79, 612 / 2 + 110, menuFont, "play game");
-		app->fonts->BlitText(640 / 2 - 79, 612 / 2 + 140, menuFont, "game control");
-		app->fonts->BlitText(640 / 2 - 79, 612 / 2 + 170, menuFont, "exit game");
-	}
-	if (display == true) {
-		app->render->DrawTexture(gamecontrol, 0, 0);
-		app->fonts->BlitText(640 / 2 - 79, 612 / 2 - 100, menuFont, "a < go left");
-		app->fonts->BlitText(640 / 2 - 79, 612 / 2 - 80, menuFont, "d < go right");
-		app->fonts->BlitText(640 / 2 - 79, 612 / 2 - 60, menuFont, "space < jump");
-		app->fonts->BlitText(640 / 2 - 79, 612 / 2 - 40, menuFont, "f1 < debug key");
-		app->fonts->BlitText(640 / 2 - 79, 612 / 2 - 20, menuFont, "f2 < god mod");
-		app->fonts->BlitText(640 / 2 - 79, 612 / 2 , menuFont, "press esc < back to menu");
-	}
+	app->render->DrawTexture(gamemenu, 0, 0);
+	app->render->DrawTexture(Pointer, p_x, p_y);
+	app->fonts->BlitText(640 / 2 - 79, 612 / 2 + 110, menuFont, "play level1");
+	app->fonts->BlitText(640 / 2 - 79, 612 / 2 + 140, menuFont, "play level2");
+	app->fonts->BlitText(640 / 2 - 79, 612 / 2 + 170, menuFont, "back to menu");
 
 	return ret;
 }
 
-bool MainMenu::CleanUp()
+bool StageSelect::CleanUp()
 {
-	LOG("Freeing menu");
+	LOG("Freeing StageSelector");
 
 	return true;
 }
