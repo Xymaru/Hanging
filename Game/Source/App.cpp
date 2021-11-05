@@ -51,9 +51,8 @@ App::App(int argc, char* args[]) : argc(argc), args(args)
 	AddModule(physics, false);
 	AddModule(menu, false);
 	AddModule(fonts, true);
-	AddModule(fade, true);
 	AddModule(endScene, false);
-
+	AddModule(fade, true);
 
 	// Render last to swap buffer
 	AddModule(render, true);

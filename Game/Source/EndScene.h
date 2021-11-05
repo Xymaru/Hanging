@@ -31,7 +31,8 @@ public:
 	// Called before quitting
 	bool CleanUp();
 
-
+	// called when reactivated
+	void ReStart();
 public:
 	// Player has won the level
 	bool win;

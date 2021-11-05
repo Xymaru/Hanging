@@ -2,7 +2,7 @@
 <!-- L01: DONE 1: Create configuration file-->
 <config>
   <app>
-    <title>Game Development Testbed</title>
+    <title>Hanging</title>
     <organization>UPC</organization>
   </app>
 
@@ -20,4 +20,8 @@
   <map>
     <folder>Assets/textures/map/</folder>
   </map>
+  
+  <physics>
+	<gravity value="9.8"/>
+  </physics>
 </config>

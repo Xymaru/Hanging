@@ -3,8 +3,7 @@
 #include "Box2D/Box2D/Box2D.h"
 #include "App.h"
 
-#define GRAVITY_X 0.0f
-#define GRAVITY_Y -7.0f
+#define DEFAULT_GRAVITY 9.8f
 
 #define DEGTORAD 0.0174532925199432957f
 #define RADTODEG 57.295779513082320876f
@@ -64,6 +63,7 @@ public:
 	void BeginContact(b2Contact* contact);
 
 private:
+	float gravity;
 
 	bool debug;
 	b2World* world;

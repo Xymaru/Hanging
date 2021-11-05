@@ -6,6 +6,8 @@
 
 #include "SDL/include/SDL_render.h"
 
+#include <iostream>
+
 ModuleFadeToBlack::ModuleFadeToBlack() : Module()
 {
 	screenRect = { 0, 0, 640 , 612 };
@@ -36,7 +38,9 @@ bool ModuleFadeToBlack::Update(float dt)
 		timer += dt;
 		if (timer >= time)
 		{
+			moduleToDisable->Deactivate();
 			moduleToDisable->Disable();
+
 			moduleToEnable->Enable();
 			moduleToEnable->Activate();
 			currentStep = Fade_Step::FROM_BLACK;
@@ -62,6 +66,8 @@ bool ModuleFadeToBlack::PostUpdate(float dt)
 
 	float fadeRatio = timer / time;
 
+	fadeRatio = CAP(fadeRatio, 0.0f, 1.0f);
+
 	// Render the black square with alpha on the screen
 	SDL_SetRenderDrawColor(app->render->renderer, 0, 0, 0, (Uint8)(fadeRatio * 255.0f));
 	SDL_RenderFillRect(app->render->renderer, &screenRect);
@@ -83,13 +89,15 @@ bool ModuleFadeToBlack::FadeToBlack(Module* moduleToDisable, Module* moduleToEna
 		this->moduleToDisable = moduleToDisable;
 		this->moduleToEnable = moduleToEnable;
 
-		moduleToDisable->Deactivate();
-
 		if (instant_out) {
 			timer = fadeTime;
-			moduleToEnable->Enable();
-			moduleToEnable->Activate();
+
 			moduleToDisable->Disable();
+			moduleToEnable->Enable();
+
+			moduleToDisable->Deactivate();
+			moduleToEnable->Activate();
+			
 			currentStep = Fade_Step::FROM_BLACK;
 		}
 

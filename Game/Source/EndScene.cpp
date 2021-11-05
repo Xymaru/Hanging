@@ -105,3 +105,9 @@ bool EndScene::CleanUp()
 
 	return true;
 }
+
+void EndScene::ReStart()
+{
+	app->render->camera.x = 0;
+	app->render->camera.y = 0;
+}

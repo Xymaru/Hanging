@@ -13,6 +13,7 @@
 
 ModulePhysics::ModulePhysics() : Module()
 {
+	name.Create("physics");
 	world = NULL;
 	mouse_joint = NULL;
 	debug = true;
@@ -29,7 +30,9 @@ bool ModulePhysics::Awake(pugi::xml_node& config)
 {
 	LOG("Creating Physics 2D environment");
 
-	world = new b2World(b2Vec2(GRAVITY_X, -GRAVITY_Y));
+	gravity = config.child("gravity").attribute("value").as_float(DEFAULT_GRAVITY);
+
+	world = new b2World(b2Vec2(0, gravity));
 	world->SetContactListener(this);
 
 	// needed to create joints like mouse joint
