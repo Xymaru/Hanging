@@ -25,7 +25,7 @@ EndScene::~EndScene()
 
 }
 
-bool EndScene::Awake()
+bool EndScene::Awake(pugi::xml_node& config)
 {
 	LOG("Loading Menu");
 	bool ret = true;

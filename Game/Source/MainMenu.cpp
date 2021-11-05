@@ -24,7 +24,7 @@ MainMenu::~MainMenu()
 
 }
 
-bool MainMenu::Awake()
+bool MainMenu::Awake(pugi::xml_node& config)
 {
 	LOG("Loading Menu");
 	bool ret = true;

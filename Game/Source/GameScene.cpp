@@ -23,7 +23,7 @@ GameScene::~GameScene()
 {}
 
 // Called before render is available
-bool GameScene::Awake()
+bool GameScene::Awake(pugi::xml_node& config)
 {
 	LOG("Loading Scene");
 	bool ret = true;

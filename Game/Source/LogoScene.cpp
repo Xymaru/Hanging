@@ -24,7 +24,7 @@ LogoScene::~LogoScene()
 {}
 
 // Called before render is available
-bool LogoScene::Awake()
+bool LogoScene::Awake(pugi::xml_node& config)
 {
 	LOG("Loading Scene");
 	bool ret = true;
