@@ -48,22 +48,22 @@ private:
 
 	float anim_speed;
 
-	int sprite_offset_x;
+	int spriteOffsetX;
 
-	int sprite_offset_xleft;
-	int sprite_offset_xright;
+	int spriteOffsetXLeft;
+	int spriteOffsetXRight;
 
-	int player_width;
-	int player_height;
+	int playerWidth;
+	int playerHeight;
 
 	// Sprite width and height
-	int player_sprite_w;
-	int player_sprite_h;
+	int playerSpriteWidth;
+	int playerSpriteHeight;
 
-	float player_jumpForce;
+	float playerJumpForce;
 
-	PlayerState player_state;
-	SDL_RendererFlip player_flip;
+	PlayerState playerState;
+	SDL_RendererFlip playerFlip;
 
 	Animation animations[PlayerState::LAST];
 
@@ -77,6 +77,8 @@ private:
 	PhysBody* playerBody;
 
 	float player_deadForce;
+
+	bool playerGodmode;
 
 	void InitAnimations();
 	void PlayerControl();
