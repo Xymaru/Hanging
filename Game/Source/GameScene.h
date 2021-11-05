@@ -35,6 +35,9 @@ public:
 	// Called to activate module
 	void Activate();
 
+	// called to deactivate module
+	void Deactivate();
+
 	void InitMapLevel();
 
 private:

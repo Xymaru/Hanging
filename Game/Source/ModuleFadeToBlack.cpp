@@ -73,8 +73,6 @@ bool ModuleFadeToBlack::FadeToBlack(Module* moduleToDisable, Module* moduleToEna
 {
 	bool ret = false;
 
-	moduleToDisable->Deactivate();
-
 	// If we are already in a fade process, ignore this call
 	if(currentStep == Fade_Step::NONE)
 	{
@@ -84,6 +82,8 @@ bool ModuleFadeToBlack::FadeToBlack(Module* moduleToDisable, Module* moduleToEna
 
 		this->moduleToDisable = moduleToDisable;
 		this->moduleToEnable = moduleToEnable;
+
+		moduleToDisable->Deactivate();
 
 		if (instant_out) {
 			timer = fadeTime;

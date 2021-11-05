@@ -58,6 +58,8 @@ bool EndScene::Start()
 	nextFx = app->audio->LoadFx("Assets/FX/press.wav");
 	backFx = app->audio->LoadFx("Assets/FX/menu3_back.wav");
 
+	win = false;
+
 	return ret;
 }
 
@@ -84,15 +86,15 @@ bool EndScene::Update(float dt)
 bool EndScene::PostUpdate(float dt)
 {
 	bool ret = true;
-	/*if (playeralive == false) {
-		app->render->DrawTexture(gamemenu, 0, 0);
-		app->fonts->BlitText(640 / 2 - 79, 612 / 2 + 110, menuFont, "play game");
-		app->fonts->BlitText(640 / 2 - 79, 612 / 2 + 140, menuFont, "game control");
-		app->fonts->BlitText(640 / 2 - 79, 612 / 2 + 170, menuFont, "exit game");
+
+	app->render->DrawTexture(gamemenu, 0, 0);
+
+	if (win) {
+		app->fonts->BlitText(640 / 2 - 79, 612 / 2 + 110, menuFont, "You won!");
 	}
-	if (playeralive == true) {
-		app->render->DrawTexture(gamemenu, 0, 0);
-	}*/
+	else {
+		app->fonts->BlitText(640 / 2 - 79, 612 / 2 + 110, menuFont, "You lost!");
+	}
 
 	return ret;
 }

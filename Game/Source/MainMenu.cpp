@@ -93,7 +93,7 @@ bool MainMenu::Update(float dt)
 		if (M_Index == B_Play)
 		{
 			app->audio->PlayFx(nextFx);
-			app->fade->FadeToBlack(this, app->gameScene, 2.0f, true);
+			app->fade->FadeToBlack(this, app->gameScene, 2.0f);
 		}
 		if (M_Index == B_Coop) {
 			display = true;

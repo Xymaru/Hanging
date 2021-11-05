@@ -81,7 +81,14 @@ void GameScene::Activate()
 	InitMapLevel();
 }
 
-#include <iostream>
+void GameScene::Deactivate()
+{
+	Module::Deactivate();
+
+	app->playerModule->Deactivate();
+	app->map->Deactivate();
+	app->physics->Deactivate();
+}
 
 void GameScene::InitMapLevel()
 {

@@ -33,6 +33,9 @@ public:
 
 
 public:
+	// Player has won the level
+	bool win;
+
 	// Font index
 	int menuFont = -1;
 

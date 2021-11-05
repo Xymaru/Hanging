@@ -7,6 +7,8 @@
 #include "PlayerModule.h"
 #include "Map.h"
 #include "ModuleFadeToBlack.h"
+#include "EndScene.h"
+#include "GameScene.h"
 
 #include "Defs.h"
 #include "Log.h"
@@ -87,7 +89,7 @@ bool PlayerModule::Update(float dt)
 	}
 	else {
 		if (position.y >= app->win->getWindowHeight()) {
-			// Change screen to endScreen
+			app->fade->FadeToBlack(app->gameScene, app->endScene);
 		}
 	}
 	
@@ -145,8 +147,8 @@ void PlayerModule::OnCollision(PhysBody * bodyA, PhysBody * bodyB)
 	}
 
 	if (bodyB->bodyType == PhysBodyType::END) {
-		// Set endScene win to true
-		// Change scene to endScene
+		app->endScene->win = true;
+		app->fade->FadeToBlack(app->gameScene, app->endScene);
 	}
 
 	if (bodyB->bodyType == PhysBodyType::SPIKES) {
