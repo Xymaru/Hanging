@@ -1078,7 +1078,7 @@
  </layer>
  <layer id="4" name="Collisions" width="44" height="12">
   <properties>
-   <property name="draw" type="int" value="1"/>
+   <property name="draw" type="int" value="0"/>
   </properties>
   <data>
    <tile/>
