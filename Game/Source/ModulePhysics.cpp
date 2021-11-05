@@ -16,15 +16,13 @@ ModulePhysics::ModulePhysics() : Module()
 	name.Create("physics");
 	world = NULL;
 	mouse_joint = NULL;
-	debug = true;
+	debug = false;
 }
 
 // Destructor
 ModulePhysics::~ModulePhysics()
 {
 }
-
-#include <iostream>
 
 bool ModulePhysics::Awake(pugi::xml_node& config)
 {
@@ -211,7 +209,7 @@ PhysBody* ModulePhysics::CreateChain(int x, int y, int* points, int size, bool d
 // 
 bool ModulePhysics::PostUpdate(float dt)
 {
-	if(app->input->GetKey(SDL_SCANCODE_F1) == KEY_DOWN)
+	if(app->input->GetKey(SDL_SCANCODE_F9) == KEY_DOWN)
 		debug = !debug;
 
 	if(!debug)
