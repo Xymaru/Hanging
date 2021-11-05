@@ -11,6 +11,12 @@ public:
 
 	GameScene();
 
+	enum GameLevel {
+		Level1,
+		Level2,
+		None
+	};
+
 	// Destructor
 	virtual ~GameScene();
 
@@ -40,6 +46,9 @@ public:
 
 	void InitMapLevel();
 
+	void ReStart();
+
+	GameLevel gameLevel;
 private:
 
 };

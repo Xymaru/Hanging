@@ -39,6 +39,8 @@ public:
 
 	// Called when player collides with an object
 	void OnCollision(PhysBody* bodyA, PhysBody* bodyB);
+
+	void ReStart();
 private:
 	enum PlayerState {
 		DEAD, HURT, IDLE, JUMP, WALK, LAST

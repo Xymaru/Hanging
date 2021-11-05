@@ -417,3 +417,17 @@ void ModulePhysics::BeginContact(b2Contact* contact)
 	if(physB && physB->listener != NULL)
 		physB->listener->OnCollision(physB, physA);
 }
+
+void ModulePhysics::ReStart()
+{
+	if (world) {
+		delete world;
+	}
+
+	world = new b2World(b2Vec2(0, gravity));
+	world->SetContactListener(this);
+
+	// needed to create joints like mouse joint
+	b2BodyDef bd;
+	ground = world->CreateBody(&bd);
+}

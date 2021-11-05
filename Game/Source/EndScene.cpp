@@ -96,6 +96,10 @@ bool EndScene::PostUpdate(float dt)
 		app->fonts->BlitText(640 / 2 - 79, 612 / 2 + 110, menuFont, "You lost!");
 	}
 
+	if (app->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN) {
+		app->fade->FadeToBlack(this, app->menu);
+	}
+
 	return ret;
 }
 

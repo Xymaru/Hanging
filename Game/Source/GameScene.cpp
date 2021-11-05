@@ -8,6 +8,7 @@
 #include "PlayerModule.h"
 #include "Map.h"
 #include "ModulePhysics.h"
+#include "EndScene.h"
 
 #include "Defs.h"
 #include "Log.h"
@@ -34,7 +35,8 @@ bool GameScene::Awake()
 bool GameScene::Start()
 {
 	//app->audio->PlayMusic("Assets/Audio/Music/music_spy.ogg");
-	app->map->Load("hanging.tmx");
+
+	gameLevel = GameLevel::Level1;
 
 	return true;
 }
@@ -74,9 +76,9 @@ void GameScene::Activate()
 {
 	Module::Activate();
 
+	app->physics->Activate();
 	app->playerModule->Activate();
 	app->map->Activate();
-	app->physics->Activate();
 
 	InitMapLevel();
 }
@@ -92,6 +94,15 @@ void GameScene::Deactivate()
 
 void GameScene::InitMapLevel()
 {
+	switch (gameLevel) {
+	case GameLevel::Level1:
+		app->map->Load("level_1.tmx");
+		break;
+	case GameLevel::Level2:
+		app->map->Load("level_2.tmx");
+		break;
+	}
+
 	// Physworld box
 	MapData* mapData = &app->map->mapData;
 	uint size = mapData->layers.Count();
@@ -137,4 +148,9 @@ void GameScene::InitMapLevel()
 			}
 		}
 	}
+}
+
+void GameScene::ReStart()
+{
+	app->endScene->win = false;
 }

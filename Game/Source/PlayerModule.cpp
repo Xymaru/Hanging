@@ -59,12 +59,6 @@ bool PlayerModule::Start()
 	position.y = 0;
 	moveSpeed = 3;
 
-	playerBody = app->physics->CreateRectangle(position.x + player_width/2, position.y + player_height/2 + (player_sprite_h - player_height) / 2, player_width, player_height, true);
-	playerBody->body->SetFixedRotation(true);
-	playerBody->body->SetSleepingAllowed(false);
-	playerBody->bodyType = PhysBodyType::PLAYER;
-	playerBody->listener = this;
-
 	cameraBound = app->win->GetWindowWidth() / 2 - player_width / 2;
 
 	InitAnimations();
@@ -165,6 +159,18 @@ void PlayerModule::OnCollision(PhysBody * bodyA, PhysBody * bodyB)
 
 		playerBody->body->GetFixtureList()->SetSensor(true);
 	}
+}
+
+void PlayerModule::ReStart()
+{
+	playerBody = app->physics->CreateRectangle(position.x + player_width / 2, position.y + player_height / 2 + (player_sprite_h - player_height) / 2, player_width, player_height, true);
+	playerBody->body->SetFixedRotation(true);
+	playerBody->body->SetSleepingAllowed(false);
+	playerBody->bodyType = PhysBodyType::PLAYER;
+	playerBody->listener = this;
+
+	player_state = IDLE;
+	player_flip = SDL_FLIP_NONE;
 }
 
 void PlayerModule::InitAnimations()
