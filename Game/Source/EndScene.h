@@ -1,18 +1,18 @@
-#ifndef __MAIN_MENU_H__  // ADRIAN: .H DE TITLESCREEN
-#define __MAIN_MENU_H__
+#ifndef __END_SCENE_H__  // ADRIAN: .H DE TITLESCREEN
+#define __END_SCENE_H__
 
 #include "Module.h"
 //#include "Animation.h"
 
 struct SDL_Texture;
 
-class MainMenu : public Module
+class EndScene : public Module
 {
 public:
 
-	MainMenu();
+	EndScene();
 
-	virtual ~MainMenu();
+	virtual ~EndScene();
 
 	bool Awake();
 
@@ -33,25 +33,12 @@ public:
 
 
 public:
-	int p_x = 640 / 2 - 100;
-	int p_y = 612 / 2 + 110;
-
-	int display = false;
-	//SDL_Rect p_pos;
-
 	// Font index
 	int menuFont = -1;
 
 	//Menu Buttons
-	const int B_Play = 2;
-	const int B_Coop = 1;
-	const int B_Exit = 0;
-
-	int M_Index = 2;
 
 	SDL_Texture* gamemenu;
-	SDL_Texture* gamecontrol;
-	SDL_Texture* Pointer;
 	// Music and FX
 	uint titleMenuMusic = 0;
 	uint selectFx = 0;

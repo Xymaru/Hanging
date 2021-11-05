@@ -11,6 +11,7 @@
 #include "ModulePhysics.h"
 #include "MainMenu.h"
 #include "Fonts.h"
+#include "EndScene.h"
 #include "ModuleFadeToBlack.h"
 
 #include "Defs.h"
@@ -35,6 +36,7 @@ App::App(int argc, char* args[]) : argc(argc), args(args)
 	menu = new MainMenu();
 	fonts = new Fonts();
 	fade = new ModuleFadeToBlack();
+	endScene = new EndScene();
 
 	// Ordered for awake / Start / Update
 	// Reverse order of CleanUp
@@ -50,6 +52,7 @@ App::App(int argc, char* args[]) : argc(argc), args(args)
 	AddModule(menu, false);
 	AddModule(fonts, true);
 	AddModule(fade, true);
+	AddModule(endScene, false);
 
 
 	// Render last to swap buffer

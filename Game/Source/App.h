@@ -20,6 +20,7 @@ class ModulePhysics;
 class MainMenu;
 class Fonts;
 class ModuleFadeToBlack;
+class EndScene;
 
 class App
 {
@@ -88,6 +89,7 @@ public:
 	MainMenu* menu;
 	Fonts* fonts;
 	ModuleFadeToBlack* fade;
+	EndScene* endScene;
 
 private:
 

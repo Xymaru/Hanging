@@ -50,6 +50,8 @@ bool MainMenu::Start()
 	menuFont = app->fonts->Load("Assets/Fonts/rtype_font3.png", lookupTable, 2);
 
 	gamemenu = app->tex->Load("Assets/Textures/MainMenu.png");
+	gamecontrol = app->tex->Load("Assets/Textures/gamecontrol.png");
+	Pointer = app->tex->Load("Assets/Textures/main_menu_selector.png");
 	
 	// music and fx
 	titleMenuMusic = app->audio->PlayMusic("Assets/Music/Title Screen.ogg", 1.0f);
@@ -75,7 +77,7 @@ bool MainMenu::Update(float dt)
 		{
 			app->audio->PlayFx(selectFx);
 			M_Index++;
-			p_y -= 13;
+			p_y -= 30;
 		}
 	}
 	if (app->input->GetKey(SDL_SCANCODE_S) == KEY_DOWN) {
@@ -83,7 +85,7 @@ bool MainMenu::Update(float dt)
 		{
 			app->audio->PlayFx(selectFx);
 			M_Index--;
-			p_y += 13;
+			p_y += 30;
 		}
 	}
 	if (app->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN)
@@ -91,7 +93,10 @@ bool MainMenu::Update(float dt)
 		if (M_Index == B_Play)
 		{
 			app->audio->PlayFx(nextFx);
-			app->fade->FadeToBlack(this, app->gameScene, 1.0f, false);
+			app->fade->FadeToBlack(this, app->gameScene, 2.0f, true);
+		}
+		if (M_Index == B_Coop) {
+			display = true;
 		}
 		if (M_Index == B_Exit)
 		{
@@ -101,8 +106,15 @@ bool MainMenu::Update(float dt)
 			app->audio->PlayFx(backFx);
 		}
 	}
-	if (app->input->GetKey(SDL_SCANCODE_ESCAPE) == KEY_DOWN) {		// ESC to close the game
-		ret = false;
+	if (display == false) {
+		if (app->input->GetKey(SDL_SCANCODE_ESCAPE) == KEY_DOWN) {		// ESC to close the game
+			ret = false;
+		}
+	}
+	if (display == true) {
+		if (app->input->GetKey(SDL_SCANCODE_ESCAPE) == KEY_DOWN) {		// ESC to close the game
+			display = false;
+		}
 	}
 
 	return ret;
@@ -114,14 +126,22 @@ bool MainMenu::Update(float dt)
 bool MainMenu::PostUpdate(float dt)
 {
 	bool ret = true;
-	// Draw everything --------------------------------------
-	app->render->DrawTexture(gamemenu, 0, 0);
-	
-	//app->render->Blit(Pointer, p_x, p_y, NULL);
-
-	/*app->fonts->BlitText(SCREEN_WIDTH / 2 - 30, SCREEN_HEIGHT / 2 + 33, menuFont, "play game");
-	app->fonts->BlitText(SCREEN_WIDTH / 2 - 30, SCREEN_HEIGHT / 2 + 46, menuFont, "coop mode");
-	app->fonts->BlitText(SCREEN_WIDTH / 2 - 30, SCREEN_HEIGHT / 2 + 59, menuFont, "exit game");*/
+	if (display == false) {
+		app->render->DrawTexture(gamemenu, 0, 0);
+		app->render->DrawTexture(Pointer, p_x, p_y);
+		app->fonts->BlitText(640 / 2 - 79, 612 / 2 + 110, menuFont, "play game");
+		app->fonts->BlitText(640 / 2 - 79, 612 / 2 + 140, menuFont, "game control");
+		app->fonts->BlitText(640 / 2 - 79, 612 / 2 + 170, menuFont, "exit game");
+	}
+	if (display == true) {
+		app->render->DrawTexture(gamecontrol, 0, 0);
+		app->fonts->BlitText(640 / 2 - 79, 612 / 2 - 100, menuFont, "a < go left");
+		app->fonts->BlitText(640 / 2 - 79, 612 / 2 - 80, menuFont, "d < go right");
+		app->fonts->BlitText(640 / 2 - 79, 612 / 2 - 60, menuFont, "space < jump");
+		app->fonts->BlitText(640 / 2 - 79, 612 / 2 - 40, menuFont, "f1 < debug key");
+		app->fonts->BlitText(640 / 2 - 79, 612 / 2 - 20, menuFont, "f2 < god mod");
+		app->fonts->BlitText(640 / 2 - 79, 612 / 2 , menuFont, "press esc < back to menu");
+	}
 
 	return ret;
 }
