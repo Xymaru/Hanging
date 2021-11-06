@@ -46,11 +46,16 @@ public:
 
 	void InitMapLevel();
 
-	void ReStart();
-
 	GameLevel gameLevel;
 private:
+	void SaveGameState();
+	void LoadGameState();
 
+	bool fromGameSaved = false;
+
+	iPoint playerPosition;
+	int playerState;
+	iPoint cameraPosition;
 };
 
 #endif // __GAME_SCENE_H__

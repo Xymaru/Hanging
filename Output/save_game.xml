@@ -1,12 +1,6 @@
 <?xml version="1.0"?>
-<!-- L02: TODO 4: Create a simulation xml file to read -->
 <game_state>
-	<input />
-	<window />
-	<textures />
-	<audio />
-	<scene />
-	<renderer>
-		<camera x="0" y="0" />
-	</renderer>
+	<level value="0" />
+	<player x="756" y="378" state="3" />
+	<camera x="456" y="0" />
 </game_state>

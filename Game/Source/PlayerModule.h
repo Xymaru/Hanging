@@ -37,10 +37,14 @@ public:
 	// Set position of the player
 	void SetPosition(int x, int y);
 
+	// Set player state
+	void SetState(int state);
+
 	// Called when player collides with an object
 	void OnCollision(PhysBody* bodyA, PhysBody* bodyB);
 
 	void ReStart();
+	void SavePlayer(pugi::xml_node& node);
 private:
 	enum PlayerState {
 		DEAD, HURT, IDLE, JUMP, WALK, LAST

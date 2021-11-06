@@ -30,6 +30,8 @@ bool EndScene::Awake(pugi::xml_node& config)
 	LOG("Loading Menu");
 	bool ret = true;
 
+	win = false;
+
 	return ret;
 }
 
@@ -57,8 +59,6 @@ bool EndScene::Start()
 	selectFx = app->audio->LoadFx("Assets/FX/choose.wav");
 	nextFx = app->audio->LoadFx("Assets/FX/press.wav");
 	backFx = app->audio->LoadFx("Assets/FX/menu3_back.wav");
-
-	win = false;
 
 	return ret;
 }

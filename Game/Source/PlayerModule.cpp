@@ -124,6 +124,11 @@ void PlayerModule::SetPosition(int x, int y)
 	playerBody->body->SetTransform(b2Vec2(PIXEL_TO_METERS(position.x + playerWidth / 2), PIXEL_TO_METERS(position.y + playerHeight / 2 + (playerSpriteHeight - playerHeight) / 2)), 0);
 }
 
+void PlayerModule::SetState(int state)
+{
+	playerState = (PlayerState)state;
+}
+
 void PlayerModule::OnCollision(PhysBody * bodyA, PhysBody * bodyB)
 {
 	if (playerGodmode) return;
@@ -163,6 +168,13 @@ void PlayerModule::OnCollision(PhysBody * bodyA, PhysBody * bodyB)
 
 		playerBody->body->GetFixtureList()->SetSensor(true);
 	}
+}
+
+void PlayerModule::SavePlayer(pugi::xml_node & save)
+{
+	save.attribute("x") = position.x;
+	save.attribute("y") = position.y;
+	save.attribute("state") = playerState;
 }
 
 void PlayerModule::ReStart()
