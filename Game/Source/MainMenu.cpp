@@ -134,12 +134,12 @@ bool MainMenu::PostUpdate(float dt)
 	}
 	if (display == true) {
 		app->render->DrawTexture(gamecontrol, 0, 0);
-		app->fonts->BlitText(640 / 2 - 79, 612 / 2 - 100, menuFont, "a < go left");
-		app->fonts->BlitText(640 / 2 - 79, 612 / 2 - 80, menuFont, "d < go right");
-		app->fonts->BlitText(640 / 2 - 79, 612 / 2 - 60, menuFont, "space < jump");
-		app->fonts->BlitText(640 / 2 - 79, 612 / 2 - 40, menuFont, "f1 < debug key");
-		app->fonts->BlitText(640 / 2 - 79, 612 / 2 - 20, menuFont, "f2 < god mod");
-		app->fonts->BlitText(640 / 2 - 79, 612 / 2 , menuFont, "press esc < back to menu");
+		app->fonts->BlitText(640 / 2 - 100, 612 / 2 - 100, menuFont, "a d < move space < jump");
+		app->fonts->BlitText(640 / 2 - 100, 612 / 2 - 80, menuFont, "f1 f2 < play level1 and 2");
+		app->fonts->BlitText(640 / 2 - 100, 612 / 2 - 60, menuFont, "f5 < save game f6 < load game");
+		app->fonts->BlitText(640 / 2 - 100, 612 / 2 - 40, menuFont, "f9 < view colliders");
+		app->fonts->BlitText(640 / 2 - 100, 612 / 2 - 20, menuFont, "f10 < god mod");
+		app->fonts->BlitText(640 / 2 - 100, 612 / 2 , menuFont, "press esc < back to menu");
 	}
 
 	return ret;
