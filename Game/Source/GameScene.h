@@ -47,6 +47,8 @@ public:
 	void InitMapLevel();
 
 	GameLevel gameLevel;
+
+	uint bg_music;
 private:
 	void SaveGameState();
 	void LoadGameState();

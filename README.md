@@ -1,26 +1,27 @@
-# {Project Name}
+# {PH-Platformer-Alpha}
 
 ## Description
 
-{project description}
+{We are two students from CITM, It's our 2D platformer game called Hanging.}
 
 ## Key Features
 
- - {Feature01}
- - {Feature02}
- - {Feature03}
- - {Feature04}
- 
+ - {F1/F2 start from the first/second level}
+ - {F3 - Start from the beginning of the current level}
+ - {F5 -  Save the current game state}
+ - {F6 -  Load the previous state}
+ - {F9 - View colliders/logic}
+ - {F10 - God Mode}
+
 ## Controls
 
- - {ControlsScheme}
+ - {A , D  - move}
+ - {SPACE - jump}
 
 ## Developers
 
- - {Dev01} - {Role(s)}
- - {Dev02} - {Role(s)}
- - {Dev03} - {Role(s)}
- - {Dev04} - {Role(s)}
+ - {Hang Xue} - {programmer, artist}
+ - {Pablo Llorente} - {programmer, developer}
 
 ## License
 

@@ -37,7 +37,7 @@ bool GameScene::Awake(pugi::xml_node& config)
 // Called before the first frame
 bool GameScene::Start()
 {
-	//app->audio->PlayMusic("Assets/Audio/Music/music_spy.ogg");
+	bg_music = app->audio->LoadFx("Assets/Audio/Music/bg.ogg");
 	if (fromGameSaved) {
 		app->render->camera.x = cameraPosition.x;
 		app->render->camera.y = cameraPosition.y;
@@ -49,6 +49,7 @@ bool GameScene::Start()
 
 	app->endScene->win = false;
 
+	app->audio->PlayMusic("Assets/Audio/Music/bg.ogg", 1.0f);
 	return true;
 }
 
@@ -61,6 +62,7 @@ bool GameScene::PreUpdate(float dt)
 // Called each loop iteration
 bool GameScene::Update(float dt)
 {
+	app->audio->PlayFx(bg_music, 2);
 	if (app->input->GetKey(SDL_SCANCODE_F3) == KEY_DOWN) {
 		app->fade->FadeToBlack(this, this);
 	}

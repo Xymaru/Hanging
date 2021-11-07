@@ -37,6 +37,7 @@ bool PlayerModule::Awake(pugi::xml_node& config)
 bool PlayerModule::Start()
 {
 	playerTex = app->tex->Load("Assets/Textures/player.png");
+	jump = app->audio->LoadFx("Assets/Audio/Fx/jump.wav");
 
 	playerState = PlayerState::IDLE;
 	playerFlip = SDL_FLIP_NONE;
@@ -304,6 +305,11 @@ void PlayerModule::PlayerControl()
 			if (playerState != JUMP && playerState != DEAD) {
 				playerState = JUMP;
 				playerBody->body->ApplyForceToCenter(b2Vec2(0, -playerJumpForce), true);
+				if (fx_on)
+				{
+					app->audio->PlayFx(jump);
+					fx_on = false;
+				}
 			}
 		}
 	}

@@ -60,6 +60,11 @@ private:
 	int playerWidth;
 	int playerHeight;
 
+	uint jump;
+	uint lose;
+	uint win;
+
+	bool fx_on;
 	// Sprite width and height
 	int playerSpriteWidth;
 	int playerSpriteHeight;
