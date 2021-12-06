@@ -22,6 +22,7 @@ class StageSelect;
 class Fonts;
 class ModuleFadeToBlack;
 class EndScene;
+class PathFinding;
 
 class App
 {
@@ -92,6 +93,7 @@ public:
 	ModuleFadeToBlack* fade;
 	EndScene* endScene;
 	StageSelect* stage;
+	PathFinding* pathfinding;
 
 private:
 

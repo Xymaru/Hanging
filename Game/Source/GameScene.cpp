@@ -10,6 +10,8 @@
 #include "ModulePhysics.h"
 #include "EndScene.h"
 #include "ModuleFadeToBlack.h"
+#include "Map.h"
+#include "Pathfinding.h"
 
 #include "Defs.h"
 #include "Log.h"
@@ -38,6 +40,14 @@ bool GameScene::Awake(pugi::xml_node& config)
 bool GameScene::Start()
 {
 	bg_music = app->audio->LoadFx("Assets/Audio/Music/bg.ogg");
+
+	int width, height;
+	uchar* buffer;
+
+	if (app->map->CreateWalkabilityMap(width, height, &buffer)) {
+		app->pathfinding->SetMap(width, height, buffer);
+	}
+
 	if (fromGameSaved) {
 		app->render->camera.x = cameraPosition.x;
 		app->render->camera.y = cameraPosition.y;
@@ -49,7 +59,7 @@ bool GameScene::Start()
 
 	app->endScene->win = false;
 
-	app->audio->PlayMusic("Assets/Audio/Music/bg.ogg", 1.0f);
+	//app->audio->PlayMusic("Assets/Audio/Music/bg.ogg", 1.0f);
 	return true;
 }
 
@@ -73,6 +83,10 @@ bool GameScene::Update(float dt)
 
 	if (app->input->GetKey(SDL_SCANCODE_F6) == KEY_DOWN) {
 		LoadGameState();
+	}
+
+	if (app->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN) {
+
 	}
 
 	return true;

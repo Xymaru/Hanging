@@ -37,6 +37,8 @@ public:
 	// Set position of the player
 	void SetPosition(int x, int y);
 
+	iPoint GetPosition() { return position; }
+
 	// Set player state
 	void SetState(int state);
 

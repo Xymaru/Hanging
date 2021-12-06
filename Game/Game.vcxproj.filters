@@ -24,6 +24,7 @@
     <ClCompile Include="Source\ModuleFadeToBlack.cpp" />
     <ClCompile Include="Source\EndScene.cpp" />
     <ClCompile Include="Source\StageSelect.cpp" />
+    <ClCompile Include="Source\Pathfinding.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Window.h" />
@@ -74,6 +75,7 @@
     <ClInclude Include="Source\ModuleFadeToBlack.h" />
     <ClInclude Include="Source\EndScene.h" />
     <ClInclude Include="Source\StageSelect.h" />
+    <ClInclude Include="Source\Pathfinding.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="External">

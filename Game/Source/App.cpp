@@ -14,6 +14,7 @@
 #include "Fonts.h"
 #include "EndScene.h"
 #include "ModuleFadeToBlack.h"
+#include "Pathfinding.h"
 
 #include "Defs.h"
 #include "Log.h"
@@ -39,6 +40,7 @@ App::App(int argc, char* args[]) : argc(argc), args(args)
 	fonts = new Fonts();
 	fade = new ModuleFadeToBlack();
 	endScene = new EndScene();
+	pathfinding = new PathFinding();
 
 	// Ordered for awake / Start / Update
 	// Reverse order of CleanUp
@@ -49,6 +51,7 @@ App::App(int argc, char* args[]) : argc(argc), args(args)
 	AddModule(logoScene, true);
 	AddModule(gameScene, false);
 	AddModule(map, false);
+	AddModule(pathfinding, true);
 	AddModule(playerModule, false);
 	AddModule(physics, false);
 	AddModule(menu, false);
