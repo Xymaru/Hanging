@@ -62,6 +62,9 @@ App::App(int argc, char* args[]) : argc(argc), args(args)
 
 	// Render last to swap buffer
 	AddModule(render, true);
+
+	ptimer = new PerfTimer();
+	frameDuration = new PerfTimer();
 }
 
 // Destructor
@@ -110,6 +113,7 @@ bool App::Awake()
 			ret = item->data->Awake(config.child(item->data->name.GetString()));
 			item = item->next;
 		}
+		maxFrameRate = configApp.child("frcap").attribute("value").as_int();
 	}
 
 	return ret;
@@ -118,6 +122,9 @@ bool App::Awake()
 // Called before the first frame
 bool App::Start()
 {
+	startupTime.Start();
+	lastSecFrameTime.Start();
+
 	bool ret = true;
 	ListItem<Module*>* item;
 	item = modules.start;
@@ -128,11 +135,9 @@ bool App::Start()
 		item = item->next;
 	}
 
-	lastTime = SDL_GetTicks();
-
-	msFrame = 1.0f / FPS;
-	dt = msFrame;
-
+	//lastTime = SDL_GetTicks();
+	//msFrame = 1.0f / FPS;
+	//dt = msFrame;
 
 	return ret;
 }
@@ -185,6 +190,12 @@ bool App::LoadConfig()
 // ---------------------------------------------
 void App::PrepareUpdate()
 {
+	frameCount++;
+	lastSecFrameCount++;
+
+	// Calculate the dt: differential time since last frame
+	dt = frameDuration->ReadMs();
+	frameDuration->Start();
 }
 
 // ---------------------------------------------
@@ -193,7 +204,7 @@ void App::FinishUpdate()
 	// This is a good place to call Load / Save functions
 
 	// FPS Control
-	currentTime = SDL_GetTicks();
+	/*currentTime = SDL_GetTicks();
 
 	dt = (currentTime - lastTime) / 1000.0f;
 
@@ -201,7 +212,46 @@ void App::FinishUpdate()
 		SDL_Delay(msFrame - dt);
 	}
 
-	lastTime = SDL_GetTicks();
+
+	lastTime = SDL_GetTicks();*/
+
+	// Now calculate:
+	// Amount of frames since startup
+	// Amount of time since game start (use a low resolution timer)
+	// Amount of ms took the last update
+	// Amount of frames during the last second
+	// Average FPS for the whole game life
+	float secondsSinceStartup = startupTime.ReadSec();
+
+	if (lastSecFrameTime.Read() > 1000) {
+		lastSecFrameTime.Start();
+		framesPerSecond = lastSecFrameCount;
+		lastSecFrameCount = 0;
+		averageFps = (averageFps + framesPerSecond) / 2;
+	}
+
+	static char title[256];
+	bool is_vsync = config.child("vsync").attribute("value").as_bool(true);
+	if (is_vsync == true) {
+		sprintf_s(title, 256, "FPS: %i Av.FPS: %.2f Last-frame MS: %I64u Vsync: on",
+			framesPerSecond, averageFps, frameCount);
+	}
+	else {
+		sprintf_s(title, 256, "FPS: %i Av.FPS: %.2f Last-frame MS: %I64u Vsync: off",
+			framesPerSecond, averageFps, frameCount);
+	}
+
+	//Use SDL_Delay to make sure you get your capped framerate
+	float delay = float(maxFrameRate) - frameDuration->ReadMs();
+	//LOG("F: %f Delay:%f", frameDuration->ReadMs(), delay);
+
+	//Measure accurately the amount of time SDL_Delay() actually waits compared to what was expected
+	PerfTimer* delayt = new PerfTimer();
+	delayt->Start();
+	if (maxFrameRate > 0 && delay > 0) SDL_Delay(delay);
+	LOG("Expected %f milliseconds and the real delay is % f", delay, delayt->ReadMs());
+
+	app->win->SetTitle(title);
 }
 
 // Call modules before each loop iteration

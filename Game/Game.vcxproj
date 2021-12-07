@@ -106,11 +106,14 @@
     <ClCompile Include="Source\Map.cpp" />
     <ClCompile Include="Source\ModuleFadeToBlack.cpp" />
     <ClCompile Include="Source\ModulePhysics.cpp" />
+    <ClCompile Include="Source\Pathfinding.cpp" />
+    <ClCompile Include="Source\PerfTimer.cpp" />
     <ClCompile Include="Source\PlayerModule.cpp" />
     <ClCompile Include="Source\LogoScene.cpp" />
     <ClCompile Include="Source\Render.cpp" />
     <ClCompile Include="Source\StageSelect.cpp" />
     <ClCompile Include="Source\Textures.cpp" />
+    <ClCompile Include="Source\Timer.cpp" />
     <ClCompile Include="Source\Window.cpp" />
     <ClInclude Include="Source\Animation.h" />
     <ClInclude Include="Source\EndScene.h" />
@@ -121,6 +124,8 @@
     <ClInclude Include="Source\MemLeaks.h" />
     <ClInclude Include="Source\ModuleFadeToBlack.h" />
     <ClInclude Include="Source\ModulePhysics.h" />
+    <ClInclude Include="Source\Pathfinding.h" />
+    <ClInclude Include="Source\PerfTimer.h" />
     <ClInclude Include="Source\PlayerModule.h" />
     <ClInclude Include="Source\Queue.h" />
     <ClInclude Include="Source\LogoScene.h" />
@@ -131,6 +136,7 @@
     <ClInclude Include="Source\Render.h" />
     <ClInclude Include="Source\StageSelect.h" />
     <ClInclude Include="Source\Textures.h" />
+    <ClInclude Include="Source\Timer.h" />
     <ClInclude Include="Source\Window.h" />
     <ClInclude Include="Source\Defs.h" />
     <ClInclude Include="Source\List.h" />
