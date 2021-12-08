@@ -139,6 +139,9 @@ bool App::Start()
 	//msFrame = 1.0f / FPS;
 	//dt = msFrame;
 
+	// Start so initial deltatime is around 0
+	frameDuration->Start();
+
 	return ret;
 }
 
@@ -194,7 +197,7 @@ void App::PrepareUpdate()
 	lastSecFrameCount++;
 
 	// Calculate the dt: differential time since last frame
-	dt = frameDuration->ReadMs();
+	dt = frameDuration->ReadMs() / 1000.0f; // Convert to seconds
 	frameDuration->Start();
 }
 
@@ -252,6 +255,8 @@ void App::FinishUpdate()
 	LOG("Expected %f milliseconds and the real delay is % f", delay, delayt->ReadMs());
 
 	app->win->SetTitle(title);
+
+	std::cout << dt << std::endl;
 }
 
 // Call modules before each loop iteration
