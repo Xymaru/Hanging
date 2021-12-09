@@ -12,6 +12,9 @@ class EntityModule : public Module
 public:
 	enum EntityType {
 		ET_BIRD,
+		ET_CHICKEN,
+		ET_COIN,
+		ET_HEART,
 		ET_LAST
 	};
 
