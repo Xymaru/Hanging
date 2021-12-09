@@ -1,5 +1,7 @@
 #include "App.h"
 #include "PathFinding.h"
+#include "Map.h"
+#include "Render.h"
 
 #include "Defs.h"
 #include "Log.h"
@@ -61,9 +63,19 @@ uchar PathFinding::GetTileAt(const iPoint& pos) const
 }
 
 // To request all tiles involved in the last generated path
-const DynArray<iPoint>* PathFinding::GetLastPath() const
+DynArray<iPoint> PathFinding::GetLastPath() const
 {
-	return &lastPath;
+	return lastPath;
+}
+
+bool PathFinding::Update(float dt)
+{
+	return true;
+}
+
+bool PathFinding::PostUpdate(float dt)
+{
+	return true;
 }
 
 // PathList ------------------------------------------------------------------------

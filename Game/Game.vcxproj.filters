@@ -27,6 +27,9 @@
     <ClCompile Include="Source\Pathfinding.cpp" />
     <ClCompile Include="Source\PerfTimer.cpp" />
     <ClCompile Include="Source\Timer.cpp" />
+    <ClCompile Include="Source\Entity.cpp" />
+    <ClCompile Include="Source\EnemyBird.cpp" />
+    <ClCompile Include="Source\EntityModule.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Window.h" />
@@ -80,6 +83,9 @@
     <ClInclude Include="Source\Pathfinding.h" />
     <ClInclude Include="Source\PerfTimer.h" />
     <ClInclude Include="Source\Timer.h" />
+    <ClInclude Include="Source\Entity.h" />
+    <ClInclude Include="Source\EnemyBird.h" />
+    <ClInclude Include="Source\EntityModule.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="External">

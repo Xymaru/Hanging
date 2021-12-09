@@ -12,6 +12,7 @@
 #include "ModuleFadeToBlack.h"
 #include "Map.h"
 #include "Pathfinding.h"
+#include "EntityModule.h"
 
 #include "Defs.h"
 #include "Log.h"
@@ -39,14 +40,7 @@ bool GameScene::Awake(pugi::xml_node& config)
 // Called before the first frame
 bool GameScene::Start()
 {
-	bg_music = app->audio->LoadFx("Assets/Audio/Music/bg.ogg");
-
-	int width, height;
-	uchar* buffer;
-
-	if (app->map->CreateWalkabilityMap(width, height, &buffer)) {
-		app->pathfinding->SetMap(width, height, buffer);
-	}
+	//bg_music = app->audio->LoadFx("Assets/Audio/Music/bg.ogg");
 
 	if (fromGameSaved) {
 		app->render->camera.x = cameraPosition.x;
@@ -85,9 +79,20 @@ bool GameScene::Update(float dt)
 		LoadGameState();
 	}
 
-	if (app->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN) {
+	/*if (app->input->GetKey(SDL_SCANCODE_0) == KEY_DOWN) {
+		int mouseX, mouseY;
+		app->input->GetMousePosition(mouseX, mouseY);
+		iPoint p = app->render->ScreenToWorld(mouseX, mouseY);
+		p = app->map->WorldToMap(p.x, p.y);
 
-	}
+		iPoint o = app->playerModule->GetPosition();
+
+		iPoint origin = app->map->WorldToMap(o.x, o.y);
+		origin.y += 1;
+		iPoint destination = p;
+
+		app->pathfinding->CreatePath(origin, destination);
+	}*/
 
 	return true;
 }
@@ -118,6 +123,7 @@ void GameScene::Activate()
 	app->physics->Activate();
 	app->playerModule->Activate();
 	app->map->Activate();
+	app->enemies->Activate();
 
 	InitMapLevel();
 }
@@ -129,6 +135,7 @@ void GameScene::Deactivate()
 	app->playerModule->Deactivate();
 	app->map->Deactivate();
 	app->physics->Deactivate();
+	app->enemies->Deactivate();
 }
 
 void GameScene::InitMapLevel()
@@ -143,9 +150,9 @@ void GameScene::InitMapLevel()
 			app->map->Load("level_2.tmx");
 			break;
 	}
+	MapData* mapData = &app->map->mapData;
 
 	// Physworld box
-	MapData* mapData = &app->map->mapData;
 	uint size = mapData->layers.Count();
 
 	MapLayer* collisionLayer = NULL;
@@ -179,8 +186,6 @@ void GameScene::InitMapLevel()
 					{
 						app->playerModule->SetPosition(playerPosition.x, playerPosition.y);
 						app->playerModule->SetState(playerState);
-
-						fromGameSaved = false;
 					}
 					break;
 				case ColliderLayerType::END:
@@ -202,6 +207,43 @@ void GameScene::InitMapLevel()
 			}
 		}
 	}
+
+	// Spawn enemies
+	if (!fromGameSaved) {
+		uint groupCount = mapData->objectGroups.Count();
+
+		ObjectGroup* enemyGroup = NULL;
+
+		for (uint i = 0; i < groupCount; i++) {
+			if (mapData->objectGroups[i]->name == "Entities") {
+				enemyGroup = mapData->objectGroups[i];
+				break;
+			}
+		}
+
+		if (enemyGroup) {
+			uint enemyCount = enemyGroup->objects.Count();
+
+			for (uint i = 0; i < enemyCount; i++) {
+				Object* obj = enemyGroup->objects[i];
+
+				iPoint position = { obj->x, obj->y };
+
+				app->enemies->AddEntity((EntityModule::EntityType)obj->type, position);
+			}
+		}
+	}
+
+	// Init pathfinding map
+	int width, height;
+	uchar* buffer;
+
+	if (app->map->CreateWalkabilityMap(width, height, &buffer)) {
+		app->pathfinding->SetMap(width, height, buffer);
+		RELEASE_ARRAY(buffer);
+	}
+
+	fromGameSaved = false;
 }
 
 void GameScene::SaveGameState()
@@ -213,6 +255,7 @@ void GameScene::SaveGameState()
 	pugi::xml_node level;
 	pugi::xml_node player;
 	pugi::xml_node camera;
+	pugi::xml_node entities;
 
 	if (result == NULL)
 	{
@@ -232,16 +275,20 @@ void GameScene::SaveGameState()
 		camera = save_node.append_child("camera");
 		camera.append_attribute("x");
 		camera.append_attribute("y");
+
+		entities = save_node.append_child("entities");
 	}
 	else {
 		save_node = saveFile.child("game_state");
 		level = save_node.child("level");
 		player = save_node.child("player");
 		camera = save_node.child("camera");
+		entities = save_node.child("entities");
 	}
 
 	level.attribute("value") = gameLevel;
 
+	app->enemies->SaveEntities(entities);
 	app->playerModule->SavePlayer(player);
 
 	camera.attribute("x") = app->render->camera.x;
@@ -272,6 +319,8 @@ void GameScene::LoadGameState()
 		cameraPosition.y = camera.attribute("y").as_int();
 
 		fromGameSaved = true;
+
+		app->enemies->LoadEntities(save_node.child("entities"));
 
 		app->fade->FadeToBlack(this, this);
 	}

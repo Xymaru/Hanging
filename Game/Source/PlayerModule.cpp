@@ -49,7 +49,7 @@ bool PlayerModule::Start()
 	playerSpriteWidth = 89;
 	playerSpriteHeight = 76;
 
-	playerJumpForce = 430.0f;
+	playerJumpForce = 450.0f;
 	player_deadForce = 150.0f;
 
 	playerWidth = 38;

@@ -5,6 +5,8 @@
 #include "List.h"
 #include "Point.h"
 
+#include "SDL/include/SDL.h"
+
 #include "PugiXml\src\pugixml.hpp"
 
 // L03: DONE 2: Create a struct to hold information for a TileSet
@@ -94,6 +96,18 @@ struct MapLayer
 	}
 };
 
+struct Object {
+	SString name;
+	int type;
+	int x;
+	int y;
+};
+
+struct ObjectGroup {
+	SString name;
+	List<Object*> objects;
+};
+
 enum class ColliderLayerType {
 	SPAWN = 287,
 	END,
@@ -119,6 +133,7 @@ struct MapData
 
 	// L04: DONE 2: Add a list/array of layers to the map
 	List<MapLayer*> layers;
+	List<ObjectGroup*> objectGroups;
 
 	inline void Clear() {
 		// Clear tilesets
@@ -142,6 +157,25 @@ struct MapData
 			item2 = item2->next;
 		}
 		layers.Clear();
+
+		// Clear objectgroups
+		ListItem<ObjectGroup*>* objg;
+		objg = objectGroups.start;
+
+		while (objg != NULL) {
+			ListItem<Object*>* obj;
+			obj = objg->data->objects.start;
+
+			while (obj != NULL) {
+				RELEASE(obj->data);
+				obj = obj->next;
+			}
+			objg->data->objects.Clear();
+
+			RELEASE(objg->data);
+			objg = objg->next;
+		}
+		objectGroups.Clear();
 	}
 };
 
@@ -177,6 +211,7 @@ public:
 
 	// L05: DONE 2: Add orthographic world to map coordinates
 	iPoint WorldToMap(int x, int y) const;
+	iPoint WorldToMap(iPoint position) const;
 
 	bool CreateWalkabilityMap(int& width, int& height, uchar** buffer) const;
 private:
@@ -190,6 +225,9 @@ private:
 	// L04
 	bool LoadLayer(pugi::xml_node& node, MapLayer* layer);
 	bool LoadAllLayers(pugi::xml_node mapNode);
+
+	bool LoadObjectGroup(pugi::xml_node& node, ObjectGroup* objectGroup);
+	bool LoadAllObjectGroups(pugi::xml_node& mapNode);
 
 	// L06: TODO 6: Load a group of properties 
 	bool LoadProperties(pugi::xml_node& node, Properties& properties);

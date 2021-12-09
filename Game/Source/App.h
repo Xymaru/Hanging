@@ -25,6 +25,7 @@ class Fonts;
 class ModuleFadeToBlack;
 class EndScene;
 class PathFinding;
+class EntityModule;
 
 class App
 {
@@ -56,6 +57,8 @@ public:
 	const char* GetArgv(int index) const;
 	const char* GetTitle() const;
 	const char* GetOrganization() const;
+
+	bool IsDebugMode() { return debug; }
 
 private:
 
@@ -96,6 +99,7 @@ public:
 	EndScene* endScene;
 	StageSelect* stage;
 	PathFinding* pathfinding;
+	EntityModule* enemies;
 
 private:
 
@@ -132,6 +136,8 @@ private:
 
 	float averageFps = 0.0f;
 	float dt = 0.0f;
+
+	bool debug;
 
 	uint32 maxFrameRate = 0;
 };

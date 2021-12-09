@@ -95,6 +95,17 @@ void Render::SetBackgroundColor(SDL_Color color)
 	background = color;
 }
 
+iPoint Render::ScreenToWorld(int x, int y) const
+{
+	iPoint ret;
+	int scale = app->win->GetScale();
+
+	ret.x = (x + camera.x) / scale;
+	ret.y = (y + camera.y) / scale;
+
+	return ret;
+}
+
 void Render::SetViewPort(const SDL_Rect& rect)
 {
 	SDL_RenderSetViewport(renderer, &rect);
@@ -150,7 +161,7 @@ bool Render::DrawTexture(SDL_Texture* texture, int x, int y, const SDL_Rect* sec
 bool Render::DrawRectangle(const SDL_Rect& rect, Uint8 r, Uint8 g, Uint8 b, Uint8 a, bool filled, bool use_camera) const
 {
 	bool ret = true;
-	uint scale = app->win->GetScale();
+	int scale = app->win->GetScale();
 
 	SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
 	SDL_SetRenderDrawColor(renderer, r, g, b, a);
@@ -158,8 +169,8 @@ bool Render::DrawRectangle(const SDL_Rect& rect, Uint8 r, Uint8 g, Uint8 b, Uint
 	SDL_Rect rec(rect);
 	if(use_camera)
 	{
-		rec.x = (int)(camera.x + rect.x * scale);
-		rec.y = (int)(camera.y + rect.y * scale);
+		rec.x = (int)(rect.x * scale - camera.x);
+		rec.y = (int)(rect.y * scale - camera.y);
 		rec.w *= scale;
 		rec.h *= scale;
 	}

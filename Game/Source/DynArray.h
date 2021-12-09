@@ -27,6 +27,15 @@ public:
 		Alloc(capacity);
 	}
 
+	DynArray(const DynArray<VALUE>& other) {
+		memCapacity = other.memCapacity;
+		numElements = other.numElements;
+
+		data = new VALUE[memCapacity];
+
+		for (unsigned int i = 0; i < numElements; ++i) data[i] = other[i];
+	}
+
 	// Destructor
 	~DynArray()
 	{
@@ -36,7 +45,7 @@ public:
 	// Operators
 	VALUE& operator[](unsigned int index)
 	{
-		ASSERT(index < numElements);
+		assert(index < numElements);
 		return data[index];
 	}
 

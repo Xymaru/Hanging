@@ -155,6 +155,11 @@ iPoint Map::WorldToMap(int x, int y) const
 	return ret;
 }
 
+iPoint Map::WorldToMap(iPoint position) const
+{
+	return WorldToMap(position.x, position.y);
+}
+
 // L06: TODO 3: Pick the right Tileset based on a tile id
 TileSet* Map::GetTilesetFromTileId(int id) const
 {
@@ -195,29 +200,7 @@ bool Map::CleanUp()
 {
     LOG("Unloading map");
 
-    // L03: DONE 2: Make sure you clean up any memory allocated from tilesets/map
-    // Remove all tilesets
-	ListItem<TileSet*>* item;
-	item = mapData.tilesets.start;
-
-	while (item != NULL)
-	{
-		RELEASE(item->data);
-		item = item->next;
-	}
-	mapData.tilesets.Clear();
-
-	// L04: DONE 2: clean up all layer data
-	// Remove all layers
-	ListItem<MapLayer*>* item2;
-	item2 = mapData.layers.start;
-
-	while (item2 != NULL)
-	{
-		RELEASE(item2->data);
-		item2 = item2->next;
-	}
-	mapData.layers.Clear();
+	mapData.Clear();
 
     return true;
 }
@@ -256,6 +239,12 @@ bool Map::Load(const char* filename)
 	if (ret == true)
 	{
 		ret = LoadAllLayers(mapFile.child("map"));
+	}
+	
+	// Load object groups
+	if (ret == true)
+	{
+		ret = LoadAllObjectGroups(mapFile.child("map"));
 	}
     
     if(ret == true)
@@ -403,6 +392,44 @@ bool Map::LoadAllLayers(pugi::xml_node mapNode) {
 
 		//add the layer to the map
 		mapData.layers.Add(mapLayer);
+	}
+
+	return ret;
+}
+
+bool Map::LoadObjectGroup(pugi::xml_node & node, ObjectGroup * objectGroup)
+{
+	bool ret = true;
+
+	objectGroup->name = node.attribute("name").as_string();
+
+	pugi::xml_node object;
+
+	for (object = node.child("object"); object && ret; object = object.next_sibling("object"))
+	{
+		Object* obj = new Object();
+		obj->name = object.attribute("name").as_string();
+		obj->x = object.attribute("x").as_int();
+		obj->y = object.attribute("y").as_int();
+		obj->type = object.attribute("type").as_int();
+
+		objectGroup->objects.Add(obj);
+	}
+
+	return ret;
+}
+
+bool Map::LoadAllObjectGroups(pugi::xml_node & mapNode)
+{
+	bool ret = true;
+	for (pugi::xml_node objectGroup = mapNode.child("objectgroup"); objectGroup && ret; objectGroup = objectGroup.next_sibling("objectgroup"))
+	{
+		//Load the layer
+		ObjectGroup* obj = new ObjectGroup();
+		ret = LoadObjectGroup(objectGroup, obj);
+
+		//add the layer to the map
+		mapData.objectGroups.Add(obj);
 	}
 
 	return ret;

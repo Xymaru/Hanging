@@ -15,6 +15,7 @@
 #include "EndScene.h"
 #include "ModuleFadeToBlack.h"
 #include "Pathfinding.h"
+#include "EntityModule.h"
 
 #include "Defs.h"
 #include "Log.h"
@@ -41,6 +42,7 @@ App::App(int argc, char* args[]) : argc(argc), args(args)
 	fade = new ModuleFadeToBlack();
 	endScene = new EndScene();
 	pathfinding = new PathFinding();
+	enemies = new EntityModule();
 
 	// Ordered for awake / Start / Update
 	// Reverse order of CleanUp
@@ -51,14 +53,16 @@ App::App(int argc, char* args[]) : argc(argc), args(args)
 	AddModule(logoScene, true);
 	AddModule(gameScene, false);
 	AddModule(map, false);
-	AddModule(pathfinding, true);
 	AddModule(playerModule, false);
+	AddModule(enemies, false);
 	AddModule(physics, false);
+	AddModule(pathfinding, true);
 	AddModule(menu, false);
 	AddModule(stage, false);
 	AddModule(fonts, true);
 	AddModule(endScene, false);
 	AddModule(fade, true);
+
 
 	// Render last to swap buffer
 	AddModule(render, true);
@@ -255,8 +259,6 @@ void App::FinishUpdate()
 	LOG("Expected %f milliseconds and the real delay is % f", delay, delayt->ReadMs());
 
 	app->win->SetTitle(title);
-
-	std::cout << dt << std::endl;
 }
 
 // Call modules before each loop iteration
@@ -277,6 +279,9 @@ bool App::PreUpdate()
 
 		ret = item->data->PreUpdate(dt);
 	}
+
+	if (app->input->GetKey(SDL_SCANCODE_F9) == KEY_DOWN)
+		debug = !debug;
 
 	return ret;
 }

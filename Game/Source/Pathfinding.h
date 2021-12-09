@@ -35,7 +35,10 @@ public:
 	int CreatePath(const iPoint& origin, const iPoint& destination);
 
 	// To request all tiles involved in the last generated path
-	const DynArray<iPoint>* GetLastPath() const;
+	DynArray<iPoint> GetLastPath() const;
+
+	bool Update(float dt) override;
+	bool PostUpdate(float dt) override;
 
 	// Utility: return true if pos is inside the map boundaries
 	bool CheckBoundaries(const iPoint& pos) const;

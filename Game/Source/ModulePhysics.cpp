@@ -16,7 +16,6 @@ ModulePhysics::ModulePhysics() : Module()
 	name.Create("physics");
 	world = NULL;
 	mouse_joint = NULL;
-	debug = false;
 }
 
 // Destructor
@@ -209,10 +208,7 @@ PhysBody* ModulePhysics::CreateChain(int x, int y, int* points, int size, bool d
 // 
 bool ModulePhysics::PostUpdate(float dt)
 {
-	if(app->input->GetKey(SDL_SCANCODE_F9) == KEY_DOWN)
-		debug = !debug;
-
-	if(!debug)
+	if(!app->IsDebugMode())
 		return true;
 
 	// Bonus code: this will iterate all objects in the world and draw the circles

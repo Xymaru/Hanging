@@ -42,6 +42,7 @@ public:
 	// Set background color
 	void SetBackgroundColor(SDL_Color color);
 
+	iPoint ScreenToWorld(int x, int y) const;
 public:
 
 	SDL_Renderer* renderer;

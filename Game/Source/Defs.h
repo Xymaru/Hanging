@@ -2,6 +2,7 @@
 #define __DEFS_H__
 
 #include <stdio.h>
+#include <math.h>
 
 //  NULL just in case ----------------------
 
@@ -36,6 +37,9 @@
 #define MAX( a, b ) ( ((a) > (b)) ? (a) : (b) )
 #define TO_BOOL( a )  ( (a != 0) ? true : false )
 #define CAP(n,min,max) ((n <= min) ? n=min: (n >= max) ? n=max: n=n)
+
+#define DISTANCE_IMPL(x, y) sqrt((x) * (x) + (y) * (y))
+#define DISTANCE(x1, y1, x2, y2) DISTANCE_IMPL(x2 - x1, y2 - y1)
 
 typedef unsigned int uint;
 typedef unsigned char uchar;
