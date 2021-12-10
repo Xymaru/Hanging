@@ -35,15 +35,23 @@ private:
 
 	DynArray<iPoint> path;
 	float pathUpdateTimer;
+	float pathUpdateTime;
+
+	iPoint activeNode;
+
+	int pathIndex;
 
 	void Patrol(float dt);
 	void Follow(float dt);
 	void Backing(float dt);
+
+	void MoveTo(iPoint destination, float dt);
+	void CheckClosestIndex();
 public:
 	EnemyBird();
 	~EnemyBird();
 
-	void SetOrigin(iPoint position) { origin = position; }
+	void SetOrigin(iPoint pos) { origin = pos; }
 
 	void Init();
 	void Update(float dt);

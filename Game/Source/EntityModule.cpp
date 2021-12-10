@@ -135,14 +135,17 @@ void EntityModule::DrawPath(const DynArray<iPoint>* path)
 
 	SDL_Rect rect;
 
-	rect.w = app->map->mapData.tileWidth;
-	rect.h = app->map->mapData.tileHeight;
+	int tWidth = app->map->mapData.tileWidth;
+	int tHeight = app->map->mapData.tileHeight;
+
+	rect.w = tWidth / 2;
+	rect.h = tHeight / 2;
 
 	for (uint i = 0; i < count; ++i)
 	{
 		iPoint pos = app->map->MapToWorld(path->At(i)->x, path->At(i)->y);
-		rect.x = pos.x;
-		rect.y = pos.y;
-		app->render->DrawRectangle(rect, 255, 255, 255, 255);
+		rect.x = pos.x + rect.w;
+		rect.y = pos.y + rect.h;
+		app->render->DrawRectangle(rect, 255, 0, 0, 255);
 	}
 }

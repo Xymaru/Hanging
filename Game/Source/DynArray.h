@@ -33,7 +33,9 @@ public:
 
 		data = new VALUE[memCapacity];
 
-		for (unsigned int i = 0; i < numElements; ++i) data[i] = other[i];
+		for (unsigned int i = 0; i < numElements; i++) {
+			data[i] = other[i];
+		}
 	}
 
 	// Destructor
@@ -53,6 +55,17 @@ public:
 	{
 		assert(index < numElements);
 		return data[index];
+	}
+
+	void operator=(const DynArray<VALUE>& other) {
+		memCapacity = other.memCapacity;
+		numElements = other.numElements;
+
+		data = new VALUE[memCapacity];
+
+		for (unsigned int i = 0; i < numElements; i++) {
+			data[i] = other[i];
+		}
 	}
 
 	const DynArray<VALUE>& operator+= (const DynArray<VALUE>& array)

@@ -127,6 +127,11 @@ iPoint Map::MapToWorld(int x, int y) const
 	return ret;
 }
 
+iPoint Map::MapToWorld(iPoint pos) const
+{
+	return MapToWorld(pos.x, pos.y);
+}
+
 // L05: DON 2: Add orthographic world to map coordinates
 iPoint Map::WorldToMap(int x, int y) const
 {

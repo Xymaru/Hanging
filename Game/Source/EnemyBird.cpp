@@ -4,6 +4,7 @@
 #include "PlayerModule.h"
 #include "Pathfinding.h"
 #include "Map.h"
+#include <iostream>
 
 void EnemyBird::Patrol(float dt)
 {
@@ -44,23 +45,80 @@ void EnemyBird::Follow(float dt)
 	else {
 		pathUpdateTimer += dt;
 
-		if (pathUpdateTimer >= 1.0f) {
+		if (pathUpdateTimer >= pathUpdateTime) {
+			pathUpdateTimer = 0.0f;
+			pathIndex = 0;
+
 			iPoint origin = app->map->WorldToMap(position);
 			iPoint destination = app->map->WorldToMap(app->playerModule->GetPosition());
 			int res = app->pathfinding->CreatePath(origin, destination);
 
 			if (res > 0) {
 				path = app->pathfinding->GetLastPath();
+
+				CheckClosestIndex();
+				activeNode = app->map->MapToWorld(path[pathIndex].x, path[pathIndex].y);
+			}
+		}
+
+		if (path.Count() > 0) {
+			if (position == activeNode) {
+				pathIndex++;
+
+				if (pathIndex < path.Count()) {
+					activeNode = app->map->MapToWorld(path[pathIndex].x, path[pathIndex].y);
+				}
 			}
 
-			pathUpdateTimer = 0.0f;
+			if (pathIndex < path.Count()) {
+				MoveTo(activeNode, dt);
+			}
 		}
 	}
 }
 
 void EnemyBird::Backing(float dt)
 {
-	
+	state = ES_PATROL;
+	path.Clear();
+}
+
+void EnemyBird::MoveTo(iPoint destination, float dt)
+{
+	iPoint diff = destination - position;
+
+	fPoint dir = { (float)diff.x, (float)diff.y };
+	dir.Normalize();
+	dir *= moveSpeed * 2;
+
+	iPoint step = { int(dir.x * dt), int(dir.y * dt) };
+
+	std::cout << step.x << "," << step.y << std::endl;
+
+	position.x += step.x;
+	position.y += step.y;
+}
+
+void EnemyBird::CheckClosestIndex()
+{
+	uint size = path.Count();
+
+	float indexDist;
+	float activeDist;
+
+	iPoint dest = app->map->MapToWorld(path[size - 1]);
+
+	for (uint i = 0; i < size; i++) {
+		iPoint indexO = app->map->MapToWorld(path[i]);
+		
+		indexDist = DISTANCE(indexO.x, indexO.y, dest.x, dest.y);
+		activeDist = DISTANCE(position.x, position.y, dest.x, dest.y);
+
+		if (indexDist < activeDist) {
+			pathIndex = i;
+			break;
+		}
+	}
 }
 
 EnemyBird::EnemyBird()
@@ -105,9 +163,12 @@ void EnemyBird::Init()
 	patrolRight = false;
 	moveSpeed = 80;
 
-	pathUpdateTimer = 1.0f;
+	pathUpdateTime = 1.5f;
+	pathUpdateTimer = pathUpdateTime;
 
 	type = EntityModule::EntityType::ET_BIRD;
+
+	pathIndex = 0;
 }
 
 void EnemyBird::Update(float dt)
