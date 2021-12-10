@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="1.3.4" orientation="orthogonal" renderorder="right-down" width="44" height="12" tilewidth="51" tileheight="51" infinite="0" nextlayerid="5" nextobjectid="1">
+<map version="1.5" tiledversion="1.7.2" orientation="orthogonal" renderorder="right-down" width="44" height="12" tilewidth="51" tileheight="51" infinite="0" nextlayerid="6" nextobjectid="14">
  <tileset firstgid="1" name="hanging_tile" tilewidth="51" tileheight="51" spacing="1" margin="1" tilecount="286" columns="22">
   <image source="hanging_tile.png" width="1194" height="695"/>
  </tileset>
@@ -1612,4 +1612,19 @@
    <tile gid="289"/>
   </data>
  </layer>
+ <objectgroup id="5" name="Entities">
+  <object id="1" name="Coins" type="2" x="85.3333" y="466.667" width="32" height="32"/>
+  <object id="2" name="Coins" type="2" x="289.333" y="366.667" width="32" height="32"/>
+  <object id="3" name="Coins" type="2" x="596" y="414.667" width="32" height="32"/>
+  <object id="4" name="Coins" type="2" x="825.333" y="214.667" width="32" height="32"/>
+  <object id="5" name="Coins" type="2" x="874.667" y="110.667" width="32" height="32"/>
+  <object id="6" name="Coins" type="2" x="978.667" y="64" width="32" height="32"/>
+  <object id="7" name="Coins" type="2" x="1181.33" y="468" width="32" height="32"/>
+  <object id="8" name="Coins" type="2" x="1360" y="518.667" width="32" height="32"/>
+  <object id="9" name="Coins" type="2" x="1514.67" y="417.333" width="32" height="32"/>
+  <object id="10" name="Coins" type="2" x="1718.67" y="112" width="32" height="32"/>
+  <object id="11" name="Coins" type="2" x="1872" y="364" width="32" height="32"/>
+  <object id="12" name="Coins" type="2" x="1946.67" y="161.333" width="32" height="32"/>
+  <object id="13" name="heart" type="3" x="977.333" y="468" width="32" height="32"/>
+ </objectgroup>
 </map>
