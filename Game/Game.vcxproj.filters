@@ -30,6 +30,8 @@
     <ClCompile Include="Source\Entity.cpp" />
     <ClCompile Include="Source\EnemyBird.cpp" />
     <ClCompile Include="Source\EntityModule.cpp" />
+    <ClCompile Include="Source\Coins.cpp" />
+    <ClCompile Include="Source\Heart.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Window.h" />
@@ -86,6 +88,8 @@
     <ClInclude Include="Source\Entity.h" />
     <ClInclude Include="Source\EnemyBird.h" />
     <ClInclude Include="Source\EntityModule.h" />
+    <ClInclude Include="Source\Coins.h" />
+    <ClInclude Include="Source\Heart.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="External">

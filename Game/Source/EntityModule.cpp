@@ -1,6 +1,8 @@
 #include "App.h"
 #include "EntityModule.h"
 #include "EnemyBird.h"
+#include "Coins.h"
+#include "Heart.h"
 #include "Map.h"
 #include "Render.h"
 
@@ -117,11 +119,27 @@ void EntityModule::AddEntity(EntityType type, iPoint position)
 
 	switch (type) {
 		case ET_BIRD:
+		{
 			EnemyBird* bird = new EnemyBird();
 			bird->SetOrigin(position);
 
 			entity = bird;
-			break;
+		}
+		break;
+		case ET_COIN:
+		{
+			Coins* coins = new Coins();
+
+			entity = coins;
+		}
+		break;
+		case ET_HEART:
+		{
+			Heart* heart = new Heart();
+
+			entity = heart;
+		}
+		break;
 	}
 
 	entity->Init();
