@@ -239,13 +239,15 @@ void App::FinishUpdate()
 
 	static char title[256];
 	bool is_vsync = config.child("vsync").attribute("value").as_bool(true);
+	int lastFrameMs = frameDuration->ReadMs();
+
 	if (is_vsync == true) {
-		sprintf_s(title, 256, "FPS: %i Av.FPS: %.2f Last-frame MS: %I64u Vsync: on",
-			framesPerSecond, averageFps, frameCount);
+		sprintf_s(title, 256, "FPS: %i Av.FPS: %.2f Last-frame MS: %i Vsync: on",
+			framesPerSecond, averageFps, lastFrameMs);
 	}
 	else {
-		sprintf_s(title, 256, "FPS: %i Av.FPS: %.2f Last-frame MS: %I64u Vsync: off",
-			framesPerSecond, averageFps, frameCount);
+		sprintf_s(title, 256, "FPS: %i Av.FPS: %.2f Last-frame MS: %i Vsync: off",
+			framesPerSecond, averageFps, lastFrameMs);
 	}
 
 	//Use SDL_Delay to make sure you get your capped framerate
