@@ -48,7 +48,10 @@ public:
 	void SaveEntities(pugi::xml_node& entities);
 	void LoadEntities(pugi::xml_node& entities);
 
-	void AddEntity(EntityType type, iPoint position);
+	void AddEntity(int id, EntityType type, iPoint position);
+
+	// Called when player collides with an object
+	void OnCollision(PhysBody* bodyA, PhysBody* bodyB) override;
 private:
 	List<Entity*> entities;
 

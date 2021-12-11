@@ -5,18 +5,21 @@
 
 class EnemyChicken : public Entity
 {
-private:
-	enum EnemyState {
+public:
+	enum class EnemyState {
 		ES_PATROL,
 		ES_FOLLOW,
+		ES_HURT,
+		ES_DEAD
 	};
-
+private:
 	enum AnimState {
 		AS_IDLE,
 		AS_WALK,
 		AS_HURT
 	};
 
+	float distanceAware;
 	float distanceFollow;
 
 	int patrolDistance;
@@ -31,31 +34,19 @@ private:
 
 	iPoint origin;
 
-	DynArray<iPoint> path;
-	float pathUpdateTimer;
-	float pathUpdateTime;
-
-	iPoint activeNode;
-
-	int pathIndex;
-
 	void Patrol(float dt);
 	void Follow(float dt);
-	void Backing(float dt);
-
-	void MoveTo(iPoint destination, float dt);
-	void CheckClosestIndex();
+	void Hurt(float dt);
 public:
 	EnemyChicken();
 	~EnemyChicken();
 
 	void SetOrigin(iPoint pos) { origin = pos; }
 
-	void Init();
+	void Init(Module* module);
 	void Update(float dt);
 	void Render();
 
-	void Cleanup();
-
-	const DynArray<iPoint>* GetActivePath() const { return &path; }
+	void Die();
+	EnemyState GetState() { return state; }
 };

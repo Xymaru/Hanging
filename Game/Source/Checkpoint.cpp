@@ -13,7 +13,7 @@ Checkpoint::~Checkpoint()
 {
 }
 
-void Checkpoint::Init()
+void Checkpoint::Init(Module* module)
 {
 	texture = app->tex->Load("Assets/Textures/Checkpoint/checkpoint.png");
 

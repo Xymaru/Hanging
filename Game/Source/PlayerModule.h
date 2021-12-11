@@ -22,6 +22,8 @@ public:
 	// Called before the first frame
 	bool Start();
 
+	void Activate() override;
+
 	// Called before all Updates
 	bool PreUpdate(float dt);
 
@@ -45,7 +47,6 @@ public:
 	// Called when player collides with an object
 	void OnCollision(PhysBody* bodyA, PhysBody* bodyB);
 
-	void ReStart();
 	void SavePlayer(pugi::xml_node& node);
 
 	int playerhealth = 1;

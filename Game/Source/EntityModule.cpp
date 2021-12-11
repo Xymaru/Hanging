@@ -7,6 +7,7 @@
 #include "EnemyChicken.h"
 #include "Map.h"
 #include "Render.h"
+#include "PlayerModule.h"
 
 #include <iostream>
 
@@ -50,6 +51,15 @@ bool EntityModule::Update(float dt)
 
 	for (entity = entities.start; entity != NULL; entity = entity->next) {
 		entity->data->Update(dt);
+
+		if (entity->data->Remove()) {
+			ListItem<Entity*>* prev = entity->prev;
+
+			entity->data->Cleanup();
+			entities.Del(entity);
+
+			entity = prev;
+		}
 	}
 
 	return true;
@@ -115,7 +125,7 @@ void EntityModule::LoadEntities(pugi::xml_node & entities)
 	
 }
 
-void EntityModule::AddEntity(EntityType type, iPoint position)
+void EntityModule::AddEntity(int id, EntityType type, iPoint position)
 {
 	Entity* entity = nullptr;
 
@@ -159,9 +169,56 @@ void EntityModule::AddEntity(EntityType type, iPoint position)
 		break;
 	}
 
-	entity->Init();
 	entity->SetPosition(position);
+	entity->SetId(id);
+	entity->Init(this);
 	entities.Add(entity);
+}
+
+void EntityModule::OnCollision(PhysBody * bodyA, PhysBody * bodyB)
+{
+	if (bodyB->bodyType == PhysBodyType::PLAYER) {
+		if (bodyA->bodyType == PhysBodyType::COIN) {
+			app->playerModule->playerscore++;
+
+			ListItem<Entity*>* entity;
+			entity = entities.start;
+
+			while (entity != NULL)
+			{
+				if (entity->data->GetId() == bodyA->id) {
+					entity->data->Cleanup();
+					entities.Del(entity);
+					break;
+				}
+				else {
+					entity = entity->next;
+				}
+			}
+		}
+	}
+
+	if (bodyA->bodyType == PhysBodyType::CHICKEN) {
+		if (bodyB->bodyType == PhysBodyType::SPIKES) {
+			ListItem<Entity*>* entity;
+			entity = entities.start;
+
+			while (entity != NULL)
+			{
+				if (entity->data->GetId() == bodyA->id) {
+					EnemyChicken* chicken = (EnemyChicken*)entity->data;
+					if (chicken->GetState() != EnemyChicken::EnemyState::ES_HURT && chicken->GetState() != EnemyChicken::EnemyState::ES_DEAD) {
+						chicken->Die();
+					}
+
+					break;
+				}
+				else {
+					entity = entity->next;
+				}
+			}
+		}
+	}
 }
 
 void EntityModule::DrawPath(const DynArray<iPoint>* path)

@@ -23,7 +23,7 @@ public:
 
 	void SetOrigin(iPoint position) { origin = position; }
 
-	void Init();
+	void Init(Module* module);
 	void Update(float dt);
 	void Render();
 

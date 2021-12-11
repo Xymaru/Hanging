@@ -22,18 +22,28 @@ protected:
 
 	int collisionWidth, collisionHeight;
 
-	PhysBody* pbody;
+	PhysBody* entityBody;
+
+	int entityId;
+
+	bool remove;
 public:
 	Entity();
 	~Entity();
 
-	virtual void Init(){}
+	virtual void Init(Module* module){}
 	virtual void Update(float dt){}
 	virtual void Render(){}
 
 	void SetPosition(iPoint pos) { position = pos; }
+	void SetId(int id) { entityId = id; }
+
+	int GetId() { return entityId; }
 
 	EntityModule::EntityType GetType() { return type; }
 
-	void Cleanup();
+	virtual void Cleanup();
+	virtual void Die(){}
+
+	bool Remove() { return remove; }
 };

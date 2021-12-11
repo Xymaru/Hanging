@@ -20,6 +20,10 @@ enum class PhysBodyType {
 	SPIKES,
 	END,
 	PLATFORM,
+	CHICKEN,
+	BIRD,
+	COIN,
+	HEART,
 	NEUTRAL
 };
 // Small class to return to other modules to track position and rotation of physics bodies
@@ -39,6 +43,9 @@ public:
 	b2Body* body;
 	Module* listener;
 	PhysBodyType bodyType;
+	int id;
+
+	bool remove;
 };
 
 // Module --------------------------------------
@@ -48,9 +55,12 @@ public:
 	ModulePhysics();
 	~ModulePhysics();
 
+	void Activate() override;
+
 	bool Awake(pugi::xml_node& config);
 	bool Start();
 	bool PreUpdate(float dt);
+	bool Update(float dt) override;
 	bool PostUpdate(float dt);
 	bool CleanUp();
 
@@ -61,9 +71,7 @@ public:
 
 	// b2ContactListener ---
 	void BeginContact(b2Contact* contact);
-
-	void ReStart();
-
+	void DestroyBody(b2Body* body);
 private:
 	float gravity;
 

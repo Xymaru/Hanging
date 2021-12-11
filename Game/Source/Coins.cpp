@@ -14,7 +14,7 @@ Coins::~Coins()
 {
 }
 
-void Coins::Init()
+void Coins::Init(Module* module)
 {
 	texture = app->tex->Load("Assets/Textures/Coins/coins.png");
 
@@ -35,6 +35,12 @@ void Coins::Init()
 	animState = AS_FLIP;
 	
 	type = EntityModule::EntityType::ET_COIN;
+
+	entityBody = app->physics->CreateRectangle(position.x + rect.w / 2, position.y + rect.h / 2, rect.w, rect.h, false);
+	entityBody->bodyType = PhysBodyType::COIN;
+	entityBody->listener = module;
+	entityBody->id = entityId;
+	entityBody->remove = false;
 }
 
 void Coins::Update(float dt)
@@ -47,8 +53,4 @@ void Coins::Render()
 	SDL_Rect rect = animations[animState].GetCurrentFrame();
 
 	app->render->DrawTexture(texture, position.x, position.y, &rect, flip);
-}
-
-void Coins::Cleanup()
-{
 }

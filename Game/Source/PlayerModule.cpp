@@ -72,6 +72,23 @@ bool PlayerModule::Start()
 	return true;
 }
 
+void PlayerModule::Activate()
+{
+	Module::Activate();
+
+	playerBody = app->physics->CreateRectangle(position.x + playerWidth / 2, position.y + playerHeight / 2 + (playerSpriteHeight - playerHeight) / 2, playerWidth, playerHeight, true);
+	playerBody->body->SetFixedRotation(true);
+	playerBody->body->SetSleepingAllowed(false);
+	playerBody->bodyType = PhysBodyType::PLAYER;
+	playerBody->listener = this;
+	playerBody->remove = false;
+
+	playerState = IDLE;
+	playerscore = 0;
+	playerhealth = 3;
+	playerFlip = SDL_FLIP_NONE;
+}
+
 // Called each loop iteration
 bool PlayerModule::PreUpdate(float dt)
 {
@@ -167,7 +184,7 @@ void PlayerModule::OnCollision(PhysBody * bodyA, PhysBody * bodyB)
 		app->fade->FadeToBlack(app->gameScene, app->endScene);
 	}
 
-	if (bodyB->bodyType == PhysBodyType::SPIKES) {
+	if (bodyB->bodyType == PhysBodyType::SPIKES || bodyB->bodyType == PhysBodyType::CHICKEN || bodyB->bodyType == PhysBodyType::BIRD) {
 		playerState = HURT;
 
 		playerBody->body->SetLinearVelocity(b2Vec2_zero);
@@ -190,20 +207,6 @@ void PlayerModule::SavePlayer(pugi::xml_node & save)
 	save.attribute("score") = playerscore;
 	save.attribute("health") = playerhealth;
 	save.attribute("state") = playerState;
-}
-
-void PlayerModule::ReStart()
-{
-	playerBody = app->physics->CreateRectangle(position.x + playerWidth / 2, position.y + playerHeight / 2 + (playerSpriteHeight - playerHeight) / 2, playerWidth, playerHeight, true);
-	playerBody->body->SetFixedRotation(true);
-	playerBody->body->SetSleepingAllowed(false);
-	playerBody->bodyType = PhysBodyType::PLAYER;
-	playerBody->listener = this;
-
-	playerState = IDLE;
-	playerscore = 0;
-	playerhealth = 1;
-	playerFlip = SDL_FLIP_NONE;
 }
 
 void PlayerModule::InitAnimations()

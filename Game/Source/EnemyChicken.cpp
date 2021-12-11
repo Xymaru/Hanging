@@ -4,6 +4,7 @@
 #include "PlayerModule.h"
 #include "Pathfinding.h"
 #include "Map.h"
+#include "Window.h"
 #include <iostream>
 
 void EnemyChicken::Patrol(float dt)
@@ -11,13 +12,14 @@ void EnemyChicken::Patrol(float dt)
 	iPoint playerPos = app->playerModule->GetPosition();
 	float dist = DISTANCE(position.x, position.y, playerPos.x, playerPos.y);
 
-	if (dist < distanceFollow) {
-		state = ES_FOLLOW;
+	if (dist < distanceAware) {
+		state = EnemyState::ES_FOLLOW;
 	}
 	else {
 		int step = moveSpeed * dt;
+		
 		if (patrolRight) {
-			position.x += step;
+			position.x += step * 2;
 		}
 		else {
 			position.x -= step;
@@ -40,7 +42,7 @@ void EnemyChicken::Follow(float dt)
 	float dist = DISTANCE(position.x, position.y, playerPos.x, playerPos.y);
 
 	if (dist > distanceFollow) {
-		state = ES_PATROL;
+		state = EnemyState::ES_PATROL;
 		origin = position;
 	}
 	else {
@@ -60,19 +62,12 @@ void EnemyChicken::Follow(float dt)
 	}
 }
 
-void EnemyChicken::Backing(float dt)
+void EnemyChicken::Hurt(float dt)
 {
-	
-}
-
-void EnemyChicken::MoveTo(iPoint destination, float dt)
-{
-	
-}
-
-void EnemyChicken::CheckClosestIndex()
-{
-	
+	if (position.y >= app->win->getWindowHeight()) {
+		state = EnemyState::ES_DEAD;
+		remove = true;
+	}
 }
 
 EnemyChicken::EnemyChicken()
@@ -83,7 +78,7 @@ EnemyChicken::~EnemyChicken()
 {
 }
 
-void EnemyChicken::Init()
+void EnemyChicken::Init(Module* module)
 {
 	texture = app->tex->Load("Assets/Textures/enemy_animation/chicken.png");
 
@@ -118,33 +113,49 @@ void EnemyChicken::Init()
 
 	flip = SDL_FLIP_NONE;
 	animState = AS_WALK;
-	state = ES_PATROL;
+	state = EnemyState::ES_PATROL;
 
-	patrolDistance = 100;
-	distanceFollow = 200.0f;
+	patrolDistance = 90;
+	distanceFollow = 300.0f;
+	distanceAware = 200.0f;
 	patrolRight = false;
 	moveSpeed = 70;
 
-	pathUpdateTime = 1.5f;
-	pathUpdateTimer = pathUpdateTime;
+	entityBody = app->physics->CreateRectangle(position.x + rect.w / 2, position.y + rect.h / 2, rect.w, rect.h, true);
+	entityBody->body->SetFixedRotation(true);
+	entityBody->body->SetSleepingAllowed(false);
+	entityBody->bodyType = PhysBodyType::CHICKEN;
+	entityBody->listener = module;
+	entityBody->id = entityId;
+	entityBody->remove = false;
 
 	type = EntityModule::EntityType::ET_CHICKEN;
-
-	pathIndex = 0;
 }
 
 void EnemyChicken::Update(float dt)
 {
+	b2Vec2 box_pos = entityBody->body->GetPosition();
+	position.x = METERS_TO_PIXELS(box_pos.x) - rect.w / 2;
+	position.y = METERS_TO_PIXELS(box_pos.y) - rect.h / 2;
+
 	animations[animState].Update(dt);
 
 	switch (state) {
-	case ES_PATROL:
+	case EnemyState::ES_PATROL:
 		Patrol(dt);
 		break;
-	case ES_FOLLOW:
+	case EnemyState::ES_FOLLOW:
 		Follow(dt);
 		break;
+	case EnemyState::ES_HURT:
+		Hurt(dt);
+		break;
 	}
+
+	box_pos.x = PIXEL_TO_METERS(position.x + rect.w / 2);
+	box_pos.y = PIXEL_TO_METERS(position.y + rect.h / 2);
+
+	entityBody->body->SetTransform(box_pos, 0);
 }
 
 void EnemyChicken::Render()
@@ -154,6 +165,18 @@ void EnemyChicken::Render()
 	app->render->DrawTexture(texture, position.x, position.y, &rect, flip);
 }
 
-void EnemyChicken::Cleanup()
+void EnemyChicken::Die()
 {
+	state = EnemyState::ES_HURT;
+
+	entityBody->body->SetLinearVelocity(b2Vec2_zero);
+
+	if (flip == SDL_FLIP_NONE) {
+		entityBody->body->ApplyForceToCenter(b2Vec2(150.0f, -150.0f), true);
+	}
+	else {
+		entityBody->body->ApplyForceToCenter(b2Vec2(-150.0f, -150.0f), true);
+	}
+
+	entityBody->body->GetFixtureList()->SetSensor(true);
 }

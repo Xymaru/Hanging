@@ -197,7 +197,7 @@ void GameScene::InitMapLevel()
 					pbody->bodyType = PhysBodyType::GROUND;
 					break;
 				case ColliderLayerType::SPIKE:
-					pbody = app->physics->CreateRectangle(x * tileWidth + tileWidth / 2, y * tileHeight + tileHeight / 2, tileWidth, tileHeight, false);
+					pbody = app->physics->CreateRectangle(x * tileWidth + tileWidth / 2, y * tileHeight + tileHeight / 2 + 3, tileWidth, tileHeight - 6, false);
 					pbody->bodyType = PhysBodyType::SPIKES;
 					break;
 				case ColliderLayerType::PLATFORM:
@@ -229,7 +229,7 @@ void GameScene::InitMapLevel()
 
 				iPoint position = { obj->x, obj->y };
 
-				app->enemies->AddEntity((EntityModule::EntityType)obj->type, position);
+				app->enemies->AddEntity(obj->id, (EntityModule::EntityType)obj->type, position);
 			}
 		}
 	}

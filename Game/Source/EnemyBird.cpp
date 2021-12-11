@@ -93,7 +93,7 @@ void EnemyBird::MoveTo(iPoint destination, float dt)
 
 	iPoint step = { int(dir.x * dt), int(dir.y * dt) };
 
-	std::cout << step.x << "," << step.y << std::endl;
+	//std::cout << step.x << "," << step.y << std::endl;
 
 	position.x += step.x;
 	position.y += step.y;
@@ -129,7 +129,7 @@ EnemyBird::~EnemyBird()
 {
 }
 
-void EnemyBird::Init()
+void EnemyBird::Init(Module* module)
 {
 	texture = app->tex->Load("Assets/Textures/enemy_animation/bluebird.png");
 

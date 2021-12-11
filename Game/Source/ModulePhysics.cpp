@@ -23,6 +23,22 @@ ModulePhysics::~ModulePhysics()
 {
 }
 
+void ModulePhysics::Activate()
+{
+	Module::Activate();
+
+	if (world) {
+		delete world;
+	}
+
+	world = new b2World(b2Vec2(0, gravity));
+	world->SetContactListener(this);
+
+	// needed to create joints like mouse joint
+	b2BodyDef bd;
+	ground = world->CreateBody(&bd);
+}
+
 bool ModulePhysics::Awake(pugi::xml_node& config)
 {
 	LOG("Creating Physics 2D environment");
@@ -47,6 +63,22 @@ bool ModulePhysics::Start()
 // 
 bool ModulePhysics::PreUpdate(float dt)
 {
+	// Clear bodies to delete
+	b2Body* body = world->GetBodyList();
+	while (body)
+	{
+		b2Body* b = body;
+		body = body->GetNext();
+
+		PhysBody* pbody = (PhysBody*)b->GetUserData();
+		if (pbody) {
+			if (pbody->remove) {
+				world->DestroyBody(b);
+			}
+		}
+	}
+
+	// World pre-update
 	world->Step(dt, 6, 2);
 
 	for(b2Contact* c = world->GetContactList(); c; c = c->GetNext())
@@ -60,6 +92,11 @@ bool ModulePhysics::PreUpdate(float dt)
 		}
 	}
 
+	return true;
+}
+
+bool ModulePhysics::Update(float dt)
+{
 	return true;
 }
 
@@ -412,16 +449,7 @@ void ModulePhysics::BeginContact(b2Contact* contact)
 		physB->listener->OnCollision(physB, physA);
 }
 
-void ModulePhysics::ReStart()
+void ModulePhysics::DestroyBody(b2Body * body)
 {
-	if (world) {
-		delete world;
-	}
-
-	world = new b2World(b2Vec2(0, gravity));
-	world->SetContactListener(this);
-
-	// needed to create joints like mouse joint
-	b2BodyDef bd;
-	ground = world->CreateBody(&bd);
+	world->DestroyBody(body);
 }

@@ -53,7 +53,7 @@ public:
 
 	void SetOrigin(iPoint pos) { origin = pos; }
 
-	void Init();
+	void Init(Module* module);
 	void Update(float dt);
 	void Render();
 

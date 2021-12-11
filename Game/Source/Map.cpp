@@ -417,6 +417,7 @@ bool Map::LoadObjectGroup(pugi::xml_node & node, ObjectGroup * objectGroup)
 		obj->x = object.attribute("x").as_int();
 		obj->y = object.attribute("y").as_int();
 		obj->type = object.attribute("type").as_int();
+		obj->id = object.attribute("id").as_int();
 
 		objectGroup->objects.Add(obj);
 	}

@@ -99,6 +99,7 @@ struct MapLayer
 struct Object {
 	SString name;
 	int type;
+	int id;
 	int x;
 	int y;
 };

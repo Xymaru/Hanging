@@ -13,7 +13,7 @@ Heart::~Heart()
 {
 }
 
-void Heart::Init()
+void Heart::Init(Module* module)
 {
 	texture = app->tex->Load("Assets/Textures/heart/heart.png");
 

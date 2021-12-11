@@ -60,17 +60,11 @@ public:
 	// Called to activate module
 	virtual void Activate() {
 		active = true;
-		ReStart();
 	}
 
 	// Called to deactivate module
 	virtual void Deactivate() {
 		active = false;
-	}
-
-	// Called when reactivated
-	virtual void ReStart() {
-
 	}
 
 	// Called on two bodies collision
