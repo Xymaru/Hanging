@@ -47,6 +47,9 @@ public:
 
 	void ReStart();
 	void SavePlayer(pugi::xml_node& node);
+
+	int playerhealth = 1;
+	int playerscore = 0;
 private:
 	enum PlayerState {
 		DEAD, HURT, IDLE, JUMP, WALK, LAST
@@ -82,6 +85,9 @@ private:
 	iPoint position;
 
 	int moveSpeed;
+
+	int healthFont = -1;
+	char livesText[10] = { "\0" };
 
 	int cameraBound;
 

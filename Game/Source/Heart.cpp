@@ -33,7 +33,7 @@ void Heart::Init()
 	flip = SDL_FLIP_NONE;
 	animState = AS_FLIP;
 
-	type = EntityModule::EntityType::ET_COIN;
+	type = EntityModule::EntityType::ET_HEART;
 }
 
 void Heart::Update(float dt)

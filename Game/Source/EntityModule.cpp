@@ -3,6 +3,8 @@
 #include "EnemyBird.h"
 #include "Coins.h"
 #include "Heart.h"
+#include "Checkpoint.h"
+#include "EnemyChicken.h"
 #include "Map.h"
 #include "Render.h"
 
@@ -126,6 +128,14 @@ void EntityModule::AddEntity(EntityType type, iPoint position)
 			entity = bird;
 		}
 		break;
+		case ET_CHICKEN:
+		{
+			EnemyChicken* chicken = new EnemyChicken();
+			chicken->SetOrigin(position);
+
+			entity = chicken;
+		}
+		break;
 		case ET_COIN:
 		{
 			Coins* coins = new Coins();
@@ -138,6 +148,13 @@ void EntityModule::AddEntity(EntityType type, iPoint position)
 			Heart* heart = new Heart();
 
 			entity = heart;
+		}
+		break;
+		case ET_CHECKPOINT:
+		{
+			Checkpoint* checkpoint = new Checkpoint();
+
+			entity = checkpoint;
 		}
 		break;
 	}

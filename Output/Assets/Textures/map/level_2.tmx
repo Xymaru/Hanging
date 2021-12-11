@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.5" tiledversion="1.7.2" orientation="orthogonal" renderorder="right-down" width="44" height="12" tilewidth="51" tileheight="51" infinite="0" nextlayerid="6" nextobjectid="14">
+<map version="1.5" tiledversion="1.7.2" orientation="orthogonal" renderorder="right-down" width="44" height="12" tilewidth="51" tileheight="51" infinite="0" nextlayerid="6" nextobjectid="16">
  <tileset firstgid="1" name="hanging_tile" tilewidth="51" tileheight="51" spacing="1" margin="1" tilecount="286" columns="22">
   <image source="hanging_tile.png" width="1194" height="695"/>
  </tileset>
@@ -1618,7 +1618,6 @@
   <object id="3" name="Coins" type="2" x="596" y="414.667" width="32" height="32"/>
   <object id="4" name="Coins" type="2" x="825.333" y="214.667" width="32" height="32"/>
   <object id="5" name="Coins" type="2" x="874.667" y="110.667" width="32" height="32"/>
-  <object id="6" name="Coins" type="2" x="978.667" y="64" width="32" height="32"/>
   <object id="7" name="Coins" type="2" x="1181.33" y="468" width="32" height="32"/>
   <object id="8" name="Coins" type="2" x="1360" y="518.667" width="32" height="32"/>
   <object id="9" name="Coins" type="2" x="1514.67" y="417.333" width="32" height="32"/>
@@ -1626,5 +1625,7 @@
   <object id="11" name="Coins" type="2" x="1872" y="364" width="32" height="32"/>
   <object id="12" name="Coins" type="2" x="1946.67" y="161.333" width="32" height="32"/>
   <object id="13" name="heart" type="3" x="977.333" y="468" width="32" height="32"/>
+  <object id="14" name="checkpoint" type="4" x="954.876" y="38.875" width="28" height="63"/>
+  <object id="15" name="Chicken" type="1" x="993.42" y="33.9167" width="64" height="68"/>
  </objectgroup>
 </map>

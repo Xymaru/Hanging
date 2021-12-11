@@ -15,6 +15,7 @@ public:
 		ET_CHICKEN,
 		ET_COIN,
 		ET_HEART,
+		ET_CHECKPOINT,
 		ET_LAST
 	};
 

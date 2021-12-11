@@ -4,6 +4,7 @@
 #include "Audio.h"
 #include "Render.h"
 #include "Window.h"
+#include "Fonts.h"
 #include "PlayerModule.h"
 #include "Map.h"
 #include "ModuleFadeToBlack.h"
@@ -38,6 +39,9 @@ bool PlayerModule::Start()
 {
 	playerTex = app->tex->Load("Assets/Textures/player.png");
 	jump = app->audio->LoadFx("Assets/Audio/Fx/jump.wav");
+
+	char lookupTable[] = { "! @,_./0123456789$;< ?abcdefghijklmnopqrstuvwxyz" };
+	healthFont = app->fonts->Load("Assets/Fonts/rtype_font3.png", lookupTable, 2);
 
 	playerState = PlayerState::IDLE;
 	playerFlip = SDL_FLIP_NONE;
@@ -103,6 +107,14 @@ bool PlayerModule::PostUpdate(float dt)
 	// Draw character
 	SDL_Rect active_anim = animations[playerState].GetCurrentFrame();
 	app->render->DrawTexture(playerTex, position.x - spriteOffsetX, position.y, &active_anim, playerFlip);
+
+	app->fonts->BlitText(10 + app->render->camera.x, 10, healthFont, "player life ");
+	sprintf_s(livesText, 10, "%3d", playerhealth);
+	app->fonts->BlitText(105 + app->render->camera.x, 10, healthFont, livesText);
+
+	app->fonts->BlitText(10 + app->render->camera.x, 20, healthFont, "player score ");
+	sprintf_s(livesText, 10, "%5d", playerscore);
+	app->fonts->BlitText(105 + app->render->camera.x, 20, healthFont, livesText);
 
 	if (app->input->GetKey(SDL_SCANCODE_ESCAPE) == KEY_DOWN)
 		ret = false;
@@ -175,6 +187,8 @@ void PlayerModule::SavePlayer(pugi::xml_node & save)
 {
 	save.attribute("x") = position.x;
 	save.attribute("y") = position.y;
+	save.attribute("score") = playerscore;
+	save.attribute("health") = playerhealth;
 	save.attribute("state") = playerState;
 }
 
@@ -187,6 +201,8 @@ void PlayerModule::ReStart()
 	playerBody->listener = this;
 
 	playerState = IDLE;
+	playerscore = 0;
+	playerhealth = 1;
 	playerFlip = SDL_FLIP_NONE;
 }
 

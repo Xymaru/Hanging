@@ -39,6 +39,7 @@ public:
 
 	// Font index
 	int menuFont = -1;
+	char livesText[10] = { "\0" };
 
 	//Menu Buttons
 

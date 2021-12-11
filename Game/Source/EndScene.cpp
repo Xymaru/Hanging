@@ -91,9 +91,15 @@ bool EndScene::PostUpdate(float dt)
 
 	if (win) {
 		app->fonts->BlitText(640 / 2 - 79, 612 / 2 + 110, menuFont, "you won!");
+		app->fonts->BlitText(640 / 2 - 79, 612 / 2 + 130, menuFont, "your score ");
+		sprintf_s(livesText, 10, "%5d", app->playerModule->playerscore);
+		app->fonts->BlitText(640 / 2 , 612 / 2 + 130, menuFont, livesText);
 	}
 	else {
 		app->fonts->BlitText(640 / 2 - 79, 612 / 2 + 110, menuFont, "you lost!");
+		app->fonts->BlitText(640 / 2 - 79, 612 / 2 + 130, menuFont, "your score ");
+		sprintf_s(livesText, 10, "%5d", app->playerModule->playerscore);
+		app->fonts->BlitText(640 / 2 , 612 / 2 + 130, menuFont, livesText);
 	}
 
 	if (app->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN) {
