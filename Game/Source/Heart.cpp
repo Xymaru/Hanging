@@ -34,6 +34,12 @@ void Heart::Init(Module* module)
 	animState = AS_FLIP;
 
 	type = EntityModule::EntityType::ET_HEART;
+
+	entityBody = app->physics->CreateRectangleSensor(position.x + rect.w / 2, position.y + rect.h / 2, rect.w, rect.h, false);
+	entityBody->bodyType = PhysBodyType::HEART;
+	entityBody->listener = module;
+	entityBody->id = entityId;
+	entityBody->remove = false;
 }
 
 void Heart::Update(float dt)
@@ -48,6 +54,4 @@ void Heart::Render()
 	app->render->DrawTexture(texture, position.x, position.y, &rect, flip);
 }
 
-void Heart::Cleanup()
-{
-}
+

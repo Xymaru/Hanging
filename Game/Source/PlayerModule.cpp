@@ -107,8 +107,12 @@ bool PlayerModule::Update(float dt)
 	}
 	else {
 		if (position.y >= app->win->getWindowHeight()) {
-			app->fade->FadeToBlack(app->gameScene, app->endScene);
+			app->gameScene->LoadGameState();
 		}
+	}
+
+	if (playerhealth == 0) {
+		app->fade->FadeToBlack(app->gameScene, app->endScene);
 	}
 	
 	animations[playerState].Update(dt);
@@ -185,6 +189,7 @@ void PlayerModule::OnCollision(PhysBody * bodyA, PhysBody * bodyB)
 	}
 
 	if (bodyB->bodyType == PhysBodyType::SPIKES || bodyB->bodyType == PhysBodyType::CHICKEN || bodyB->bodyType == PhysBodyType::BIRD) {
+		playerhealth--;
 		playerState = HURT;
 
 		playerBody->body->SetLinearVelocity(b2Vec2_zero);

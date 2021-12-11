@@ -24,6 +24,7 @@ enum class PhysBodyType {
 	BIRD,
 	COIN,
 	HEART,
+	CHECKPOINT,
 	NEUTRAL
 };
 // Small class to return to other modules to track position and rotation of physics bodies

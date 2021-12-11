@@ -179,7 +179,7 @@ void EntityModule::OnCollision(PhysBody * bodyA, PhysBody * bodyB)
 {
 	if (bodyB->bodyType == PhysBodyType::PLAYER) {
 		if (bodyA->bodyType == PhysBodyType::COIN) {
-			app->playerModule->playerscore++;
+			app->playerModule->playerscore += 100;
 
 			ListItem<Entity*>* entity;
 			entity = entities.start;
@@ -196,10 +196,45 @@ void EntityModule::OnCollision(PhysBody * bodyA, PhysBody * bodyB)
 				}
 			}
 		}
+		if (bodyA->bodyType == PhysBodyType::HEART) {
+			app->playerModule->playerhealth++;
+
+			ListItem<Entity*>* entity;
+			entity = entities.start;
+
+			while (entity != NULL)
+			{
+				if (entity->data->GetId() == bodyA->id) {
+					entity->data->Cleanup();
+					entities.Del(entity);
+					break;
+				}
+				else {
+					entity = entity->next;
+				}
+			}
+		}
+		if (bodyA->bodyType == PhysBodyType::CHECKPOINT) {
+			ListItem<Entity*>* entity;
+			entity = entities.start;
+			while (entity != NULL)
+			{
+				if (entity->data->GetId() == bodyA->id) {
+					Checkpoint* check = (Checkpoint*)entity->data;
+					check->Check();
+					break;
+				}
+				else {
+					entity = entity->next;
+				}
+			}
+		}
 	}
 
 	if (bodyA->bodyType == PhysBodyType::CHICKEN) {
 		if (bodyB->bodyType == PhysBodyType::SPIKES) {
+			app->playerModule->playerscore += 200;
+
 			ListItem<Entity*>* entity;
 			entity = entities.start;
 

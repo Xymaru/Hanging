@@ -49,10 +49,10 @@ public:
 	GameLevel gameLevel;
 
 	uint bg_music;
-private:
-	void SaveGameState();
-	void LoadGameState();
 
+	void LoadGameState();
+	void SaveGameState();
+private:
 	bool fromGameSaved = false;
 
 	iPoint playerPosition;

@@ -2,6 +2,7 @@
 #include "Render.h"
 #include "Textures.h"
 #include "PlayerModule.h"
+#include "GameScene.h"
 #include "Map.h"
 
 
@@ -42,6 +43,12 @@ void Checkpoint::Init(Module* module)
 	animState = AS_OFF;
 
 	type = EntityModule::EntityType::ET_CHECKPOINT;
+
+	entityBody = app->physics->CreateRectangleSensor(position.x + rect.w / 2, position.y + rect.h / 2, rect.w, rect.h, false);
+	entityBody->bodyType = PhysBodyType::CHECKPOINT;
+	entityBody->listener = module;
+	entityBody->id = entityId;
+	entityBody->remove = false;
 }
 
 void Checkpoint::Update(float dt)
@@ -54,6 +61,12 @@ void Checkpoint::Render()
 	SDL_Rect rect = animations[animState].GetCurrentFrame();
 
 	app->render->DrawTexture(texture, position.x, position.y, &rect, flip);
+}
+
+void Checkpoint::Check()
+{
+	animState = AS_ON;
+	app->gameScene->SaveGameState();
 }
 
 void Checkpoint::Cleanup()

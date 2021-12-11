@@ -87,6 +87,8 @@ bool EndScene::PostUpdate(float dt)
 {
 	bool ret = true;
 
+	app->render->camera.x = 0;
+	app->render->camera.y = 0;
 	app->render->DrawTexture(gamemenu, 0, 0);
 
 	if (win) {

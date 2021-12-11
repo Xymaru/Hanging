@@ -27,5 +27,6 @@ public:
 	void Update(float dt);
 	void Render();
 
+	void Check();
 	void Cleanup();
 };
