@@ -36,7 +36,7 @@ void Coins::Init(Module* module)
 	
 	type = EntityModule::EntityType::ET_COIN;
 
-	entityBody = app->physics->CreateRectangle(position.x + rect.w / 2, position.y + rect.h / 2, rect.w, rect.h, false);
+	entityBody = app->physics->CreateRectangleSensor(position.x + rect.w / 2, position.y + rect.h / 2, rect.w, rect.h, false);
 	entityBody->bodyType = PhysBodyType::COIN;
 	entityBody->listener = module;
 	entityBody->id = entityId;

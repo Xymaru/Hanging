@@ -168,6 +168,7 @@ void EnemyChicken::Render()
 void EnemyChicken::Die()
 {
 	state = EnemyState::ES_HURT;
+	animState = AS_HURT;
 
 	entityBody->body->SetLinearVelocity(b2Vec2_zero);
 
