@@ -33,6 +33,7 @@ bool GameScene::Awake(pugi::xml_node& config)
 	bool ret = true;
 
 	gameLevel = GameLevel::Level1;
+	fromGameSaved = false;
 	
 	return ret;
 }
@@ -192,6 +193,7 @@ void GameScene::InitMapLevel()
 					if (!fromGameSaved)
 					{
 						app->playerModule->SetPosition(x * tileWidth, y * tileHeight - tileHeight / 2);
+						app->playerModule->playerscore = 0;
 					}
 					else
 					{

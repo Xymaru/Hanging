@@ -300,6 +300,30 @@ void EntityModule::OnCollision(PhysBody * bodyA, PhysBody * bodyB)
 			}
 		}
 	}
+
+	if (bodyA->bodyType == PhysBodyType::BIRD) {
+		if (bodyB->bodyType == PhysBodyType::SPIKES) {
+			app->playerModule->playerscore += 200;
+
+			ListItem<Entity*>* entity;
+			entity = entities.start;
+
+			while (entity != NULL)
+			{
+				if (entity->data->GetId() == bodyA->id) {
+					EnemyBird* bird = (EnemyBird*)entity->data;
+					if (bird->GetState() != EnemyBird::BirdState::BS_DYING && bird->GetState() != EnemyBird::BirdState::BS_DEAD) {
+						bird->Die();
+					}
+
+					break;
+				}
+				else {
+					entity = entity->next;
+				}
+			}
+		}
+	}
 }
 
 void EntityModule::DrawPath(const DynArray<iPoint>* path)

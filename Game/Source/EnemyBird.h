@@ -30,7 +30,7 @@ private:
 
 	SDL_RendererFlip flip;
 
-	iPoint origin;
+	iPoint originPos;
 
 	DynArray<iPoint> path;
 	float pathUpdateTimer;
@@ -43,6 +43,7 @@ private:
 	void Patrol(float dt);
 	void Follow(float dt);
 	void Backing(float dt);
+	void Dying(float dt);
 
 	void MoveTo(iPoint destination, float dt);
 	void CheckClosestIndex();
@@ -50,7 +51,7 @@ public:
 	EnemyBird();
 	~EnemyBird();
 
-	void SetOrigin(iPoint pos) { origin = pos; }
+	void SetOrigin(iPoint pos) { originPos = pos; }
 
 	void Init(Module* module);
 	void Update(float dt);
@@ -61,4 +62,5 @@ public:
 	const DynArray<iPoint>* GetActivePath() const { return &path; }
 
 	void SetState(int newState) override;
+	void Die() override;
 };

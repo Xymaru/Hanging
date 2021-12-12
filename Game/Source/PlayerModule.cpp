@@ -106,7 +106,10 @@ bool PlayerModule::Update(float dt)
 	}
 	else {
 		if (position.y >= app->win->getWindowHeight()) {
-			if (app->enemies->checkpoint_active == true) {
+			if (playerhealth <= 0) {
+				app->fade->FadeToBlack(app->gameScene, app->endScene);
+			}
+			else if (app->enemies->checkpoint_active == true) {
 				app->gameScene->LoadGameState();
 			}
 			else
@@ -114,10 +117,6 @@ bool PlayerModule::Update(float dt)
 				app->fade->FadeToBlack(app->gameScene, app->gameScene);
 			}
 		}
-	}
-
-	if (playerhealth <= 0) {
-		app->fade->FadeToBlack(app->gameScene, app->endScene);
 	}
 	
 	animations[playerState].Update(dt);
