@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="1.3.4" orientation="orthogonal" renderorder="right-down" width="44" height="12" tilewidth="51" tileheight="51" infinite="0" nextlayerid="7" nextobjectid="17">
+<map version="1.5" tiledversion="1.7.2" orientation="orthogonal" renderorder="right-down" width="44" height="12" tilewidth="51" tileheight="51" infinite="0" nextlayerid="7" nextobjectid="17">
  <tileset firstgid="1" name="hanging_tile" tilewidth="51" tileheight="51" spacing="1" margin="1" tilecount="286" columns="22">
   <image source="hanging_tile.png" width="1194" height="695"/>
  </tileset>
@@ -577,6 +577,7 @@
    <tile/>
    <tile/>
    <tile/>
+   <tile gid="17"/>
    <tile/>
    <tile/>
    <tile/>
@@ -589,8 +590,7 @@
    <tile/>
    <tile/>
    <tile/>
-   <tile/>
-   <tile/>
+   <tile gid="15"/>
    <tile/>
    <tile/>
    <tile/>
