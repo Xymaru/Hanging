@@ -5,7 +5,6 @@
 #include "GameScene.h"
 #include "Map.h"
 
-
 Checkpoint::Checkpoint()
 {
 }
@@ -40,7 +39,7 @@ void Checkpoint::Init(Module* module)
 	animations.Add(on);
 
 	flip = SDL_FLIP_NONE;
-	animState = AS_OFF;
+	state = S_OFF;
 
 	type = EntityModule::EntityType::ET_CHECKPOINT;
 
@@ -53,19 +52,19 @@ void Checkpoint::Init(Module* module)
 
 void Checkpoint::Update(float dt)
 {
-	animations[animState].Update(dt);
+	animations[state].Update(dt);
 }
 
 void Checkpoint::Render()
 {
-	SDL_Rect rect = animations[animState].GetCurrentFrame();
+	SDL_Rect rect = animations[state].GetCurrentFrame();
 
 	app->render->DrawTexture(texture, position.x, position.y, &rect, flip);
 }
 
 void Checkpoint::Check()
 {
-	animState = AS_ON;
+	state = S_ON;
 	app->gameScene->SaveGameState();
 }
 

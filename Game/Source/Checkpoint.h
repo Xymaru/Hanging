@@ -5,14 +5,12 @@
 
 class Checkpoint : public Entity
 {
-private:
-	enum AnimState {
-		AS_OFF,
-		AS_ON
+public:
+	enum CheckpointState {
+		S_OFF,
+		S_ON
 	};
-
-	AnimState animState;
-
+private:
 	SDL_RendererFlip flip;
 
 	iPoint origin;

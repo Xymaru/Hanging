@@ -85,8 +85,6 @@ void PlayerModule::Activate()
 	playerBody->remove = false;
 
 	playerState = IDLE;
-	playerscore = 0;
-	playerhealth = 3;
 	playerFlip = SDL_FLIP_NONE;
 }
 
@@ -113,12 +111,12 @@ bool PlayerModule::Update(float dt)
 			}
 			else
 			{
-				app->fade->FadeToBlack(this, this);
+				app->fade->FadeToBlack(app->gameScene, app->gameScene);
 			}
 		}
 	}
 
-	if (playerhealth == 0) {
+	if (playerhealth <= 0) {
 		app->fade->FadeToBlack(app->gameScene, app->endScene);
 	}
 	
@@ -191,8 +189,16 @@ void PlayerModule::OnCollision(PhysBody * bodyA, PhysBody * bodyB)
 	}
 
 	if (bodyB->bodyType == PhysBodyType::END) {
-		app->endScene->win = true;
-		app->fade->FadeToBlack(app->gameScene, app->endScene);
+		if(app->gameScene->gameLevel == GameScene::GameLevel::Level1){
+			app->gameScene->gameLevel = GameScene::GameLevel::Level2;
+			app->fade->FadeToBlack(app->gameScene, app->gameScene);
+
+			app->playerModule->playerscore += 500;
+		}
+		else {
+			app->endScene->win = true;
+			app->fade->FadeToBlack(app->gameScene, app->endScene);
+		}
 	}
 
 	if (bodyB->bodyType == PhysBodyType::SPIKES || bodyB->bodyType == PhysBodyType::CHICKEN || bodyB->bodyType == PhysBodyType::BIRD) {

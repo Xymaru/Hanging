@@ -5,15 +5,15 @@
 
 class EnemyBird : public Entity
 {
-private:
-	enum EnemyState {
-		ES_PATROL,
-		ES_FOLLOW,
-		ES_BACKING,
-		ES_DYING,
-		ES_DEAD
+public:
+	enum BirdState {
+		BS_PATROL,
+		BS_FOLLOW,
+		BS_BACKING,
+		BS_DYING,
+		BS_DEAD
 	};
-
+private:
 	enum AnimState {
 		AS_FLY,
 		AS_HURT
@@ -27,7 +27,6 @@ private:
 	int moveSpeed;
 
 	AnimState animState;
-	EnemyState state;
 
 	SDL_RendererFlip flip;
 
@@ -60,4 +59,6 @@ public:
 	void Cleanup();
 
 	const DynArray<iPoint>* GetActivePath() const { return &path; }
+
+	void SetState(int newState) override;
 };

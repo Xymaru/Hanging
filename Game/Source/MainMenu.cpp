@@ -58,6 +58,9 @@ bool MainMenu::Start()
 	nextFx =app->audio->LoadFx("Assets/FX/press.wav");
 	backFx = app->audio->LoadFx("Assets/FX/menu3_back.wav");
 
+	app->playerModule->playerscore = 0;
+	app->playerModule->playerhealth = 3;
+
 	return ret;
 }
 

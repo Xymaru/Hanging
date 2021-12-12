@@ -67,6 +67,17 @@ bool GameScene::PreUpdate(float dt)
 bool GameScene::Update(float dt)
 {
 	app->audio->PlayFx(bg_music, 2);
+
+	if (app->input->GetKey(SDL_SCANCODE_F1) == KEY_DOWN) {
+		app->gameScene->gameLevel = app->gameScene->Level1;
+		app->fade->FadeToBlack(this, this);
+	}
+
+	if (app->input->GetKey(SDL_SCANCODE_F2) == KEY_DOWN) {
+		app->gameScene->gameLevel = app->gameScene->Level2;
+		app->fade->FadeToBlack(this, this);
+	}
+
 	if (app->input->GetKey(SDL_SCANCODE_F3) == KEY_DOWN) {
 		app->fade->FadeToBlack(this, this);
 	}
@@ -233,6 +244,17 @@ void GameScene::InitMapLevel()
 			}
 		}
 	}
+	else {
+		pugi::xml_document saveFile;
+		pugi::xml_parse_result result = saveFile.load_file("save_game.xml");
+
+		if (result != NULL)
+		{
+			pugi::xml_node save_node = saveFile.child("game_state");
+
+			app->enemies->LoadEntities(save_node.child("entities"));
+		}
+	}
 
 	// Init pathfinding map
 	int width, height;
@@ -318,9 +340,9 @@ void GameScene::LoadGameState()
 		cameraPosition.x = camera.attribute("x").as_int();
 		cameraPosition.y = camera.attribute("y").as_int();
 
-		fromGameSaved = true;
+		app->playerModule->playerscore = player.attribute("score").as_int();
 
-		app->enemies->LoadEntities(save_node.child("entities"));
+		fromGameSaved = true;
 
 		app->fade->FadeToBlack(this, this);
 	}

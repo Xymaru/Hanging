@@ -35,6 +35,8 @@ bool EntityModule::Awake(pugi::xml_node& config)
 // Called before the first frame
 bool EntityModule::Start()
 {
+	checkpoint_active = false;
+
 	return true;
 }
 
@@ -115,17 +117,56 @@ bool EntityModule::CleanUp()
 	return true;
 }
 
-void EntityModule::SaveEntities(pugi::xml_node & entities)
+void EntityModule::SaveEntities(pugi::xml_node & entities_node)
 {
+	// Clear previous saved entities
+	pugi::xml_node entity_node = entities_node.first_child();
 
+	while (entity_node) {
+		entities_node.remove_child(entity_node);
+		entity_node = entities_node.first_child();
+	}
+
+	// Add new entities
+	ListItem<Entity*>* entity;
+
+	for (entity = entities.start; entity != NULL; entity = entity->next) {
+		Entity* ent = entity->data;
+
+		entity_node = entities_node.append_child("entity");
+
+		entity_node.append_attribute("id") = ent->GetId();
+		entity_node.append_attribute("type") = (int)ent->GetType();
+
+		iPoint pos = ent->GetPosition();
+		entity_node.append_attribute("x") = pos.x;
+		entity_node.append_attribute("y") = pos.y;
+
+		entity_node.append_attribute("state") = ent->GetState();
+	}
 }
 
-void EntityModule::LoadEntities(pugi::xml_node & entities)
+void EntityModule::LoadEntities(pugi::xml_node & entities_node)
 {
-	
+	pugi::xml_node entity_node = entities_node.first_child();
+
+	while (entity_node) {
+		int id = entity_node.attribute("id").as_int();
+		EntityType type = (EntityType)entity_node.attribute("type").as_int();
+		iPoint pos;
+		pos.x = entity_node.attribute("x").as_int();
+		pos.y = entity_node.attribute("y").as_int();
+
+		int state = entity_node.attribute("state").as_int();
+
+		Entity* ent = AddEntity(id, type, pos);
+		ent->SetState(state);
+
+		entity_node = entity_node.next_sibling();
+	}
 }
 
-void EntityModule::AddEntity(int id, EntityType type, iPoint position)
+Entity* EntityModule::AddEntity(int id, EntityType type, iPoint position)
 {
 	Entity* entity = nullptr;
 
@@ -173,6 +214,8 @@ void EntityModule::AddEntity(int id, EntityType type, iPoint position)
 	entity->SetId(id);
 	entity->Init(this);
 	entities.Add(entity);
+
+	return entity;
 }
 
 void EntityModule::OnCollision(PhysBody * bodyA, PhysBody * bodyB)
@@ -221,8 +264,10 @@ void EntityModule::OnCollision(PhysBody * bodyA, PhysBody * bodyB)
 			{
 				if (entity->data->GetId() == bodyA->id) {
 					Checkpoint* check = (Checkpoint*)entity->data;
-					check->Check();
-					checkpoint_active = true;
+					if (check->GetState() == Checkpoint::CheckpointState::S_OFF) {
+						check->Check();
+						checkpoint_active = true;
+					}
 					break;
 				}
 				else {
@@ -243,7 +288,7 @@ void EntityModule::OnCollision(PhysBody * bodyA, PhysBody * bodyB)
 			{
 				if (entity->data->GetId() == bodyA->id) {
 					EnemyChicken* chicken = (EnemyChicken*)entity->data;
-					if (chicken->GetState() != EnemyChicken::EnemyState::ES_HURT && chicken->GetState() != EnemyChicken::EnemyState::ES_DEAD) {
+					if (chicken->GetState() != EnemyChicken::ChickenState::CS_HURT && chicken->GetState() != EnemyChicken::ChickenState::CS_DEAD) {
 						chicken->Die();
 					}
 

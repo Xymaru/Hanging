@@ -1,6 +1,15 @@
 <?xml version="1.0"?>
 <game_state>
 	<level value="0" />
-	<player x="1192" y="353" score="400" health="4" state="3" />
-	<camera x="933" y="0" />
+	<player x="1154" y="325" score="400" health="4" state="3" />
+	<camera x="855" y="0" />
+	<entities>
+		<entity id="5" type="0" x="643" y="153" state="0" />
+		<entity id="9" type="2" x="1690" y="266" state="-1" />
+		<entity id="10" type="2" x="1538" y="162" state="-1" />
+		<entity id="11" type="2" x="1844" y="210" state="-1" />
+		<entity id="13" type="2" x="1334" y="364" state="-1" />
+		<entity id="14" type="2" x="1437" y="265" state="-1" />
+		<entity id="15" type="4" x="1163" y="395" state="1" />
+	</entities>
 </game_state>

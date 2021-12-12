@@ -12,7 +12,7 @@ void EnemyBird::Patrol(float dt)
 	float dist = DISTANCE(position.x, position.y, playerPos.x, playerPos.y);
 
 	if (dist < distanceFollow) {
-		state = ES_FOLLOW;
+		state = BS_FOLLOW;
 	}
 	else {
 		int step = moveSpeed * dt;
@@ -40,7 +40,7 @@ void EnemyBird::Follow(float dt)
 	float dist = DISTANCE(position.x, position.y, playerPos.x, playerPos.y);
 
 	if (dist > distanceFollow) {
-		state = ES_BACKING;
+		state = BS_BACKING;
 	}
 	else {
 		pathUpdateTimer += dt;
@@ -56,7 +56,7 @@ void EnemyBird::Follow(float dt)
 			if (res > 0) {
 				path = app->pathfinding->GetLastPath();
 
-				CheckClosestIndex();
+				//CheckClosestIndex();
 				activeNode = app->map->MapToWorld(path[pathIndex].x, path[pathIndex].y);
 			}
 		}
@@ -79,7 +79,7 @@ void EnemyBird::Follow(float dt)
 
 void EnemyBird::Backing(float dt)
 {
-	state = ES_PATROL;
+	state = BS_PATROL;
 	path.Clear();
 }
 
@@ -156,14 +156,14 @@ void EnemyBird::Init(Module* module)
 
 	flip = SDL_FLIP_NONE;
 	animState = AS_FLY;
-	state = ES_PATROL;
+	state = BS_PATROL;
 
 	patrolDistance = 80;
 	distanceFollow = 500.0f;
 	patrolRight = false;
 	moveSpeed = 80;
 
-	pathUpdateTime = 1.5f;
+	pathUpdateTime = 800.0f;
 	pathUpdateTimer = pathUpdateTime;
 
 	type = EntityModule::EntityType::ET_BIRD;
@@ -176,13 +176,13 @@ void EnemyBird::Update(float dt)
 	animations[animState].Update(dt);
 
 	switch (state) {
-		case ES_PATROL:
+		case BS_PATROL:
 			Patrol(dt);
 			break;
-		case ES_FOLLOW:
+		case BS_FOLLOW:
 			Follow(dt);
 			break;
-		case ES_BACKING:
+		case BS_BACKING:
 			Backing(dt);
 			break;
 	}
@@ -197,4 +197,21 @@ void EnemyBird::Render()
 
 void EnemyBird::Cleanup()
 {
+}
+
+void EnemyBird::SetState(int newState)
+{
+	Entity::SetState(newState);
+
+	switch (newState) {
+	case BS_PATROL:
+	case BS_FOLLOW:
+	case BS_BACKING:
+		animState = AS_FLY;
+		break;
+	case BS_DYING:
+	case BS_DEAD:
+		animState = AS_HURT;
+		break;
+	}
 }

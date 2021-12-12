@@ -4,6 +4,7 @@ Entity::Entity()
 {
 	entityBody = NULL;
 	remove = false;
+	state = -1;
 }
 
 Entity::~Entity()

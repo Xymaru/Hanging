@@ -6,11 +6,11 @@
 class EnemyChicken : public Entity
 {
 public:
-	enum class EnemyState {
-		ES_PATROL,
-		ES_FOLLOW,
-		ES_HURT,
-		ES_DEAD
+	enum ChickenState {
+		CS_PATROL,
+		CS_FOLLOW,
+		CS_HURT,
+		CS_DEAD
 	};
 private:
 	enum AnimState {
@@ -28,7 +28,6 @@ private:
 	int moveSpeed;
 
 	AnimState animState;
-	EnemyState state;
 
 	SDL_RendererFlip flip;
 
@@ -48,5 +47,5 @@ public:
 	void Render();
 
 	void Die();
-	EnemyState GetState() { return state; }
+	void SetState(int newState) override;
 };

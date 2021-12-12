@@ -13,7 +13,7 @@ void EnemyChicken::Patrol(float dt)
 	float dist = DISTANCE(position.x, position.y, playerPos.x, playerPos.y);
 
 	if (dist < distanceAware) {
-		state = EnemyState::ES_FOLLOW;
+		state = ChickenState::CS_FOLLOW;
 	}
 	else {
 		int step = moveSpeed * dt;
@@ -42,7 +42,7 @@ void EnemyChicken::Follow(float dt)
 	float dist = DISTANCE(position.x, position.y, playerPos.x, playerPos.y);
 
 	if (dist > distanceFollow) {
-		state = EnemyState::ES_PATROL;
+		state = ChickenState::CS_PATROL;
 		origin = position;
 	}
 	else {
@@ -65,7 +65,7 @@ void EnemyChicken::Follow(float dt)
 void EnemyChicken::Hurt(float dt)
 {
 	if (position.y >= app->win->getWindowHeight()) {
-		state = EnemyState::ES_DEAD;
+		state = ChickenState::CS_DEAD;
 		remove = true;
 	}
 }
@@ -113,7 +113,7 @@ void EnemyChicken::Init(Module* module)
 
 	flip = SDL_FLIP_NONE;
 	animState = AS_WALK;
-	state = EnemyState::ES_PATROL;
+	state = ChickenState::CS_PATROL;
 
 	patrolDistance = 90;
 	distanceFollow = 300.0f;
@@ -141,13 +141,13 @@ void EnemyChicken::Update(float dt)
 	animations[animState].Update(dt);
 
 	switch (state) {
-	case EnemyState::ES_PATROL:
+	case ChickenState::CS_PATROL:
 		Patrol(dt);
 		break;
-	case EnemyState::ES_FOLLOW:
+	case ChickenState::CS_FOLLOW:
 		Follow(dt);
 		break;
-	case EnemyState::ES_HURT:
+	case ChickenState::CS_HURT:
 		Hurt(dt);
 		break;
 	}
@@ -167,7 +167,7 @@ void EnemyChicken::Render()
 
 void EnemyChicken::Die()
 {
-	state = EnemyState::ES_HURT;
+	state = ChickenState::CS_HURT;
 	animState = AS_HURT;
 
 	entityBody->body->SetLinearVelocity(b2Vec2_zero);
@@ -180,4 +180,20 @@ void EnemyChicken::Die()
 	}
 
 	entityBody->body->GetFixtureList()->SetSensor(true);
+}
+
+void EnemyChicken::SetState(int newState)
+{
+	Entity::SetState(newState);
+
+	switch (newState) {
+		case CS_PATROL:
+		case CS_FOLLOW:
+			animState = AS_WALK;
+			break;
+		case CS_HURT:
+		case CS_DEAD:
+			animState = AS_HURT;
+			break;
+	}
 }

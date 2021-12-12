@@ -45,10 +45,10 @@ public:
 	// Called before quitting
 	bool CleanUp();
 
-	void SaveEntities(pugi::xml_node& entities);
-	void LoadEntities(pugi::xml_node& entities);
+	void SaveEntities(pugi::xml_node& entities_node);
+	void LoadEntities(pugi::xml_node& entities_node);
 
-	void AddEntity(int id, EntityType type, iPoint position);
+	Entity* AddEntity(int id, EntityType type, iPoint position);
 
 	// Called when player collides with an object
 	void OnCollision(PhysBody* bodyA, PhysBody* bodyB) override;

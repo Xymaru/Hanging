@@ -197,6 +197,15 @@ bool App::LoadConfig()
 // ---------------------------------------------
 void App::PrepareUpdate()
 {
+	if (input->GetKey(SDL_SCANCODE_F11) == KEY_DOWN) {
+		if (maxFrameRate == 16) {
+			maxFrameRate = 33;
+		}
+		else {
+			maxFrameRate = 16;
+		}
+	}
+
 	frameCount++;
 	lastSecFrameCount++;
 
@@ -238,7 +247,7 @@ void App::FinishUpdate()
 	}
 
 	static char title[256];
-	bool is_vsync = config.child("vsync").attribute("value").as_bool(true);
+	bool is_vsync = config.child("renderer").child("vsync").attribute("value").as_bool(true);
 	int lastFrameMs = frameDuration->ReadMs();
 
 	if (is_vsync == true) {

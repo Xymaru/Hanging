@@ -27,6 +27,8 @@ protected:
 	int entityId;
 
 	bool remove;
+
+	int state;
 public:
 	Entity();
 	~Entity();
@@ -46,4 +48,9 @@ public:
 	virtual void Die(){}
 
 	bool Remove() { return remove; }
+
+	int GetState() { return state; }
+	virtual void SetState(int newState) { state = newState; }
+
+	iPoint GetPosition() { return position; }
 };
