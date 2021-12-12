@@ -222,6 +222,7 @@ void EntityModule::OnCollision(PhysBody * bodyA, PhysBody * bodyB)
 				if (entity->data->GetId() == bodyA->id) {
 					Checkpoint* check = (Checkpoint*)entity->data;
 					check->Check();
+					checkpoint_active = true;
 					break;
 				}
 				else {

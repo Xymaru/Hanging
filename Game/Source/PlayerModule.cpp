@@ -6,6 +6,7 @@
 #include "Window.h"
 #include "Fonts.h"
 #include "PlayerModule.h"
+#include "EntityModule.h"
 #include "Map.h"
 #include "ModuleFadeToBlack.h"
 #include "EndScene.h"
@@ -107,7 +108,13 @@ bool PlayerModule::Update(float dt)
 	}
 	else {
 		if (position.y >= app->win->getWindowHeight()) {
-			app->gameScene->LoadGameState();
+			if (app->enemies->checkpoint_active == true) {
+				app->gameScene->LoadGameState();
+			}
+			else
+			{
+				app->fade->FadeToBlack(this, this);
+			}
 		}
 	}
 

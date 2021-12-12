@@ -52,6 +52,8 @@ public:
 
 	// Called when player collides with an object
 	void OnCollision(PhysBody* bodyA, PhysBody* bodyB) override;
+
+	bool checkpoint_active;
 private:
 	List<Entity*> entities;
 
