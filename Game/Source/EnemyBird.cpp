@@ -244,8 +244,8 @@ void EnemyBird::Init(Module* module)
 
 	pathIndex = 0;
 
-	entityBody = app->physics->CreateRectangleSensor(position.x + rect.w / 2, position.y + rect.h / 2, rect.w, rect.h, false);
-	entityBody->bodyType = PhysBodyType::CHICKEN;
+	entityBody = app->physics->CreateRectangleSensor(position.x + rect.w / 2, position.y + rect.h / 2, rect.w, rect.h, true);
+	entityBody->bodyType = PhysBodyType::BIRD;
 	entityBody->listener = module;
 	entityBody->id = entityId;
 	entityBody->remove = false;

@@ -49,9 +49,10 @@ bool EntityModule::PreUpdate()
 // Called each loop iteration
 bool EntityModule::Update(float dt)
 {
-	ListItem<Entity*>* entity;
+	ListItem<Entity*>* entity = entities.start;
 
-	for (entity = entities.start; entity != NULL; entity = entity->next) {
+	while (entity) {
+
 		entity->data->Update(dt);
 
 		if (entity->data->Remove()) {
@@ -61,6 +62,10 @@ bool EntityModule::Update(float dt)
 			entities.Del(entity);
 
 			entity = prev;
+		}
+
+		if (entity) {
+			entity = entity->next;
 		}
 	}
 
