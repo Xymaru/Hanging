@@ -111,6 +111,6 @@
     <ResourceCompile Include="Game.rc" />
   </ItemGroup>
   <ItemGroup>
-    <Image Include="bitbug_favicon.ico" />
+    <Image Include="..\Output\Assets\Textures\bitbug_favicon.ico" />
   </ItemGroup>
 </Project>

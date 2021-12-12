@@ -168,7 +168,7 @@
     <ResourceCompile Include="Game.rc" />
   </ItemGroup>
   <ItemGroup>
-    <Image Include="bitbug_favicon.ico" />
+    <Image Include="..\Output\Assets\Textures\bitbug_favicon.ico" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
