@@ -1,17 +1,17 @@
 <?xml version="1.0"?>
 <game_state>
-	<level value="0" />
-	<player x="1159" y="326" score="1600" health="3" state="2" />
-	<camera x="858" y="0" />
+	<level value="1" />
+	<player x="931" y="-31" score="3000" health="3" state="3" />
+	<camera x="630" y="0" />
 	<entities>
-		<entity id="7" type="2" x="287" y="160" state="-1" />
-		<entity id="8" type="2" x="442" y="261" state="-1" />
-		<entity id="9" type="2" x="1690" y="266" state="-1" />
-		<entity id="10" type="2" x="1538" y="162" state="-1" />
-		<entity id="11" type="2" x="1844" y="210" state="-1" />
-		<entity id="12" type="3" x="926" y="418" state="-1" />
-		<entity id="13" type="2" x="1334" y="364" state="-1" />
-		<entity id="14" type="2" x="1437" y="265" state="-1" />
-		<entity id="15" type="4" x="1163" y="395" state="1" />
+		<entity id="1" type="2" x="85" y="466" state="-1" />
+		<entity id="7" type="2" x="1181" y="468" state="-1" />
+		<entity id="8" type="2" x="1360" y="518" state="-1" />
+		<entity id="9" type="2" x="1514" y="417" state="-1" />
+		<entity id="10" type="2" x="1718" y="112" state="-1" />
+		<entity id="11" type="2" x="1872" y="364" state="-1" />
+		<entity id="12" type="2" x="1946" y="161" state="-1" />
+		<entity id="13" type="3" x="977" y="468" state="-1" />
+		<entity id="14" type="4" x="954" y="38" state="1" />
 	</entities>
 </game_state>
