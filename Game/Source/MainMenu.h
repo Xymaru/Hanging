@@ -2,6 +2,9 @@
 #define __MAIN_MENU_H__
 
 #include "Module.h"
+#include "GuiButton.h"
+#include "GuiSlider.h"
+#include "GuiCheckbox.h"
 //#include "Animation.h"
 
 struct SDL_Texture;
@@ -31,7 +34,7 @@ public:
 	// Called before quitting
 	bool CleanUp();
 
-
+	bool OnGuiMouseClickEvent(GuiControl* control) override;
 public:
 	int p_x = 640 / 2 - 100;
 	int p_y = 612 / 2 + 110;
@@ -56,6 +59,10 @@ public:
 	uint selectFx = 0;
 	uint nextFx = 0;
 	uint backFx = 0;
+
+	GuiButton* test;
+	GuiSlider* slider;
+	GuiCheckbox* checkBox;
 };
 
 #endif

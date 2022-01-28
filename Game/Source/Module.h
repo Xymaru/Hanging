@@ -7,12 +7,13 @@
 
 class App;
 class PhysBody;
+class GuiControl;
 
 class Module
 {
 public:
 
-	Module() : active(false)
+	Module() : active(false), isEnabled(false)
 	{}
 
 	void Init()
@@ -72,10 +73,16 @@ public:
 	{
 	}
 
+	virtual bool OnGuiMouseClickEvent(GuiControl* control)
+	{
+		return true;
+	}
+
 public:
 
 	SString name;
 	bool active;
+	bool isEnabled;
 
 	void Enable() {
 		if (!isEnabled)
@@ -97,8 +104,6 @@ public:
 	inline bool IsEnabled() const { return isEnabled; }
 
 private:
-	bool isEnabled = true;
-
 };
 
 #endif // __MODULE_H__

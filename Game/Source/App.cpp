@@ -16,6 +16,7 @@
 #include "ModuleFadeToBlack.h"
 #include "Pathfinding.h"
 #include "EntityModule.h"
+#include "GuiManager.h"
 
 #include "Defs.h"
 #include "Log.h"
@@ -43,6 +44,7 @@ App::App(int argc, char* args[]) : argc(argc), args(args)
 	endScene = new EndScene();
 	pathfinding = new PathFinding();
 	enemies = new EntityModule();
+	guiManager = new GuiManager();
 
 	// Ordered for awake / Start / Update
 	// Reverse order of CleanUp
@@ -61,6 +63,9 @@ App::App(int argc, char* args[]) : argc(argc), args(args)
 	AddModule(stage, false);
 	AddModule(fonts, true);
 	AddModule(endScene, false);
+	AddModule(guiManager, true);
+
+	// Fade
 	AddModule(fade, true);
 
 
@@ -91,6 +96,7 @@ void App::AddModule(Module* module, bool active)
 	module->Init();
 	modules.Add(module);
 	module->active = active;
+	module->isEnabled = active;
 }
 
 // Called before render is available
@@ -135,7 +141,8 @@ bool App::Start()
 
 	while(item != NULL && ret == true)
 	{
-		ret = item->data->Start();
+		if(item->data->active)
+			ret = item->data->Start();
 		item = item->next;
 	}
 

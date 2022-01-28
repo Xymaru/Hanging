@@ -26,6 +26,7 @@ class ModuleFadeToBlack;
 class EndScene;
 class PathFinding;
 class EntityModule;
+class GuiManager;
 
 class App
 {
@@ -100,6 +101,7 @@ public:
 	StageSelect* stage;
 	PathFinding* pathfinding;
 	EntityModule* enemies;
+	GuiManager* guiManager;
 
 private:
 

@@ -13,6 +13,8 @@
 #include "Defs.h"
 #include "Defs.h"
 #include "Log.h"
+#include "GuiManager.h"
+
 #include <iostream>
 
 MainMenu::MainMenu() : Module()
@@ -60,6 +62,15 @@ bool MainMenu::Start()
 
 	app->playerModule->playerscore = 0;
 	app->playerModule->playerhealth = 3;
+
+	/*test = (GuiButton*)app->guiManager->CreateGuiControl(GuiControlType::BUTTON, 0, "potato", { 10,20,100,50 }, this);
+	test->color = { 128,128,0,255 };*/
+
+	/*slider = (GuiSlider*)app->guiManager->CreateGuiControl(GuiControlType::SLIDER, 0, "yes", { 0,0,100,50 }, this);
+	slider->color = { 128,128,0,255 };*/
+
+	checkBox = (GuiCheckbox*)app->guiManager->CreateGuiControl(GuiControlType::CHECKBOX, 0, "yep", { 0,0,24,24 }, this);
+	checkBox->color = { 128,128,0,255 };
 
 	return ret;
 }
@@ -128,6 +139,7 @@ bool MainMenu::Update(float dt)
 bool MainMenu::PostUpdate(float dt)
 {
 	bool ret = true;
+
 	if (display == false) {
 		app->render->DrawTexture(gamemenu, 0, 0);
 		app->render->DrawTexture(Pointer, p_x, p_y);
@@ -145,12 +157,22 @@ bool MainMenu::PostUpdate(float dt)
 		app->fonts->BlitText(640 / 2 - 100, 612 / 2 , menuFont, "press esc < back to menu");
 	}
 
+	app->guiManager->Draw();
+
 	return ret;
 }
 
 bool MainMenu::CleanUp()
 {
 	LOG("Freeing menu");
+	app->guiManager->CleanUp();
+
+	return true;
+}
+
+bool MainMenu::OnGuiMouseClickEvent(GuiControl* control)
+{
+	printf("test\n");
 
 	return true;
 }
