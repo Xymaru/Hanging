@@ -60,7 +60,6 @@ bool PlayerModule::Start()
 	playerWidth = 38;
 	playerHeight = 62;
 
-	app->render->camera.x = 0;
 	position.x = 0;
 	position.y = 0;
 	moveSpeed = 3;
@@ -68,6 +67,8 @@ bool PlayerModule::Start()
 	playerGodmode = false;
 
 	cameraBound = app->win->GetWindowWidth() / 2 - playerWidth / 2;
+
+	playingTime = 0;
 
 	InitAnimations();
 	return true;
@@ -121,6 +122,8 @@ bool PlayerModule::Update(float dt)
 	
 	animations[playerState].Update(dt);
 
+	playingTime += dt;
+
 	return true;
 }
 
@@ -130,19 +133,7 @@ bool PlayerModule::PostUpdate(float dt)
 	bool ret = true;
 
 	// Draw character
-	SDL_Rect active_anim = animations[playerState].GetCurrentFrame();
-	app->render->DrawTexture(playerTex, position.x - spriteOffsetX, position.y, &active_anim, playerFlip);
-
-	app->fonts->BlitText(10 + app->render->camera.x, 10, healthFont, "player life ");
-	sprintf_s(livesText, 10, "%3d", playerhealth);
-	app->fonts->BlitText(105 + app->render->camera.x, 10, healthFont, livesText);
-
-	app->fonts->BlitText(10 + app->render->camera.x, 20, healthFont, "player score ");
-	sprintf_s(livesText, 10, "%5d", playerscore);
-	app->fonts->BlitText(105 + app->render->camera.x, 20, healthFont, livesText);
-
-	if (app->input->GetKey(SDL_SCANCODE_ESCAPE) == KEY_DOWN)
-		ret = false;
+	Render();
 
 	return ret;
 }
@@ -224,6 +215,24 @@ void PlayerModule::SavePlayer(pugi::xml_node & save)
 	save.attribute("score") = playerscore;
 	save.attribute("health") = playerhealth;
 	save.attribute("state") = playerState;
+}
+
+void PlayerModule::Render()
+{
+	SDL_Rect active_anim = animations[playerState].GetCurrentFrame();
+	app->render->DrawTexture(playerTex, position.x - spriteOffsetX, position.y, &active_anim, playerFlip);
+
+	app->fonts->BlitText(10 + app->render->camera.x, 10, healthFont, "player life ");
+	sprintf_s(livesText, 10, "%3d", playerhealth);
+	app->fonts->BlitText(105 + app->render->camera.x, 10, healthFont, livesText);
+
+	app->fonts->BlitText(10 + app->render->camera.x, 20, healthFont, "player score ");
+	sprintf_s(livesText, 10, "%5d", playerscore);
+	app->fonts->BlitText(105 + app->render->camera.x, 20, healthFont, livesText);
+
+	app->fonts->BlitText(10 + app->render->camera.x, 30, healthFont, "player time ");
+	sprintf_s(livesText, 10, "%.2f", playingTime);
+	app->fonts->BlitText(105 + app->render->camera.x, 30, healthFont, livesText);
 }
 
 void PlayerModule::InitAnimations()

@@ -28,10 +28,10 @@ enum class GuiControlType
 
 enum class GuiControlState
 {
-	DISABLED,
 	NORMAL,
 	FOCUSED,
 	PRESSED,
+	DISABLED,
 	SELECTED
 };
 

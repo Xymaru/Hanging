@@ -79,9 +79,7 @@ bool EntityModule::PostUpdate(float dt)
 
 	ListItem<Entity*>* entity;
 
-	for (entity = entities.start; entity != NULL; entity = entity->next) {
-		entity->data->Render();
-	}
+	Render();
 
 	if (app->IsDebugMode()) {
 		for (entity = entities.start; entity != NULL; entity = entity->next) {
@@ -328,6 +326,15 @@ void EntityModule::OnCollision(PhysBody * bodyA, PhysBody * bodyB)
 				}
 			}
 		}
+	}
+}
+
+void EntityModule::Render()
+{
+	ListItem<Entity*>* entity;
+
+	for (entity = entities.start; entity != NULL; entity = entity->next) {
+		entity->data->Render();
 	}
 }
 

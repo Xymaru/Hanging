@@ -34,8 +34,8 @@ public:
 	void GetWindowSize(uint& width, uint& height) const;
 
 	// Retrieve window scale
-	uint GetScale() const;
-
+	float GetScale() const;
+	void SetScale(float sc) { scale = sc; }
 public:
 	// The window we'll be rendering to
 	SDL_Window* window;
@@ -47,7 +47,7 @@ private:
 	uint width;
 	uint height;
 	SString title;
-	uint scale;
+	float scale;
 };
 
 #endif // __WINDOW_H__

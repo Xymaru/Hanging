@@ -14,6 +14,9 @@
 #include "Defs.h"
 #include "Log.h"
 #include "GuiManager.h"
+#include "ControlsScene.h"
+#include "CreditsScene.h"
+#include "SettingsScene.h"
 
 #include <iostream>
 
@@ -69,8 +72,29 @@ bool MainMenu::Start()
 	/*slider = (GuiSlider*)app->guiManager->CreateGuiControl(GuiControlType::SLIDER, 0, "yes", { 0,0,100,50 }, this);
 	slider->color = { 128,128,0,255 };*/
 
-	checkBox = (GuiCheckbox*)app->guiManager->CreateGuiControl(GuiControlType::CHECKBOX, 0, "yep", { 0,0,24,24 }, this);
-	checkBox->color = { 128,128,0,255 };
+	/*checkBox = (GuiCheckbox*)app->guiManager->CreateGuiControl(GuiControlType::CHECKBOX, 0, "yep", { 0,0,24,24 }, this);
+	checkBox->color = { 128,128,0,255 };*/
+
+	GuiButton* btn;
+
+	SDL_Texture* btn_tex = app->tex->Load("Assets/Textures/UI/start.png");
+	btn = app->guiManager->CreateButton(PLAY, { 260,350,120,23 }, btn_tex, this);
+
+	btn_tex = app->tex->Load("Assets/Textures/UI/continue.png");
+	btn = app->guiManager->CreateButton(CONTINUE, { 244,390,152,23 }, btn_tex, this);
+	if (!app->gameScene->ExistsSaved()) btn->Disable();
+
+	btn_tex = app->tex->Load("Assets/Textures/UI/settings.png");
+	btn = app->guiManager->CreateButton(SETTINGS, { 253,430,134,23 }, btn_tex, this);
+
+	btn_tex = app->tex->Load("Assets/Textures/UI/controls.png");
+	btn = app->guiManager->CreateButton(CONTROLS, { 255,470,130,23 }, btn_tex, this);
+
+	btn_tex = app->tex->Load("Assets/Textures/UI/credits.png");
+	btn = app->guiManager->CreateButton(CREDITS, { 251,510,138,23 }, btn_tex, this);
+
+	btn_tex = app->tex->Load("Assets/Textures/UI/exit.png");
+	btn = app->guiManager->CreateButton(EXIT, { 500,560,120,23 }, btn_tex, this);
 
 	return ret;
 }
@@ -82,53 +106,7 @@ bool MainMenu::PreUpdate(float dt)
 
 bool MainMenu::Update(float dt)
 {
-	bool ret = true;
-
-	//key commands 
-	if (app->input->GetKey(SDL_SCANCODE_W) == KEY_DOWN) {
-		if (M_Index < 2)
-		{
-			app->audio->PlayFx(selectFx);
-			M_Index++;
-			p_y -= 30;
-		}
-	}
-	if (app->input->GetKey(SDL_SCANCODE_S) == KEY_DOWN) {
-		if (M_Index > 0)
-		{
-			app->audio->PlayFx(selectFx);
-			M_Index--;
-			p_y += 30;
-		}
-	}
-	if (app->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN)
-	{
-		if (M_Index == B_Play)
-		{
-			app->audio->PlayFx(nextFx);
-			app->fade->FadeToBlack(this, app->stage);
-		}
-		if (M_Index == B_Coop) {
-			display = true;
-		}
-		if (M_Index == B_Exit)
-		{
-			ret = false;
-		}
-		else {
-			app->audio->PlayFx(backFx);
-		}
-	}
-	if (display == false) {
-		if (app->input->GetKey(SDL_SCANCODE_ESCAPE) == KEY_DOWN) {		// ESC to close the game
-			ret = false;
-		}
-	}
-	if (display == true) {
-		if (app->input->GetKey(SDL_SCANCODE_ESCAPE) == KEY_DOWN) {		// ESC to close the game
-			display = false;
-		}
-	}
+	bool ret = !exit;
 
 	return ret;
 }
@@ -140,22 +118,7 @@ bool MainMenu::PostUpdate(float dt)
 {
 	bool ret = true;
 
-	if (display == false) {
-		app->render->DrawTexture(gamemenu, 0, 0);
-		app->render->DrawTexture(Pointer, p_x, p_y);
-		app->fonts->BlitText(640 / 2 - 79, 612 / 2 + 110, menuFont, "play game");
-		app->fonts->BlitText(640 / 2 - 79, 612 / 2 + 140, menuFont, "game control");
-		app->fonts->BlitText(640 / 2 - 79, 612 / 2 + 170, menuFont, "exit game");
-	}
-	if (display == true) {
-		app->render->DrawTexture(gamecontrol, 0, 0);
-		app->fonts->BlitText(640 / 2 - 100, 612 / 2 - 100, menuFont, "a d < move space < jump");
-		app->fonts->BlitText(640 / 2 - 100, 612 / 2 - 80, menuFont, "f1 f2 < play level1 and 2");
-		app->fonts->BlitText(640 / 2 - 100, 612 / 2 - 60, menuFont, "f5 < save game f6 < load game");
-		app->fonts->BlitText(640 / 2 - 100, 612 / 2 - 40, menuFont, "f9 < view colliders");
-		app->fonts->BlitText(640 / 2 - 100, 612 / 2 - 20, menuFont, "f10 < god mod");
-		app->fonts->BlitText(640 / 2 - 100, 612 / 2 , menuFont, "press esc < back to menu");
-	}
+	app->render->DrawTexture(gamemenu, 0, 0);
 
 	app->guiManager->Draw();
 
@@ -172,7 +135,26 @@ bool MainMenu::CleanUp()
 
 bool MainMenu::OnGuiMouseClickEvent(GuiControl* control)
 {
-	printf("test\n");
+	switch (control->id) {
+	case PLAY:
+		app->fade->FadeToBlack(this, app->gameScene);
+		break;
+	case CONTINUE:
+		app->gameScene->LoadGameState(this);
+		break;
+	case CONTROLS:
+		app->fade->FadeToBlack(this, app->controlScene);
+		break;
+	case SETTINGS:
+		app->fade->FadeToBlack(this, app->settingsScene);
+		break;
+	case CREDITS:
+		app->fade->FadeToBlack(this, app->creditsScene);
+		break;
+	case EXIT:
+		exit = true;
+		break;
+	}
 
 	return true;
 }

@@ -54,6 +54,8 @@ public:
 	void OnCollision(PhysBody* bodyA, PhysBody* bodyB) override;
 
 	bool checkpoint_active;
+
+	void Render();
 private:
 	List<Entity*> entities;
 

@@ -27,6 +27,9 @@ class EndScene;
 class PathFinding;
 class EntityModule;
 class GuiManager;
+class ControlsScene;
+class CreditsScene;
+class SettingsScene;
 
 class App
 {
@@ -102,6 +105,9 @@ public:
 	PathFinding* pathfinding;
 	EntityModule* enemies;
 	GuiManager* guiManager;
+	ControlsScene* controlScene;
+	CreditsScene* creditsScene;
+	SettingsScene* settingsScene;
 
 private:
 

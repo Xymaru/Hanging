@@ -103,6 +103,16 @@ public:
 
 	inline bool IsEnabled() const { return isEnabled; }
 
+	void EnableAndActivate() {
+		Enable();
+		Activate();
+	}
+
+	void DisableAndDeactivate() {
+		Disable();
+		Deactivate();
+	}
+
 private:
 };
 

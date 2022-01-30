@@ -97,6 +97,8 @@
   <ItemGroup>
     <ClCompile Include="Source\Checkpoint.cpp" />
     <ClCompile Include="Source\Coins.cpp" />
+    <ClCompile Include="Source\ControlsScene.cpp" />
+    <ClCompile Include="Source\CreditsScene.cpp" />
     <ClCompile Include="Source\EndScene.cpp" />
     <ClCompile Include="Source\EnemyBird.cpp" />
     <ClCompile Include="Source\EnemyChicken.cpp" />
@@ -122,6 +124,7 @@
     <ClCompile Include="Source\PlayerModule.cpp" />
     <ClCompile Include="Source\LogoScene.cpp" />
     <ClCompile Include="Source\Render.cpp" />
+    <ClCompile Include="Source\SettingsScene.cpp" />
     <ClCompile Include="Source\StageSelect.cpp" />
     <ClCompile Include="Source\Textures.cpp" />
     <ClCompile Include="Source\Timer.cpp" />
@@ -130,6 +133,8 @@
     <ClInclude Include="Source\Animation.h" />
     <ClInclude Include="Source\Checkpoint.h" />
     <ClInclude Include="Source\Coins.h" />
+    <ClInclude Include="Source\ControlsScene.h" />
+    <ClInclude Include="Source\CreditsScene.h" />
     <ClInclude Include="Source\EndScene.h" />
     <ClInclude Include="Source\EnemyBird.h" />
     <ClInclude Include="Source\EnemyChicken.h" />
@@ -158,6 +163,7 @@
     <ClInclude Include="Source\App.h" />
     <ClInclude Include="Source\Module.h" />
     <ClInclude Include="Source\Render.h" />
+    <ClInclude Include="Source\SettingsScene.h" />
     <ClInclude Include="Source\StageSelect.h" />
     <ClInclude Include="Source\Textures.h" />
     <ClInclude Include="Source\Timer.h" />

@@ -1,9 +1,10 @@
 <?xml version="1.0"?>
 <game_state>
 	<level value="0" />
-	<player x="1137" y="325" score="1400" health="4" state="3" />
-	<camera x="837" y="0" />
+	<player x="1129" y="326" score="200" health="3" state="3" />
+	<camera x="828" y="0" />
 	<entities>
+		<entity id="5" type="0" x="630" y="68" state="0" />
 		<entity id="7" type="2" x="287" y="160" state="-1" />
 		<entity id="8" type="2" x="442" y="261" state="-1" />
 		<entity id="9" type="2" x="1690" y="266" state="-1" />

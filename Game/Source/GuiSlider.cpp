@@ -3,27 +3,15 @@
 #include "App.h"
 #include "Audio.h"
 
-GuiSlider::GuiSlider(uint32 id, SDL_Rect bounds, const char* text) : GuiControl(GuiControlType::SLIDER, id)
+GuiSlider::GuiSlider(uint32 id, SDL_Rect slider, SDL_Rect slider_btn, SDL_Texture* texture) : GuiControl(GuiControlType::SLIDER, id)
 {
-	this->bounds = bounds;
-	this->text = text;
+	this->texture = texture;
+	this->bounds = slider;
 
 	canClick = true;
 	drawBasic = false;
 
-	bar = {
-		bounds.x,
-		bounds.y + (bounds.h / 2) - bounds.h / 6,
-		bounds.w,
-		bounds.h / 3
-	};
-
-	slider = {
-		bounds.x,
-		bounds.y,
-		4,
-		bounds.h
-	};
+	this->slider = slider_btn;
 }
 
 GuiSlider::~GuiSlider()
@@ -64,49 +52,56 @@ bool GuiSlider::Update(float dt)
 
 bool GuiSlider::Draw(App* app)
 {
-	Font& fontobj = app->fonts->GetFont(font);
-	int textXOffset = bounds.w / 2 - fontobj.char_w * text.Length() / 2;
-	int textYOffset = bounds.h / 2 - fontobj.char_h / 2;
+	//Font& fontobj = app->fonts->GetFont(font);
+	//int textXOffset = bounds.w / 2 - fontobj.char_w * text.Length() / 2;
+	//int textYOffset = bounds.h / 2 - fontobj.char_h / 2;
 
-	// Draw the right button depending on state
-	switch (state)
-	{
+	//// Draw the right button depending on state
+	//switch (state)
+	//{
 
-	case GuiControlState::DISABLED:
-	{
-		int avg = color.r * 0.299 + color.g * 0.587 + color.b * 0.114;
-		app->render->DrawRectangle(bar, avg, avg, avg, color.a);
-		app->render->DrawRectangle(slider, avg, avg, avg, color.a);
-	} break;
+	//case GuiControlState::DISABLED:
+	//{
+	//	int avg = color.r * 0.299 + color.g * 0.587 + color.b * 0.114;
+	//	app->render->DrawRectangle(bar, avg, avg, avg, color.a);
+	//	app->render->DrawRectangle(slider, avg, avg, avg, color.a);
+	//} break;
 
-	case GuiControlState::NORMAL:
-	{
-		app->render->DrawRectangle(bar, color.r, color.g, color.b, color.a);
-		app->render->DrawRectangle(slider, color.r, color.g, color.b, color.a);
-	} break;
+	//case GuiControlState::NORMAL:
+	//{
+	//	app->render->DrawRectangle(bar, color.r, color.g, color.b, color.a);
+	//	app->render->DrawRectangle(slider, color.r, color.g, color.b, color.a);
+	//} break;
 
-	//L14: TODO 4: Draw the button according the GuiControl State
-	case GuiControlState::FOCUSED:
-	{
-		app->render->DrawRectangle(bar, color.r, color.g, color.b, 160);
-		app->render->DrawRectangle(slider, color.r, color.g, color.b, 160);
-	} break;
-	case GuiControlState::PRESSED:
-	{
-		app->render->DrawRectangle(bar, color.r / 2, color.g / 2, color.b / 2, 255);
-		app->render->DrawRectangle(slider, color.r / 2, color.g / 2, color.b / 2, 255);
-	} break;
+	////L14: TODO 4: Draw the button according the GuiControl State
+	//case GuiControlState::FOCUSED:
+	//{
+	//	app->render->DrawRectangle(bar, color.r, color.g, color.b, 160);
+	//	app->render->DrawRectangle(slider, color.r, color.g, color.b, 160);
+	//} break;
+	//case GuiControlState::PRESSED:
+	//{
+	//	app->render->DrawRectangle(bar, color.r / 2, color.g / 2, color.b / 2, 255);
+	//	app->render->DrawRectangle(slider, color.r / 2, color.g / 2, color.b / 2, 255);
+	//} break;
 
-	/******/
+	///******/
 
-	case GuiControlState::SELECTED: app->render->DrawRectangle(bar, 0, 255, 0, 255);
-		break;
+	//case GuiControlState::SELECTED: app->render->DrawRectangle(bar, 0, 255, 0, 255);
+	//	break;
 
-	default:
-		break;
-	}
+	//default:
+	//	break;
+	//}
 
-	app->fonts->BlitText(bounds.x + textXOffset, bounds.y + textYOffset, font, text.GetString());
+	//app->fonts->BlitText(bounds.x + textXOffset, bounds.y + textYOffset, font, text.GetString());
+
+	SDL_Rect section = { 0, 0, bounds.w, bounds.h };
+	app->render->DrawTexture(texture, bounds.x, bounds.y, &section);
+	section.y = bounds.h;
+	section.w = slider.w;
+	section.h = slider.h;
+	app->render->DrawTexture(texture, slider.x, slider.y, &section);
 
 	return false;
 }

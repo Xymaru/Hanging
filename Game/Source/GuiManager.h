@@ -6,6 +6,12 @@
 
 #include "List.h"
 
+struct SDL_Texture;
+
+class GuiButton;
+class GuiCheckbox;
+class GuiSlider;
+
 class GuiManager : public Module
 {
 public:
@@ -29,7 +35,11 @@ public:
 	bool CleanUp();
 
 	// Additional methods
-	GuiControl* CreateGuiControl(GuiControlType type, int id, const char* text, SDL_Rect bounds, Module* observer, SDL_Rect sliderBounds = { 0,0,0,0 });
+	GuiControl* CreateGuiControl(GuiControlType type, int id, const char* text, SDL_Rect bounds, Module* observer, SDL_Texture* texture=NULL, SDL_Rect sliderBounds = { 0,0,0,0 });
+	GuiButton* CreateButton(int id, SDL_Rect bounds, SDL_Texture* texture, Module* observer);
+	GuiCheckbox* CreateCheckbox(int id, SDL_Rect bounds, SDL_Texture* texture, Module* observer);
+	GuiSlider* CreateSlider(int id, SDL_Rect bounds, SDL_Rect slider_btn, SDL_Texture* texture, Module* observer);
+
 	void DestroyGuiControl(GuiControl* entity);
 	void AddGuiControl(GuiControl* entity);
 
@@ -42,7 +52,7 @@ public:
 	bool doLogic = false;
 
 	SDL_Texture* texture;
-
+	bool clear = false;
 };
 
 #endif // __GUIMANAGER_H__

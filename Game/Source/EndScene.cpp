@@ -13,6 +13,8 @@
 #include "Defs.h"
 #include "Defs.h"
 #include "Log.h"
+#include "GuiManager.h"
+#include "GuiButton.h"
 #include <iostream>
 
 EndScene::EndScene() : Module()
@@ -59,6 +61,12 @@ bool EndScene::Start()
 	selectFx = app->audio->LoadFx("Assets/FX/choose.wav");
 	nextFx = app->audio->LoadFx("Assets/FX/press.wav");
 	backFx = app->audio->LoadFx("Assets/FX/menu3_back.wav");
+
+	SDL_Texture* btn_tex = app->tex->Load("Assets/Textures/UI/menu.png");
+	app->guiManager->CreateButton(0, { 251,350,138,23 }, btn_tex, this);
+
+	btn_tex = app->tex->Load("Assets/Textures/UI/exit.png");
+	app->guiManager->CreateButton(1, { 260,380,120,23 }, btn_tex, this);
 
 	return ret;
 }
@@ -108,12 +116,17 @@ bool EndScene::PostUpdate(float dt)
 		app->fade->FadeToBlack(this, app->menu);
 	}
 
+	app->guiManager->Draw();
+
+	if (exit) return false;
+
 	return ret;
 }
 
 bool EndScene::CleanUp()
 {
 	LOG("Freeing menu");
+	app->guiManager->CleanUp();
 
 	return true;
 }
@@ -122,4 +135,15 @@ void EndScene::ReStart()
 {
 	app->render->camera.x = 0;
 	app->render->camera.y = 0;
+}
+
+bool EndScene::OnGuiMouseClickEvent(GuiControl* control) {
+	if (control->id == 0) {
+		app->fade->FadeToBlack(this, app->menu);
+	}
+	else {
+		exit = true;
+	}
+
+	return true;
 }

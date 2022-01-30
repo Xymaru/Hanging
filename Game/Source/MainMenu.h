@@ -35,6 +35,15 @@ public:
 	bool CleanUp();
 
 	bool OnGuiMouseClickEvent(GuiControl* control) override;
+private:
+	enum GuiID {
+		PLAY,
+		CONTINUE,
+		SETTINGS,
+		CONTROLS,
+		CREDITS,
+		EXIT
+	};
 public:
 	int p_x = 640 / 2 - 100;
 	int p_y = 612 / 2 + 110;
@@ -60,9 +69,7 @@ public:
 	uint nextFx = 0;
 	uint backFx = 0;
 
-	GuiButton* test;
-	GuiSlider* slider;
-	GuiCheckbox* checkBox;
+	bool exit = false;
 };
 
 #endif

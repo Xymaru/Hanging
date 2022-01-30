@@ -49,6 +49,9 @@ public:
 	SDL_Rect camera;
 	SDL_Rect viewport;
 	SDL_Color background;
+
+	bool fullScreen;
+	bool vsync;
 };
 
 #endif // __RENDER_H__

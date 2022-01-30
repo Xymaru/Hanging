@@ -17,6 +17,9 @@
 #include "Pathfinding.h"
 #include "EntityModule.h"
 #include "GuiManager.h"
+#include "CreditsScene.h"
+#include "ControlsScene.h"
+#include "SettingsScene.h"
 
 #include "Defs.h"
 #include "Log.h"
@@ -45,6 +48,9 @@ App::App(int argc, char* args[]) : argc(argc), args(args)
 	pathfinding = new PathFinding();
 	enemies = new EntityModule();
 	guiManager = new GuiManager();
+	controlScene = new ControlsScene();
+	creditsScene = new CreditsScene();
+	settingsScene = new SettingsScene();
 
 	// Ordered for awake / Start / Update
 	// Reverse order of CleanUp
@@ -53,8 +59,11 @@ App::App(int argc, char* args[]) : argc(argc), args(args)
 	AddModule(tex, true);
 	AddModule(audio, true);
 	AddModule(logoScene, true);
-	AddModule(gameScene, false);
+	AddModule(controlScene, false);
+	AddModule(creditsScene, false);
 	AddModule(map, false);
+	AddModule(settingsScene, false);
+	AddModule(gameScene, false);
 	AddModule(playerModule, false);
 	AddModule(enemies, false);
 	AddModule(physics, false);
@@ -254,7 +263,7 @@ void App::FinishUpdate()
 	}
 
 	static char title[256];
-	bool is_vsync = config.child("renderer").child("vsync").attribute("value").as_bool(true);
+	bool is_vsync = render->vsync;
 	int lastFrameMs = frameDuration->ReadMs();
 
 	if (is_vsync == true) {

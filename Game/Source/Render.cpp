@@ -29,10 +29,13 @@ bool Render::Awake(pugi::xml_node& config)
 	bool ret = true;
 
 	Uint32 flags = SDL_RENDERER_ACCELERATED;
+	vsync = false;
+	fullScreen = false;
 
 	if(config.child("vsync").attribute("value").as_bool(true) == true)
 	{
 		flags |= SDL_RENDERER_PRESENTVSYNC;
+		vsync = true;
 		LOG("Using vsync");
 	}
 

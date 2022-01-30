@@ -38,6 +38,9 @@
     <ClCompile Include="Source\GuiButton.cpp" />
     <ClCompile Include="Source\GuiSlider.cpp" />
     <ClCompile Include="Source\GuiCheckbox.cpp" />
+    <ClCompile Include="Source\CreditsScene.cpp" />
+    <ClCompile Include="Source\ControlsScene.cpp" />
+    <ClCompile Include="Source\SettingsScene.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Window.h" />
@@ -104,6 +107,9 @@
     <ClInclude Include="Source\GuiButton.h" />
     <ClInclude Include="Source\GuiSlider.h" />
     <ClInclude Include="Source\GuiCheckbox.h" />
+    <ClInclude Include="Source\CreditsScene.h" />
+    <ClInclude Include="Source\ControlsScene.h" />
+    <ClInclude Include="Source\SettingsScene.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="External">

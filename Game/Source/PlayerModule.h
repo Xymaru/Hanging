@@ -49,8 +49,12 @@ public:
 
 	void SavePlayer(pugi::xml_node& node);
 
+	void Render();
+
 	int playerhealth;
 	int playerscore;
+
+	float playingTime;
 private:
 	enum PlayerState {
 		DEAD, HURT, IDLE, JUMP, WALK, LAST

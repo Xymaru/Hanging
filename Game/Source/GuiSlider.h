@@ -6,11 +6,16 @@
 #include "Point.h"
 #include "SString.h"
 
+struct SDL_Texture;
+
 class GuiSlider : public GuiControl
 {
+private:
+	SDL_Texture* texture;
+	SDL_Rect slider;
 public:
 
-	GuiSlider(uint32 id, SDL_Rect bounds, const char* text);
+	GuiSlider(uint32 id, SDL_Rect slider, SDL_Rect slider_btn, SDL_Texture* texture);
 	virtual ~GuiSlider();
 
 	bool Update(float dt);
@@ -21,9 +26,6 @@ public:
 
 	bool canClick = true;
 	bool drawBasic = false;
-
-	SDL_Rect bar;
-	SDL_Rect slider;
 
 	float GetValue() { return float(slider.x) / (bounds.x + bounds.w); }
 };

@@ -13,6 +13,9 @@
 #include "Map.h"
 #include "Pathfinding.h"
 #include "EntityModule.h"
+#include "GuiManager.h"
+#include "MainMenu.h"
+#include "SettingsScene.h"
 
 #include "Defs.h"
 #include "Log.h"
@@ -34,6 +37,7 @@ bool GameScene::Awake(pugi::xml_node& config)
 
 	gameLevel = GameLevel::Level1;
 	fromGameSaved = false;
+	loadGame = false;
 	
 	return ret;
 }
@@ -53,6 +57,10 @@ bool GameScene::Start()
 	}
 
 	app->endScene->win = false;
+	app->playerModule->playingTime = 0;
+	paused = false;
+
+	pause_screen = app->tex->Load("Assets/Textures/pause.png");
 
 	//app->audio->PlayMusic("Assets/Audio/Music/bg.ogg", 1.0f);
 	return true;
@@ -61,6 +69,21 @@ bool GameScene::Start()
 // Called each loop iteration
 bool GameScene::PreUpdate(float dt)
 {
+	if (goSettings) {
+		if(app->settingsScene->fromGame){
+			app->settingsScene->fromGame = false;
+			app->map->active = true;
+			LoadPauseScreen();
+			goSettings = false;
+		}
+		else {
+			active = false;
+			app->map->active = false;
+			app->settingsScene->EnableAndActivate();
+			app->settingsScene->fromGame = true;
+		}
+	}
+
 	return true;
 }
 
@@ -106,6 +129,26 @@ bool GameScene::Update(float dt)
 		app->pathfinding->CreatePath(origin, destination);
 	}*/
 
+	if (app->input->GetKey(SDL_SCANCODE_ESCAPE) == KEY_DOWN || unpause) {
+		paused = !paused;
+		unpause = false;
+
+		if (paused) {
+			app->playerModule->active = false;
+			app->enemies->active = false;
+			app->physics->active = false;
+
+			LoadPauseScreen();
+		}
+		else {
+			app->playerModule->active = true;
+			app->enemies->active = true;
+			app->physics->active = true;
+
+			UnloadPauseScreen();
+		}
+	}
+
 	return true;
 }
 
@@ -114,8 +157,15 @@ bool GameScene::PostUpdate(float dt)
 {
 	bool ret = true;
 
-	if(app->input->GetKey(SDL_SCANCODE_ESCAPE) == KEY_DOWN)
-		ret = false;
+	if (exit) return false;
+
+	if (paused) {
+		app->enemies->Render();
+		app->playerModule->Render();
+
+		app->render->DrawTexture(pause_screen, 0, 0);
+		app->guiManager->Draw();
+	}
 
 	return ret;
 }
@@ -124,6 +174,7 @@ bool GameScene::PostUpdate(float dt)
 bool GameScene::CleanUp()
 {
 	LOG("Freeing scene");
+	app->guiManager->CleanUp();
 
 	return true;
 }
@@ -132,10 +183,10 @@ void GameScene::Activate()
 {
 	Module::Activate();
 
-	app->physics->Activate();
-	app->playerModule->Activate();
-	app->map->Activate();
-	app->enemies->Activate();
+	app->physics->EnableAndActivate();
+	app->playerModule->EnableAndActivate();
+	app->map->EnableAndActivate();
+	app->enemies->EnableAndActivate();
 
 	InitMapLevel();
 }
@@ -256,6 +307,8 @@ void GameScene::InitMapLevel()
 
 			app->enemies->LoadEntities(save_node.child("entities"));
 		}
+
+		app->enemies->checkpoint_active = true;
 	}
 
 	// Init pathfinding map
@@ -321,7 +374,55 @@ void GameScene::SaveGameState()
 	saveFile.save_file("save_game.xml");
 }
 
-void GameScene::LoadGameState()
+bool GameScene::ExistsSaved()
+{
+	pugi::xml_document saveFile;
+	pugi::xml_parse_result result = saveFile.load_file("save_game.xml");
+
+	return result != NULL;
+}
+
+bool GameScene::OnGuiMouseClickEvent(GuiControl* control)
+{
+	switch (control->id) {
+	case RESUME:
+		unpause = true;
+		break;
+	case SETTINGS:
+		goSettings = true;
+		break;
+	case MENU:
+		app->fade->FadeToBlack(this, app->menu);
+		break;
+	case EXIT:
+		exit = true;
+		break;
+	}
+
+	return true;
+}
+
+void GameScene::LoadPauseScreen()
+{
+	SDL_Texture* btn_tex = app->tex->Load("Assets/Textures/UI/resume.png");
+	app->guiManager->CreateButton(RESUME, { 256,255,128,23 }, btn_tex, this);
+
+	btn_tex = app->tex->Load("Assets/Textures/UI/settings_w.png");
+	app->guiManager->CreateButton(SETTINGS, { 251,290,138,23 }, btn_tex, this);
+
+	btn_tex = app->tex->Load("Assets/Textures/UI/menu_w.png");
+	app->guiManager->CreateButton(MENU, { 251,325,138,23 }, btn_tex, this);
+
+	btn_tex = app->tex->Load("Assets/Textures/UI/exit_w.png");
+	app->guiManager->CreateButton(EXIT, { 251,360,138,23 }, btn_tex, this);
+}
+
+void GameScene::UnloadPauseScreen()
+{
+	app->guiManager->CleanUp();
+}
+
+void GameScene::LoadGameState(Module* caller)
 {
 	pugi::xml_document saveFile;
 	pugi::xml_parse_result result = saveFile.load_file("save_game.xml");
@@ -346,6 +447,11 @@ void GameScene::LoadGameState()
 
 		fromGameSaved = true;
 
-		app->fade->FadeToBlack(this, this);
+		if (caller) {
+			app->fade->FadeToBlack(caller, app->gameScene);
+		}
+		else {
+			app->fade->FadeToBlack(this, this);
+		}
 	}
 }

@@ -3,8 +3,9 @@
 #include "App.h"
 #include "Audio.h"
 
-GuiButton::GuiButton(uint32 id, SDL_Rect bounds, const char* text) : GuiControl(GuiControlType::BUTTON, id)
+GuiButton::GuiButton(uint32 id, SDL_Rect bounds, SDL_Texture* texture) : GuiControl(GuiControlType::BUTTON, id)
 {
+	this->texture = texture;
 	this->bounds = bounds;
 	this->text = text;
 
@@ -49,45 +50,50 @@ bool GuiButton::Update(float dt)
 
 bool GuiButton::Draw(App* app)
 {
-	Font& fontobj = app->fonts->GetFont(font);
+	/*Font& fontobj = app->fonts->GetFont(font);
 	int textXOffset = bounds.w / 2 - fontobj.char_w * text.Length() / 2;
-	int textYOffset = bounds.h / 2 - fontobj.char_h / 2;
+	int textYOffset = bounds.h / 2 - fontobj.char_h / 2;*/
 
 	// Draw the right button depending on state
-	switch (state)
-	{
+	//switch (state)
+	//{
 
-	case GuiControlState::DISABLED: 
-	{
-		int avg = color.r * 0.299 + color.g * 0.587 + color.b * 0.114;
-		app->render->DrawRectangle(bounds, avg, avg, avg, color.a);
-	} break;
+	//case GuiControlState::DISABLED: 
+	//{
+	//	int avg = color.r * 0.299 + color.g * 0.587 + color.b * 0.114;
+	//	app->render->DrawRectangle(bounds, avg, avg, avg, color.a);
 
-	case GuiControlState::NORMAL:
-	{
-		app->render->DrawRectangle(bounds, color.r, color.g, color.b, color.a);
-	} break;
+	//} break;
 
-	//L14: TODO 4: Draw the button according the GuiControl State
-	case GuiControlState::FOCUSED:
-	{
-		app->render->DrawRectangle(bounds, color.r, color.g, color.b, 160);
-	} break;
-	case GuiControlState::PRESSED:
-	{
-		app->render->DrawRectangle(bounds, color.r / 2, color.g / 2, color.b / 2, 255);
-	} break;
+	//case GuiControlState::NORMAL:
+	//{
+	//	app->render->DrawRectangle(bounds, color.r, color.g, color.b, color.a);
+	//} break;
 
-	/******/
+	////L14: TODO 4: Draw the button according the GuiControl State
+	//case GuiControlState::FOCUSED:
+	//{
+	//	app->render->DrawRectangle(bounds, color.r, color.g, color.b, 160);
+	//} break;
+	//case GuiControlState::PRESSED:
+	//{
+	//	app->render->DrawRectangle(bounds, color.r / 2, color.g / 2, color.b / 2, 255);
+	//} break;
 
-	case GuiControlState::SELECTED: app->render->DrawRectangle(bounds, 0, 255, 0, 255);
-		break;
+	///******/
 
-	default:
-		break;
-	}
+	//case GuiControlState::SELECTED: app->render->DrawRectangle(bounds, 0, 255, 0, 255);
+	//	break;
 
-	app->fonts->BlitText(bounds.x + textXOffset, bounds.y + textYOffset, font, text.GetString());
+	//default:
+	//	break;
+	//}
+	//
+	//app->render->DrawTexture(texture, bounds.x, bounds.y, &section);
+	//app->fonts->BlitText(bounds.x + textXOffset, bounds.y + textYOffset, font, text.GetString());
+
+	SDL_Rect section = { 0,bounds.h * (int)state,bounds.w,bounds.h };
+	app->render->DrawTexture(texture, bounds.x, bounds.y, &section);
 
 	return false;
 }

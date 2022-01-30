@@ -50,14 +50,39 @@ public:
 
 	uint bg_music;
 
-	void LoadGameState();
+	bool loadGame;
+
+	void LoadGameState(Module* caller=nullptr);
 	void SaveGameState();
+
+	bool ExistsSaved();
+
+	bool OnGuiMouseClickEvent(GuiControl* control);
 private:
+	enum GuiID {
+		RESUME,
+		SETTINGS,
+		MENU,
+		EXIT
+	};
+
 	bool fromGameSaved = false;
 
 	iPoint playerPosition;
 	int playerState;
 	iPoint cameraPosition;
+
+	bool paused = false;
+
+	SDL_Texture* pause_screen;
+
+	bool exit = false;
+	bool unpause = false;
+
+	bool goSettings = false;
+
+	void LoadPauseScreen();
+	void UnloadPauseScreen();
 };
 
 #endif // __GAME_SCENE_H__

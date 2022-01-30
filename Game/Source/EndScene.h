@@ -49,6 +49,10 @@ public:
 	uint selectFx = 0;
 	uint nextFx = 0;
 	uint backFx = 0;
+
+	bool exit = false;
+
+	bool OnGuiMouseClickEvent(GuiControl* control);
 };
 
 #endif
