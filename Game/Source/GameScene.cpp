@@ -73,8 +73,8 @@ bool GameScene::PreUpdate(float dt)
 		if(app->settingsScene->fromGame){
 			app->settingsScene->fromGame = false;
 			app->map->active = true;
-			LoadPauseScreen();
 			goSettings = false;
+			reloadPause = true;
 		}
 		else {
 			active = false;
@@ -158,6 +158,11 @@ bool GameScene::PostUpdate(float dt)
 	bool ret = true;
 
 	if (exit) return false;
+
+	if (reloadPause) {
+		LoadPauseScreen();
+		reloadPause = false;
+	}
 
 	if (paused) {
 		app->enemies->Render();

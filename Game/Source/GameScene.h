@@ -80,6 +80,7 @@ private:
 	bool unpause = false;
 
 	bool goSettings = false;
+	bool reloadPause = false;
 
 	void LoadPauseScreen();
 	void UnloadPauseScreen();
